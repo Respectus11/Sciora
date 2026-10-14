@@ -1,0 +1,1107 @@
+{
+  "unitId": "unit-07",
+  "unitTitle": "Physical Phenomena in the Surrounding",
+  "textbookUnit": 7,
+  "pageRange": "pp. 187–223",
+  "lessons": [
+    {
+      "id": "lesson-7-1-reflection",
+      "unitId": "unit-07",
+      "lessonNumber": "7.1A",
+      "title": "Light: Law of Reflection & Plane Mirrors",
+      "subtitle": "Discover how light bounces off smooth surfaces and why angle of incidence equals angle of reflection",
+      "textbookPageRef": "Grade 8 General Science pp. 188–191",
+      "estimatedMinutes": 12,
+      "curriculumCompetencies": [
+        "Define incident ray, reflected ray, normal line, angle of incidence, and angle of reflection",
+        "State and experimentally verify the Law of Reflection: θi = θr",
+        "Explain regular vs diffuse reflection on smooth and rough surfaces"
+      ],
+      "simulationId": "sim-7-1-reflection",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "Welcome to the Optics Lab",
+          "content": "Light is a form of energy that allows us to see the world around us. In this lesson, we investigate how light interacts with smooth surfaces like plane mirrors, following Section 7.1 of your Grade 8 General Science textbook (pp. 188–191).",
+          "highlightBox": {
+            "title": "Textbook Focus • pp. 188–191",
+            "text": "When a ray of light strikes a smooth reflective surface, it does not bounce off randomly. It obeys a precise mathematical law discovered centuries ago.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: Lake Tana Reflections",
+          "content": "On a calm early morning in Bahir Dar, the tranquil waters of Lake Tana act like a giant horizontal plane mirror. You can see the crystal-clear reflection of monasteries, acacia trees, and flying pelicans mirrored perfectly upon the water's surface.\n\nHowever, when afternoon winds produce ripples across the lake, the sharp image breaks up into a shimmering blur. Why does still water form a crisp mirror while disturbed water scatters light in all directions?",
+          "highlightBox": {
+            "title": "Ethiopian Environmental Science",
+            "text": "Smooth water causes 'regular reflection' (specular), while choppy water causes 'diffuse reflection' (scattering) as documented in Activity 7.1 on page 189.",
+            "variant": "context"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "The Law of Reflection",
+          "content": "To analyze reflection scientifically, physicists construct an imaginary perpendicular reference line called the Normal Line (at 90° to the mirror surface).\n\n• Incident Ray: The incoming beam of light striking the surface.\n• Reflected Ray: The beam bouncing off the surface.\n• Normal Line: The dashed line perpendicular (90°) to the surface at the point of incidence.\n• Angle of Incidence (θi): The angle between the incident ray and the normal line.\n• Angle of Reflection (θr): The angle between the reflected ray and the normal line.",
+          "highlightBox": {
+            "title": "The First Law of Reflection",
+            "text": "The angle of incidence is always strictly equal to the angle of reflection: θi = θr. Furthermore, the incident ray, the reflected ray, and the normal line all lie in the same geometric plane.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Formulate Your Hypothesis",
+          "content": "Before adjusting the laser beam in the simulation workspace, make a scientific prediction:",
+          "predictionData": {
+            "prompt": "If you adjust the incoming light ray so it strikes the mirror at an angle of 45° to the normal line, what will be the angle of the reflected ray?",
+            "choices": [
+              {
+                "id": "pred-1",
+                "text": "It will reflect at 90° because the mirror is horizontal.",
+                "isScientificallySound": false,
+                "feedback": "Angles are measured relative to the normal line (perpendicular), not the mirror surface."
+              },
+              {
+                "id": "pred-2",
+                "text": "It will reflect at exactly 45° on the opposite side of the normal line (θr = θi).",
+                "isScientificallySound": true,
+                "feedback": "Correct hypothesis! According to the Law of Reflection, the angle of reflection must match the angle of incidence."
+              },
+              {
+                "id": "pred-3",
+                "text": "It will reflect at 0° straight back to the light source.",
+                "isScientificallySound": false,
+                "feedback": "Light only reflects straight back along the normal when θi = 0° (normal incidence)."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Interactive Reflection Lab",
+          "content": "Use the interactive controls below to manipulate the incident light ray. Watch how the angle of reflection dynamically recalculates in real-time.",
+          "simulationData": {
+            "simId": "sim-7-1-reflection",
+            "instructions": [
+              "Drag the angle slider from 0° to 80° to alter the angle of incidence (θi).",
+              "Observe the normal line (dashed yellow) and the protractor scale.",
+              "Notice how the angle of reflection (θr) mirrors θi identically.",
+              "Set the angle to 0° to observe normal incidence (straight back)."
+            ],
+            "guidingQuestions": [
+              "What happens to the reflected ray when you increase θi from 20° to 60°?",
+              "When θi = 0°, where does the reflected ray travel?",
+              "Does the relation θi = θr hold true for every single angle tested?"
+            ]
+          }
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Laboratory Observations",
+          "content": "As you operated the virtual reflection apparatus, you recorded several key empirical facts:\n\n1. Symmetry across the Normal: For every degree the incident ray was moved away from the normal, the reflected ray moved by the exact same angle on the opposite side.\n2. Normal Incidence: When the light beam hit the mirror perpendicular to the surface (θi = 0°), it reflected straight back along the normal line (θr = 0°).\n3. Glancing Rays: At high angles (e.g., θi = 75°), the ray grazed near the mirror plane, and the reflected ray also grazed the mirror plane at 75° from the normal.",
+          "highlightBox": {
+            "title": "Observation Summary",
+            "text": "Empirical observation confirms: θi = θr across all test angles from 0° to 80°.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Scientific Explanation",
+          "content": "Why does light behave this way? Light travels as electromagnetic wavefronts. When a wave front encounters a flat, conductive or dielectric reflective boundary (like glass silvered with aluminum or smooth water), all electrons on the surface oscillate in phase with the incoming wave.\n\nAccording to Fermat's Principle of Least Time, light takes the path that requires the minimum possible time to travel from the light source to your eye via the mirror. Geometry proves that the shortest path between any two points on the same side of a line occurs when the angle of incidence equals the angle of reflection.",
+          "highlightBox": {
+            "title": "Regular vs Diffuse Reflection (Textbook p. 190)",
+            "text": "On a polished mirror, all surface normals point in the exact same direction, preserving a clear image (Regular Reflection). On rough paper or clothing, microscopic bumps cause normals to point in random directions, scattering light everywhere (Diffuse Reflection). Both obey θi = θr locally!",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Concept Checkpoint Quiz",
+          "content": "Test your mastery of the concepts covered in Section 7.1 with these 3 questions directly mapped to national exam patterns.",
+          "quizData": {
+            "questions": [
+              {
+                "id": "q-7-1-1",
+                "question": "If an incident ray makes an angle of 35° with the normal line, what is the angle of reflection?",
+                "options": ["35°", "55°", "70°", "0°"],
+                "correctIndex": 0,
+                "explanation": "By the Law of Reflection, the angle of reflection equals the angle of incidence: θr = θi = 35°.",
+                "textbookPageRef": "pp. 189–190"
+              },
+              {
+                "id": "q-7-1-2",
+                "question": "A student shines a flashlight so the beam makes an angle of 30° with the surface of a plane mirror. What is the angle of incidence?",
+                "options": ["30°", "60°", "90°", "45°"],
+                "correctIndex": 1,
+                "explanation": "Crucial exam distinction: The angle of incidence is measured with respect to the NORMAL (perpendicular), not the mirror surface. Since the normal is 90° from the surface, θi = 90° - 30° = 60°.",
+                "textbookPageRef": "p. 189"
+              },
+              {
+                "id": "q-7-1-3",
+                "question": "Why does a piece of white notebook paper not form a mirror reflection, even though it reflects almost all incident light?",
+                "options": [
+                  "Paper absorbs all light rays completely.",
+                  "Microscopic roughness of paper scatters light in all directions (diffuse reflection).",
+                  "Paper violates the law of reflection.",
+                  "Light cannot bounce off non-metallic substances."
+                ],
+                "correctIndex": 1,
+                "explanation": "Paper causes diffuse reflection because microscopic irregularities scatter light in all random directions, preventing parallel rays from staying aligned.",
+                "textbookPageRef": "p. 190"
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconceptions Debunked",
+          "content": "Physics educators have identified common student errors regarding light reflection. Keep these in mind for your classroom tests!",
+          "misconceptionData": {
+            "myth": "The angle of incidence is the angle between the light ray and the flat mirror surface.",
+            "reality": "The angle of incidence is ALWAYS measured between the light ray and the imaginary perpendicular NORMAL line.",
+            "scientificReason": "In physics, measuring against the normal allows the law of reflection to apply identically to curved mirrors (concave and convex) where there is no single flat surface."
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Summary & Mastery Saved",
+          "content": "Congratulations! You have completed the 10-step scientific investigation for Lesson 7.1A.\n\nKey Takeaways:\n1. θi = θr: Angle of incidence equals angle of reflection.\n2. Both angles are measured relative to the normal line perpendicular to the reflective boundary.\n3. Regular reflection produces sharp images; diffuse reflection scatters light due to microscopic surface roughness.\n\nYour progress has been permanently saved to your device's local database.",
+          "highlightBox": {
+            "title": "Lab Competency Mastered",
+            "text": "Unit 7.1A: Law of Reflection & Plane Mirror verified. Next Lab: 7.1B Prism Refraction & Dispersion.",
+            "variant": "info"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lesson-7-1-refraction",
+      "unitId": "unit-07",
+      "lessonNumber": "7.1B",
+      "title": "Light: Refraction & Prism Dispersion",
+      "subtitle": "Explore how light bends at material boundaries and separates into the rainbow spectrum",
+      "textbookPageRef": "Grade 8 General Science pp. 191–193",
+      "estimatedMinutes": 15,
+      "curriculumCompetencies": [
+        "Explain refraction as the bending of light caused by changes in light speed between media",
+        "Describe light bending towards the normal when entering a denser medium",
+        "Demonstrate dispersion of white light into spectrum colors (ROYGBIV) through a triangular prism"
+      ],
+      "simulationId": "sim-7-1-refraction",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "Welcome to the Refraction Lab",
+          "content": "Have you ever looked into a clear swimming pool or river and noticed that the bottom looks shallower than it really is? This optical phenomenon is called Refraction, covered on pages 191–193 of your Grade 8 General Science textbook.",
+          "highlightBox": {
+            "title": "Textbook Focus • pp. 191–193",
+            "text": "Refraction is the change in direction (bending) of a light ray when it travels obliquely from one transparent medium into another with a different optical density.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: Danakil Mirages & Bent Pencils",
+          "content": "In the hot Afar lowlands around the Danakil Depression, ground temperatures can soar above 45°C. The blazing ground heats the lowest layer of air, making it less dense than the cooler air above.\n\nLight rays coming from the distant Erta Ale sky bend upwards as they travel through layers of different air density, creating shimmering water-like mirages on the desert floor!\n\nSimilarly, when Ethiopian students place a pencil in a glass of water, the pencil appears broken at the water line because light rays bend as they exit water into air.",
+          "highlightBox": {
+            "title": "Ethiopian Geography & Science",
+            "text": "Temperature gradients in the Great Rift Valley create dramatic atmospheric refraction mirages, demonstrating that light bends when the optical density of air varies.",
+            "variant": "context"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "Snell's Law and Optical Density",
+          "content": "Light travels fastest in a vacuum or air (approx. 300,000 km/s). When light enters an optically denser medium like water or glass, it slows down:\n• Speed in air: ~3.0 × 10⁸ m/s (n = 1.00)\n• Speed in water: ~2.25 × 10⁸ m/s (n = 1.33)\n• Speed in crown glass: ~2.0 × 10⁸ m/s (n = 1.52)\n\nRules of Bending:\n1. Rare to Dense (e.g. Air to Glass): Light slows down and bends TOWARDS the normal (θr < θi).\n2. Dense to Rare (e.g. Glass to Air): Light speeds up and bends AWAY from the normal (θr > θi).",
+          "highlightBox": {
+            "title": "Fundamental Rule of Refraction",
+            "text": "Light bends TOWARD the normal when entering a denser medium (slows down), and AWAY from the normal when entering a less dense medium (speeds up).",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Predict the Ray's Behavior",
+          "content": "Before launching the refraction simulation, test your intuition:",
+          "predictionData": {
+            "prompt": "When a beam of light passes from air into a block of dense glass at an angle of 40° to the normal, what will happen to the angle inside the glass?",
+            "choices": [
+              {
+                "id": "pred-ref-1",
+                "text": "It will bend towards the normal, making the refracted angle less than 40°.",
+                "isScientificallySound": true,
+                "feedback": "Correct! Because light travels slower in glass than in air, it bends towards the normal line."
+              },
+              {
+                "id": "pred-ref-2",
+                "text": "It will bend away from the normal, making the refracted angle greater than 40°.",
+                "isFeedbackSound": false,
+                "feedback": "Incorrect. Light only bends away from the normal when speeding up into a less dense medium."
+              },
+              {
+                "id": "pred-ref-3",
+                "text": "It will continue straight ahead at 40° without any deviation.",
+                "isFeedbackSound": false,
+                "feedback": "Incorrect. Light only travels undeviated if it enters perpendicular at θi = 0°."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Interactive Refraction Workspace",
+          "content": "Adjust the incident light beam and change the medium between Air, Water, and Crown Glass to observe ray bending.",
+          "simulationData": {
+            "simId": "sim-7-1-refraction",
+            "instructions": [
+              "Select Medium 2: Water (n=1.33) or Crown Glass (n=1.52).",
+              "Drag the incident angle slider between 0° and 75°.",
+              "Observe how the refracted ray bends towards the normal line.",
+              "Toggle the 'Prism Mode' to see white light disperse into its component colors (ROYGBIV)."
+            ],
+            "guidingQuestions": [
+              "Does glass bend light more strongly than water? Why?",
+              "What happens when the incident angle is set to 0°?",
+              "Which color bends the most through the triangular prism: Red or Violet?"
+            ]
+          }
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Refraction Observations",
+          "content": "Key empirical findings from the lab:\n\n1. Optical Density Effect: Crown glass (n=1.52) bent the light beam closer to the normal than water (n=1.33) at the same 45° incident angle.\n2. Normal Boundary: At θi = 0° (entering perpendicular to the surface), the light beam passed straight through without bending, even though its speed changed.\n3. Prism Dispersion: When white light entered the triangular prism, violet light bent the most and red light bent the least, forming a continuous rainbow spectrum (Red, Orange, Yellow, Green, Blue, Indigo, Violet).",
+          "highlightBox": {
+            "title": "Dispersion Rule",
+            "text": "Violet light has a shorter wavelength and slows down more in glass, bending the most. Red light has the longest wavelength and bends the least.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Wave Theory of Refraction",
+          "content": "Imagine a marching band moving from solid dry pavement into deep mud at an angle. The musicians who hit the mud first slow down immediately, while the musicians still on pavement continue at full speed. This causes the entire marching line to pivot and change direction!\n\nThis is exactly how light waves behave. The wave crests that enter the denser medium first slow down, causing the wavefront to pivot towards the normal line.\n\nIn dispersion, each color has a slightly different wavelength. Higher frequency violet waves interact more strongly with the atoms in glass, traveling slightly slower than lower frequency red waves, causing them to spread out into the visible spectrum.",
+          "highlightBox": {
+            "title": "Snell's Law Equation (Reference)",
+            "text": "n1 × sin(θ1) = n2 × sin(θ2), where n is the refractive index of each medium.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Concept Checkpoint Quiz",
+          "content": "Verify your understanding of refraction and dispersion with these exam-style questions:",
+          "quizData": {
+            "questions": [
+              {
+                "id": "q-7-1b-1",
+                "question": "What is the primary cause of the refraction of light when it passes from air into water?",
+                "options": [
+                  "The change in the speed of light between the two media",
+                  "The light ray loses energy and turns dimmer",
+                  "Gravity pulls light downward into the water",
+                  "The color of the light changes inside water"
+                ],
+                "correctIndex": 0,
+                "explanation": "Refraction is fundamentally caused by light changing speed as it travels into a medium with a different optical density.",
+                "textbookPageRef": "p. 191"
+              },
+              {
+                "id": "q-7-1b-2",
+                "question": "When a light ray passes obliquely from water into air, how does it bend relative to the normal line?",
+                "options": [
+                  "Towards the normal line",
+                  "Away from the normal line",
+                  "It reflects backwards at 180°",
+                  "It travels straight without any change"
+                ],
+                "correctIndex": 1,
+                "explanation": "Moving from a denser medium (water) to a less dense medium (air), light speeds up and therefore bends AWAY from the normal line.",
+                "textbookPageRef": "p. 192"
+              },
+              {
+                "id": "q-7-1b-3",
+                "question": "In the dispersion of white light through a glass triangular prism, which color is refracted (bent) the most?",
+                "options": ["Red", "Yellow", "Green", "Violet"],
+                "correctIndex": 3,
+                "explanation": "Violet light has the shortest wavelength in the visible spectrum and travels slowest through glass, so it is refracted (bent) the most.",
+                "textbookPageRef": "p. 193"
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconceptions Debunked",
+          "content": "Watch out for this frequent student trap in science tests:",
+          "misconceptionData": {
+            "myth": "Light bends whenever it enters a new medium, regardless of angle.",
+            "reality": "Light only bends if it strikes the boundary at an oblique angle (θi > 0°).",
+            "scientificReason": "If light enters along the normal (θi = 0°), all parts of the wavefront strike the surface simultaneously and slow down together, so no pivoting occurs."
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Summary & Mastery Saved",
+          "content": "Outstanding work! You have completed Lesson 7.1B.\n\nKey Concepts:\n1. Refraction = Bending of light caused by a change in wave speed.\n2. Air to Glass (rare to dense) → Bends TOWARDS the normal.\n3. Glass to Air (dense to rare) → Bends AWAY from the normal.\n4. Triangular prisms disperse white light into ROYGBIV (Red bends least, Violet bends most).\n\nYour achievement has been saved to device storage.",
+          "highlightBox": {
+            "title": "Unit 7.1 Complete",
+            "text": "All light reflection and refraction competencies verified. Next: Section 7.3 Sound & Vibrations.",
+            "variant": "info"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lesson-7-3-sound",
+      "unitId": "unit-07",
+      "lessonNumber": "7.3",
+      "title": "Sound: Vibration & Acoustic Wave Propagation",
+      "subtitle": "Discover how vibrating drumheads produce longitudinal pressure waves in air",
+      "textbookPageRef": "Grade 8 General Science pp. 199–206",
+      "estimatedMinutes": 12,
+      "curriculumCompetencies": [
+        "Explain that vibrating bodies produce sound energy",
+        "Demonstrate that sound requires a material medium to propagate and cannot travel through a vacuum",
+        "Relate frequency to pitch (high vs low) and amplitude to loudness (soft vs loud)"
+      ],
+      "simulationId": "sim-7-3-sound",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "The Nature of Sound",
+          "content": "Sound is a mechanical wave that transfers energy through the vibration of matter. In this lesson, we study Section 7.3 of your textbook (pp. 199–206), exploring how sounds are created, how they travel, and what determines pitch and loudness.",
+          "highlightBox": {
+            "title": "Textbook Focus • pp. 199–206",
+            "text": "Sound is produced by vibrating objects. A sound wave consists of alternating regions of compressed air (compressions) and spread-out air (rarefactions).",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: The Ethiopian Kebero Drum",
+          "content": "During festive Ethiopian celebrations such as Timkat or weddings, the rhythmic beating of the Kebero (traditional double-headed leather drum) fills the town.\n\nWhen the drummer strikes the leather membrane with their hand, you can feel the air around the drum thrumming. If you place a few grains of teff or dried peas on the drumhead while playing, they dance wildly in the air!\n\nThis proves directly that the leather membrane is rapidly vibrating back and forth, pushing air molecules together and pulling them apart.",
+          "highlightBox": {
+            "title": "Traditional Ethiopian Acoustics",
+            "text": "The Kebero drum and Masinqo (one-stringed lute) operate entirely through mechanical resonance and acoustic vibrations as taught in Activity 7.4 on page 200.",
+            "variant": "context"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "Compressions, Rarefactions, Pitch & Loudness",
+          "content": "Sound is a Longitudinal Wave where particles vibrate parallel to the direction of wave travel:\n\n• Compression: High-pressure zone where air molecules are pushed together.\n• Rarefaction: Low-pressure zone where air molecules are pulled apart.\n• Amplitude: The maximum displacement of vibrating particles from equilibrium. Greater amplitude = Greater energy = Louder sound.\n• Frequency (f): The number of vibrations per second, measured in Hertz (Hz). Higher frequency = Higher pitch (treble); Lower frequency = Lower pitch (bass).",
+          "highlightBox": {
+            "title": "Two Fundamental Relationships",
+            "text": "1. Amplitude determines Loudness (measured in decibels).\n2. Frequency determines Pitch (measured in Hertz).",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Predict Sound Behavior",
+          "content": "Think about what happens when you strike a drum harder versus when you tighten the drum skin:",
+          "predictionData": {
+            "prompt": "If you strike a drumhead with much greater physical force, what characteristic of the sound wave changes?",
+            "choices": [
+              {
+                "id": "pred-snd-1",
+                "text": "The frequency will skyrocket and the pitch will become very high-pitched.",
+                "isScientificallySound": false,
+                "feedback": "Pitch depends on tension, length, and mass of the vibrating body, not striking force."
+              },
+              {
+                "id": "pred-snd-2",
+                "text": "The amplitude increases, making the sound louder, while the pitch remains essentially the same.",
+                "isScientificallySound": true,
+                "feedback": "Correct! Striking harder imparts more energy, increasing amplitude (loudness) without significantly changing fundamental frequency (pitch)."
+              },
+              {
+                "id": "pred-snd-3",
+                "text": "The speed of the sound wave through the air will double.",
+                "isScientificallySound": false,
+                "feedback": "Wave speed in air is determined by air temperature and medium properties (~340 m/s), not by striking intensity."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Acoustic Wave Generator Lab",
+          "content": "Control a vibrating membrane and observe the pressure wave ripples traveling through air molecules to a listener's ear.",
+          "simulationData": {
+            "simId": "sim-7-3-sound",
+            "instructions": [
+              "Adjust the Frequency slider between 100 Hz and 1000 Hz to see waves space closer together.",
+              "Adjust the Amplitude slider from 1 mm to 10 mm to see wave crest heights expand.",
+              "Toggle the Vacuum Chamber switch to remove air from around the vibrating source."
+            ],
+            "guidingQuestions": [
+              "What happens to the wavelength when frequency is increased?",
+              "Can you hear sound when the air is pumped out into a vacuum? Why?"
+            ]
+          }
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Sound Lab Observations",
+          "content": "1. Pitch vs Frequency: Higher frequencies created densely packed compressions with short wavelengths (high-pitched squeak). Lower frequencies produced spread-out waves (low bass hum).\n2. Loudness vs Amplitude: Increasing amplitude caused vigorous particle swings and prominent wave crests without changing wave spacing.\n3. Vacuum Experiment: When all air was evacuated from the chamber, the membrane kept vibrating furiously, but zero sound reached the sensor! Sound cannot travel through a vacuum.",
+          "highlightBox": {
+            "title": "Bell Jar Experiment (Textbook p. 201)",
+            "text": "The classic bell-jar experiment proves sound requires a material medium (solid, liquid, or gas) to transmit pressure waves.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Why Sound Needs a Medium",
+          "content": "Unlike light (which is an electromagnetic oscillation capable of travelling through empty space), sound is mechanical kinetic energy. Each vibrating molecule must collide with its neighboring molecule to pass the energy along.\n\nIn a vacuum (like outer space), there are no atoms or molecules to collide with. Therefore, in the vacuum of space, nobody can hear you scream! Sound travels fastest in solids (~5000 m/s in steel) where atoms are tightly bonded, slower in liquids (~1500 m/s in water), and slowest in gases (~340 m/s in air).",
+          "highlightBox": {
+            "title": "Speed of Sound in Different Media",
+            "text": "Solids (fastest) > Liquids (intermediate) > Gases (slowest) > Vacuum (zero).",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Concept Checkpoint Quiz",
+          "content": "Assess your mastery of acoustic concepts:",
+          "quizData": {
+            "questions": [
+              {
+                "id": "q-7-3-1",
+                "question": "Which of the following determines the pitch of a sound wave?",
+                "options": ["Frequency", "Amplitude", "Speed of sound", "Direction of propagation"],
+                "correctIndex": 0,
+                "explanation": "Pitch is directly determined by the frequency of the vibrating source. High frequency produces high pitch.",
+                "textbookPageRef": "p. 202"
+              },
+              {
+                "id": "q-7-3-2",
+                "question": "Can sound waves travel through the vacuum of outer space? Why or why not?",
+                "options": [
+                  "Yes, because sound travels faster in empty space.",
+                  "No, because sound is a mechanical wave requiring material particles to transmit vibrations.",
+                  "Yes, because radio waves and sound waves are identical.",
+                  "No, because space is too cold for sound."
+                ],
+                "correctIndex": 1,
+                "explanation": "Sound is a mechanical wave that requires particles of matter to collide and transfer vibrational energy; it cannot propagate across a vacuum.",
+                "textbookPageRef": "p. 201"
+              },
+              {
+                "id": "q-7-3-3",
+                "question": "Through which medium does sound travel the fastest?",
+                "options": ["Air at 20°C", "Water in Lake Tana", "Steel railway track", "A vacuum"],
+                "correctIndex": 2,
+                "explanation": "Sound travels fastest in dense, elastic solids (like steel at ~5,000 m/s) because tightly packed atoms quickly transfer kinetic impulses.",
+                "textbookPageRef": "p. 203"
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconceptions Debunked",
+          "content": "Clarify this frequent point of confusion:",
+          "misconceptionData": {
+            "myth": "Air molecules travel all the way from the speaker's mouth across the room into the listener's ear.",
+            "reality": "Air molecules only oscillate back and forth in their own local positions.",
+            "scientificReason": "Waves transfer energy and momentum, not matter. The molecules bump into their neighbors and bounce back to equilibrium."
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Summary & Mastery Saved",
+          "content": "Excellent! You have completed Section 7.3 Sound.\n\nSummary:\n1. Vibrations create longitudinal sound waves composed of compressions and rarefactions.\n2. Frequency = Pitch; Amplitude = Loudness.\n3. Sound requires matter (solid, liquid, or gas) and cannot travel through a vacuum.\n4. Sound speed is highest in solids and lowest in gases.",
+          "highlightBox": {
+            "title": "Unit 7.3 Complete",
+            "text": "Acoustic wave principles mastered. Next: Section 7.4 Heat & Thermal Energy.",
+            "variant": "info"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lesson-7-4-heat",
+      "unitId": "unit-07",
+      "lessonNumber": "7.4",
+      "title": "Heat Transfer: Conduction, Convection & Insulation",
+      "subtitle": "Discover how thermal energy flows through solids and fluids, and why materials insulate",
+      "textbookPageRef": "Grade 8 General Science pp. 207–211",
+      "estimatedMinutes": 14,
+      "curriculumCompetencies": [
+        "Define heat as thermal energy in transit from high temperature to low temperature",
+        "Explain thermal conduction in solids using particle kinetic theory",
+        "Distinguish good thermal conductors (copper, aluminum) from thermal insulators (wood, glass, air)"
+      ],
+      "simulationId": "sim-7-4-heat",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "Thermal Energy in Everyday Life",
+          "content": "Heat is one of the most familiar forms of energy. From boiling coffee in a Jebena to keeping houses warm in high-altitude Debre Berhan, heat transfer touches daily Ethiopian life. We study Section 7.4 of your textbook (pp. 207–211).",
+          "highlightBox": {
+            "title": "Textbook Focus • pp. 207–211",
+            "text": "Heat is the transfer of thermal energy between objects due to a difference in temperature. Heat always flows spontaneously from a region of higher temperature to lower temperature.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: Clay Mitad vs Metal Spoons",
+          "content": "In Ethiopian culinary tradition, baking injera requires the iconic clay mitad (a flat circular ceramic baking pan). Traditional mitads are crafted from baked clay rather than thin sheet iron.\n\nWhy? Clay is a moderate thermal insulator with high heat capacity. It heats up evenly across the entire circular surface and retains heat steadily without burning the delicate fermented teff batter!\n\nConversely, if you leave a metal iron spoon inside a boiling pot of shiro wot, the spoon handle quickly burns your fingers, while a wooden stirring spoon stays completely cool to the touch.",
+          "highlightBox": {
+            "title": "Traditional Technology & Physics",
+            "text": "Clay mitads and wooden stirring spoons demonstrate thermal insulation, while metal cooking utensils demonstrate rapid thermal conduction (Activity 7.6, p. 208).",
+            "variant": "context"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "Conduction & The Three Heat Transfer Mechanisms",
+          "content": "Heat energy transfers via three distinct physical processes:\n\n1. Conduction: Heat transfer through solids by direct microscopic particle collisions and free electron movement (without bulk movement of the material).\n2. Convection: Heat transfer in fluids (liquids and gases) via moving currents caused by density differences.\n3. Radiation: Heat transfer through electromagnetic infrared waves (can travel through a vacuum, like the Sun heating the Earth).\n\nConductors vs Insulators:\n• Good Conductors: Copper, aluminum, silver, iron (rich in free electrons).\n• Good Insulators: Wood, cork, plastic, air, glass, wool.",
+          "highlightBox": {
+            "title": "The Direction of Spontaneous Heat Flow",
+            "text": "Thermal energy spontaneously moves from HOTTER bodies (higher average kinetic energy) to COLDER bodies (lower average kinetic energy) until thermal equilibrium is achieved.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Predict Thermal Conduction",
+          "content": "Consider the classic classroom pin-drop experiment described on page 208:",
+          "predictionData": {
+            "prompt": "If identical rods of Copper, Iron, Glass, and Wood are heated at one end over a flame, and pins are attached with wax along the rods, from which rod will the pins drop first?",
+            "choices": [
+              {
+                "id": "pred-ht-1",
+                "text": "From the Wood rod because wood catches fire easily.",
+                "isScientificallySound": false,
+                "feedback": "Wood is a poor thermal conductor; heat will not travel along its length to melt wax pins quickly."
+              },
+              {
+                "id": "pred-ht-2",
+                "text": "From the Copper rod because copper is an excellent thermal conductor with high free-electron mobility.",
+                "isScientificallySound": true,
+                "feedback": "Correct! Copper has extremely high thermal conductivity (~385 W/m·K), conducting heat far faster than iron, glass, or wood."
+              },
+              {
+                "id": "pred-ht-3",
+                "text": "All pins will fall at the exact same second because flame temperature is identical.",
+                "isScientificallySound": false,
+                "feedback": "The flame temperature is the same, but different materials have vastly different thermal conductivities."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Thermal Conduction Simulator",
+          "content": "Apply heat to different metal and non-metal rods and observe thermal diffusion and temperature curves.",
+          "simulationData": {
+            "simId": "sim-7-4-heat",
+            "instructions": [
+              "Choose rod materials: Copper, Iron, Glass, Wood.",
+              "Adjust the flame temperature slider from 50°C to 250°C.",
+              "Start the timer and watch the heat gradient expand along the rods.",
+              "Observe which rod conducts heat fastest to melt the attached wax markers."
+            ],
+            "guidingQuestions": [
+              "How much faster does copper reach 100°C at its midpoint compared to iron?",
+              "Why does the temperature of the wooden rod barely change at the far end?"
+            ]
+          }
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Heat Lab Observations",
+          "content": "1. Conduction Rates: Copper melted wax pins in under 8 seconds. Iron took 24 seconds. Glass took over 90 seconds. Wood never conducted enough heat to melt the pins before the flame turned off.\n2. Temperature Gradient: The temperature dropped progressively along the length of each rod, showing clear thermal diffusion from hot to cold.\n3. Electron Effect: Metals with free electrons conducted heat orders of magnitude faster than non-metallic insulators.",
+          "highlightBox": {
+            "title": "Thermal Conductivity Ranking",
+            "text": "Copper (fastest) > Iron > Glass > Wood (slowest insulator).",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Microscopic Theory of Conduction",
+          "content": "At the microscopic level, temperature is simply a measure of the average kinetic energy of atoms. When the left end of a metal rod is heated, atoms vibrate violently and collide with neighboring atoms, passing vibrational kinetic energy down the line.\n\nCrucially, metals have a 'sea of delocalized electrons'. These free electrons can move swiftly through the crystal lattice, carrying kinetic energy rapidly from the hot end to the cold end. Non-metals lack free electrons, so they must rely solely on slow atom-to-atom lattice vibrations, making them excellent thermal insulators.",
+          "highlightBox": {
+            "title": "Free Electron Advantage",
+            "text": "Good electrical conductors are almost always good thermal conductors as well, because free valence electrons carry both electric charge and thermal kinetic energy.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Concept Checkpoint Quiz",
+          "content": "Test your mastery of thermal conduction concepts:",
+          "quizData": {
+            "questions": [
+              {
+                "id": "q-7-4-1",
+                "question": "What is the primary mode of heat transfer through solid metal utensils?",
+                "options": ["Conduction", "Convection", "Radiation", "Sublimation"],
+                "correctIndex": 0,
+                "explanation": "Conduction is the primary mode of heat transfer in solids, occurring via particle collisions and free electron movement.",
+                "textbookPageRef": "p. 207"
+              },
+              {
+                "id": "q-7-4-2",
+                "question": "Why are wooden handles attached to metal cooking pots and kettles?",
+                "options": [
+                  "Wood conducts heat away from the pot faster.",
+                  "Wood is a poor conductor of heat (thermal insulator), protecting hands from burns.",
+                  "Wood makes the cooking pot lighter.",
+                  "Wood increases the boiling temperature of water."
+                ],
+                "correctIndex": 1,
+                "explanation": "Wood is a thermal insulator with very low thermal conductivity, preventing heat from conducting quickly to the user's hand.",
+                "textbookPageRef": "p. 209"
+              },
+              {
+                "id": "q-7-4-3",
+                "question": "Which of the following materials is the best conductor of heat?",
+                "options": ["Air", "Glass", "Copper", "Wood"],
+                "correctIndex": 2,
+                "explanation": "Copper is a metal with a high density of free electrons, making it an exceptional thermal conductor.",
+                "textbookPageRef": "p. 208"
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconceptions Debunked",
+          "content": "Beware this very common sensation trap:",
+          "misconceptionData": {
+            "myth": "A metal door handle in a cold room is actually at a lower temperature than a wooden table in the same room.",
+            "reality": "Both objects are at the exact same room temperature in thermal equilibrium.",
+            "scientificReason": "The metal handle feels colder because metal conducts thermal energy away from your warm skin much faster than wood does."
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Summary & Mastery Saved",
+          "content": "Superb work! You have finished Lesson 7.4 Heat.\n\nSummary:\n1. Heat is thermal energy in transit from high temperature to low temperature.\n2. Conduction occurs via atomic vibrations and free electrons in solids.\n3. Metals are good conductors; wood, glass, and air are insulators.\n4. Apparent coldness is often a result of heat transfer rate rather than temperature difference.",
+          "highlightBox": {
+            "title": "Unit 7.4 Complete",
+            "text": "Thermal conduction concepts mastered. Next: Section 7.5 Simple Electric Circuits.",
+            "variant": "info"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lesson-7-5-circuit",
+      "unitId": "unit-07",
+      "lessonNumber": "7.5",
+      "title": "Electricity: Simple Electric Circuit Builder",
+      "subtitle": "Assemble dry cells, switches, wires, and bulbs to master electrical currents and loops",
+      "textbookPageRef": "Grade 8 General Science pp. 212–215",
+      "estimatedMinutes": 15,
+      "curriculumCompetencies": [
+        "Identify components of a simple circuit: source (dry cell), conducting path (wires), control (switch), and load (bulb)",
+        "Distinguish between open (incomplete) and closed (complete) circuits",
+        "Explain conventional current vs electron flow and Ohm's law relationship (I = V/R)"
+      ],
+      "simulationId": "sim-7-5-circuit",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "Powering the Modern World",
+          "content": "Electricity is the flow of electric charges. From mobile phones to hydro turbines at the Grand Ethiopian Renaissance Dam (GERD), electricity transforms modern life. We study Section 7.5 of your textbook (pp. 212–215).",
+          "highlightBox": {
+            "title": "Textbook Focus • pp. 212–215",
+            "text": "An electric circuit is a continuous, unbroken conducting path through which electric charges can flow. It requires a voltage source, a load, conducting wires, and a switch.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: Dry-Cell Torches & The GERD",
+          "content": "In many rural towns across Ethiopia, students rely on dry-cell battery torches (flashlights) to study after dusk. A torch contains one or two 1.5V dry cells, a sliding switch, a miniature incandescent or LED bulb, and brass contact strips.\n\nAt the national scale, the Grand Ethiopian Renaissance Dam generates thousands of megawatts by converting falling water energy into electrical potential, transmitting power across high-voltage grids.\n\nWhether a simple hand torch or a giant national transmission line, the basic electrical circuit principles are identical!",
+          "highlightBox": {
+            "title": "Ethiopian Energy Development",
+            "text": "Ethiopia's clean hydroelectric network demonstrates large-scale closed circuits, while portable torches illustrate basic series DC circuits (Activity 7.8, p. 213).",
+            "variant": "context"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "Components of a Simple Circuit",
+          "content": "Every functional electric circuit requires four essential parts:\n\n1. Energy Source: Provides electrical potential difference (Voltage, V), e.g., a 1.5V dry cell.\n2. Conducting Wires: Copper wires with plastic insulation that offer a low-resistance pathway for electrons.\n3. Load: A device that transforms electrical energy into light, heat, or motion (e.g., a lamp or resistor).\n4. Control Device (Switch): Opens or closes the circuit.\n\nCircuit States:\n• Closed Circuit: The switch is closed; the path is unbroken; current flows; lamp shines.\n• Open Circuit: The switch is open or a wire is severed; the path is broken; current = 0; lamp is off.",
+          "highlightBox": {
+            "title": "Ohm's Law Insight",
+            "text": "Electric Current (I, in Amperes) equals Voltage (V, in Volts) divided by Resistance (R, in Ohms): I = V / R. Doubling the voltage doubles the current, making the bulb glow brighter!",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Predict Circuit Behavior",
+          "content": "Before toggling components in the circuit builder:",
+          "predictionData": {
+            "prompt": "If you add a second identical 1.5V dry cell in series with the first (facing the correct positive-to-negative orientation), what happens to the brightness of the light bulb?",
+            "choices": [
+              {
+                "id": "pred-cct-1",
+                "text": "The bulb will stay exactly the same brightness because the bulb's resistance has not changed.",
+                "isScientificallySound": false,
+                "feedback": "Resistance did not change, but voltage doubled from 1.5V to 3.0V, doubling the current!"
+              },
+              {
+                "id": "pred-cct-2",
+                "text": "The bulb will glow noticeably brighter because the total voltage doubles to 3.0V, driving twice as much current.",
+                "isScientificallySound": true,
+                "feedback": "Correct! In series connection, total voltage V_total = 1.5V + 1.5V = 3.0V. By I = V/R, current doubles and power quadruples (P = V²/R)."
+              },
+              {
+                "id": "pred-cct-3",
+                "text": "The bulb will immediately extinguish because two cells cancel each other out.",
+                "isScientificallySound": false,
+                "feedback": "Cells only oppose each other if connected with identical terminals facing (+ to + or - to -)."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Interactive Circuit Builder",
+          "content": "Construct live DC circuits on the virtual workbench. Add cells, flip switches, and measure current flow.",
+          "simulationData": {
+            "simId": "sim-7-5-circuit",
+            "instructions": [
+              "Toggle the Switch between OPEN and CLOSED states.",
+              "Observe the animated blue dots representing electron flow.",
+              "Adjust the battery voltage slider between 1.5V, 3.0V, and 4.5V.",
+              "Observe the bulb filament glow radiance and the live Ammeter reading (I = V/R)."
+            ],
+            "guidingQuestions": [
+              "Does current flow when the switch is open?",
+              "What happens to the current (Amperes) when you increase voltage from 1.5V to 3.0V?",
+              "In which direction do electrons actually flow through the external wire?"
+            ]
+          }
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Circuit Lab Observations",
+          "content": "1. Closed Loop Requirement: The moment the knife switch was opened by even 1 millimeter, the current instantly dropped to 0.00 A and the bulb turned off completely.\n2. Voltage vs Current: At 1.5V, current was 0.15 A (dim glow). At 3.0V, current rose to 0.30 A (bright yellow glow). At 4.5V, current reached 0.45 A (intense white glow).\n3. Electron Direction: Animated electrons drifted from the negative terminal (-) of the battery, through the closed switch and bulb filament, into the positive terminal (+).",
+          "highlightBox": {
+            "title": "Direct Proportionality Verified",
+            "text": "Current is directly proportional to voltage (I ∝ V), confirming Ohm's fundamental relationship.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Conventional Current vs Electron Flow",
+          "content": "Historical note: When Benjamin Franklin studied electricity in the 18th century, electrons had not yet been discovered! He assumed positive charges flowed from the positive (+) terminal to the negative (-) terminal. This historical convention is called Conventional Current.\n\nOver a century later, J.J. Thomson discovered the electron. Physicists realized that in metal wires, atomic nuclei are locked in place, and it is negatively charged electrons that actually move! Electrons flow from the negative terminal (-) to the positive terminal (+).\n\nBoth conventions yield identical mathematical results for circuit calculations.",
+          "highlightBox": {
+            "title": "Current Conventions (Textbook p. 214)",
+            "text": "• Conventional Current: From (+) to (-).\n• Real Electron Flow: From (-) to (+).\nBoth describe the exact same physical circuit operation.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Concept Checkpoint Quiz",
+          "content": "Test your circuit knowledge:",
+          "quizData": {
+            "questions": [
+              {
+                "id": "q-7-5-1",
+                "question": "What happens in an electric circuit when the switch is in the OPEN position?",
+                "options": [
+                  "Current flows continuously at full speed",
+                  "The circuit path is broken, and no current flows",
+                  "The battery discharges rapidly",
+                  "The bulb glows with double brightness"
+                ],
+                "correctIndex": 1,
+                "explanation": "An open switch creates an air gap with near-infinite resistance, breaking the conducting loop and stopping all current flow.",
+                "textbookPageRef": "p. 213"
+              },
+              {
+                "id": "q-7-5-2",
+                "question": "In a metal copper wire, which particles actually move to constitute an electric current?",
+                "options": ["Protons", "Neutrons", "Free valence electrons", "Entire copper atoms"],
+                "correctIndex": 2,
+                "explanation": "In metallic conductors, current consists of the directed drift of free valence electrons.",
+                "textbookPageRef": "p. 214"
+              },
+              {
+                "id": "q-7-5-3",
+                "question": "A simple circuit has a lamp with a resistance of 10 Ω connected across a 3.0 V dry cell battery. What is the electric current flowing through the circuit?",
+                "options": ["0.30 A", "30 A", "3.33 A", "13 A"],
+                "correctIndex": 0,
+                "explanation": "By Ohm's Law: I = V / R = 3.0 V / 10 Ω = 0.30 Amperes.",
+                "textbookPageRef": "p. 215"
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconceptions Debunked",
+          "content": "Avoid this universal misconception about electricity:",
+          "misconceptionData": {
+            "myth": "The light bulb uses up and destroys electric current, so less current returns to the battery than left it.",
+            "reality": "Current is the exact same at every point in a single loop series circuit (Current In = Current Out).",
+            "scientificReason": "Charge cannot be created or destroyed (Law of Conservation of Charge). The bulb uses energy carried by the charges, converting electrical potential into light and heat, but the count of electrons entering equals the count leaving."
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Summary & Mastery Saved",
+          "content": "Great work! You have completed Section 7.5 Simple Electric Circuits.\n\nSummary:\n1. A circuit requires a source, conductors, load, and switch in an unbroken loop.\n2. Open circuit = 0 Current; Closed circuit = Active Current.\n3. Current I = V / R (Ohm's Law).\n4. Current is conserved: energy is transformed, not electrons.",
+          "highlightBox": {
+            "title": "Unit 7.5 Complete",
+            "text": "Circuit fundamentals verified. Next: Section 7.6 Magnetism & Field Lines.",
+            "variant": "info"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lesson-7-6-magnetism",
+      "unitId": "unit-07",
+      "lessonNumber": "7.6",
+      "title": "Magnetism: Bar Magnets & Magnetic Field Lines",
+      "subtitle": "Map magnetic poles, attraction vs repulsion, and 3D field line vectors with compasses",
+      "textbookPageRef": "Grade 8 General Science pp. 216–223",
+      "estimatedMinutes": 15,
+      "curriculumCompetencies": [
+        "Identify the magnetic poles (North and South) and state the Law of Magnetism",
+        "Demonstrate that magnetic monopoles do not exist when a magnet is broken in half",
+        "Map magnetic field lines using compass needles from North to South outside the magnet"
+      ],
+      "simulationId": "sim-7-6-magnetism",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "The Invisible Force of Magnetism",
+          "content": "Magnets possess the remarkable ability to exert forces on other objects across empty space without physical contact. In this lesson, we study Section 7.6 of your textbook (pp. 216–223), investigating poles, attraction, repulsion, and field lines.",
+          "highlightBox": {
+            "title": "Textbook Focus • pp. 216–223",
+            "text": "Every magnet has two poles: North (N) and South (S). The Law of Magnetism states: Like poles repel each other, while unlike poles attract each other.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: Ancient Lodestone & Navigation",
+          "content": "Naturally occurring magnetic iron ore, known as magnetite or lodestone, has been recognized throughout the Horn of Africa and ancient trade routes for centuries.\n\nWhen a piece of lodestone or a magnetized iron needle is suspended freely from a thin thread, it always rotates to point along the Earth's North-South geographic axis!\n\nThis principle guided early navigational compasses across the Red Sea and helped caravan merchants navigate the vast landscapes of ancient Abyssinia.",
+          "highlightBox": {
+            "title": "Geomagnetism in Africa",
+            "text": "The Earth itself behaves like an enormous bar magnet, creating a protective geomagnetic shield that deflects solar wind particles and guides navigation (Activity 7.9, p. 217).",
+            "variant": "context"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "Poles, Forces & The Non-Existence of Monopoles",
+          "content": "Key Magnetic Principles:\n\n1. Two Poles: Every magnet has a North-seeking pole (N) and a South-seeking pole (S). Magnetic strength is concentrated most intensely at these two poles.\n2. Law of Magnetic Force:\n   • Like poles repel: North repels North (N ↔ N); South repels South (S ↔ S).\n   • Opposite poles attract: North attracts South (N → ← S).\n3. Magnetic Field Lines:\n   • Imaginary curves that visualize the direction and strength of magnetic forces.\n   • Field lines ALWAYS point OUT of North and INTO South outside the magnet.\n   • Denser lines indicate a stronger magnetic field.\n   • Field lines NEVER cross or intersect each other.",
+          "highlightBox": {
+            "title": "The Monopole Impossibility (Textbook p. 218)",
+            "text": "If you cut a bar magnet in half, you do NOT get an isolated North pole and an isolated South pole. Instead, each half instantly forms its own new North and South poles!",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Predict Magnetic Interaction",
+          "content": "Test your reasoning before manipulating the magnets:",
+          "predictionData": {
+            "prompt": "If you place a tiny magnetic compass near the North pole of a large bar magnet, which pole of the compass needle will point towards the magnet's North pole?",
+            "choices": [
+              {
+                "id": "pred-mag-1",
+                "text": "The compass's North pole, because North attracts North.",
+                "isScientificallySound": false,
+                "feedback": "Like poles repel! The North pole of the magnet will violently push away the North pole of the compass."
+              },
+              {
+                "id": "pred-mag-2",
+                "text": "The compass's South pole, because opposite poles attract (N attracts S).",
+                "isScientificallySound": true,
+                "feedback": "Correct! Opposite magnetic poles attract, so the South tip of the compass needle pivots towards the North pole of the magnet."
+              },
+              {
+                "id": "pred-mag-3",
+                "text": "The needle will spin continuously and never settle.",
+                "isScientificallySound": false,
+                "feedback": "The magnetic torque aligns the needle firmly along the local magnetic field line."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Magnetic Field Line Lab",
+          "content": "Drag a compass or iron filings around a bar magnet to map out the invisible vector field lines.",
+          "simulationData": {
+            "simId": "sim-7-6-magnetism",
+            "instructions": [
+              "Move the magnetic compass around the bar magnet.",
+              "Observe how the compass needle orients tangent to the magnetic field line at every location.",
+              "Toggle the 'Iron Filings' mode to visualize field lines everywhere.",
+              "Click 'Cut Magnet in Half' to test if isolated monopoles can be created."
+            ],
+            "guidingQuestions": [
+              "Where is the magnetic field strongest on the bar magnet?",
+              "Do magnetic field lines ever intersect or cross each other?",
+              "What happens to the poles when the magnet is broken into two pieces?"
+            ]
+          }
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Magnetism Lab Observations",
+          "content": "1. Field Line Paths: Outside the magnet, compass needles always pointed in smooth curved loops directed outwards from the North pole and inwards to the South pole.\n2. Pole Density: Iron filings gathered in dense clusters at the two pole tips, confirming that magnetic force is strongest at the poles.\n3. Non-Intersecting: The field lines curved smoothly away from each other without a single intersection.\n4. Broken Magnet: Cutting the magnet produced two independent, smaller complete magnets, each with its own N and S pole.",
+          "highlightBox": {
+            "title": "Field Line Direction Rule",
+            "text": "External Magnetic Field: Out of North (N) → Into South (S).",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Domain Theory of Magnetism",
+          "content": "What makes iron magnetic? Inside unmagnetized iron, atoms act like tiny microscopic atomic magnets called Magnetic Dipoles (caused by unpaired spinning electrons). Millions of these atomic dipoles group together in regions called Magnetic Domains.\n\nIn normal unmagnetized iron (like a common nail), these domains point in chaotic, random directions, canceling each other out. When brought near a strong magnet, the domains rotate and align in parallel in the same direction, turning the iron nail into an induced magnet!\n\nThis also explains why breaking a magnet yields two new magnets: all internal atomic domains are still pointing in the same direction, creating a new North face and South face at the fracture point.",
+          "highlightBox": {
+            "title": "Domain Alignment (Textbook p. 221)",
+            "text": "Unmagnetized iron = Random domains. Magnetized iron = Aligned domains pointing in the same direction.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Concept Checkpoint Quiz",
+          "content": "Assess your understanding of magnetism:",
+          "quizData": {
+            "questions": [
+              {
+                "id": "q-7-6-1",
+                "question": "What is the direction of magnetic field lines outside a bar magnet?",
+                "options": [
+                  "From North pole to South pole",
+                  "From South pole to North pole",
+                  "Radially outward in all directions like sunlight",
+                  "Randomly scattered without any direction"
+                ],
+                "correctIndex": 0,
+                "explanation": "By definition and physical convention, magnetic field lines emerge from the North pole and enter the South pole outside a magnet.",
+                "textbookPageRef": "p. 219"
+              },
+              {
+                "id": "q-7-6-2",
+                "question": "If a bar magnet is cut cleanly in half across its center, what will be the result?",
+                "options": [
+                  "One piece with only a North pole, and one with only a South pole",
+                  "Two complete magnets, each having both a North and a South pole",
+                  "Both pieces lose all magnetism permanently",
+                  "The pieces become electrically charged instead of magnetic"
+                ],
+                "correctIndex": 1,
+                "explanation": "Magnetic monopoles do not exist in classical physics. Cutting a magnet in half produces two complete dipole magnets.",
+                "textbookPageRef": "p. 218"
+              },
+              {
+                "id": "q-7-6-3",
+                "question": "Two North poles of two bar magnets are brought close together. What force will they exert on each other?",
+                "options": ["Strong attraction", "Mutual repulsion", "Zero force", "Rotational vortex force"],
+                "correctIndex": 1,
+                "explanation": "According to the fundamental Law of Magnetism: Like poles repel (N repels N, S repels S).",
+                "textbookPageRef": "p. 217"
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconceptions Debunked",
+          "content": "Don't fall for this classic geographical confusion:",
+          "misconceptionData": {
+            "myth": "Earth's Geographic North Pole is physically identical to Earth's Magnetic North Pole.",
+            "reality": "Earth's Geographic North Pole is actually a Magnetic SOUTH Pole!",
+            "scientificReason": "Since opposite poles attract, the North-seeking pole of a navigational compass needle is drawn towards the Arctic because Earth has a magnetic South pole located near the geographic north."
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Summary & Mastery Saved",
+          "content": "Magnificent! You have mastered Lesson 7.6 Magnetism.\n\nSummary:\n1. Like poles repel; unlike poles attract.\n2. Field lines emerge from North and enter South externally.\n3. Magnetic monopoles cannot exist; cutting a magnet produces two dipoles.\n4. Magnetism originates from aligned atomic domains.\n\nAll Unit 7 competencies are now complete!",
+          "highlightBox": {
+            "title": "Unit 7 Mastery Achieved!",
+            "text": "All 5 core physics lab sections completed and saved to device memory.",
+            "variant": "info"
+          }
+        }
+      ]
+    }
+  ]
+}
