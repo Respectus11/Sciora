@@ -1,0 +1,99 @@
+{
+  "curriculumName": "Ethiopian National General Science Curriculum",
+  "grade": 8,
+  "edition": "English Edition (New Curriculum)",
+  "publisher": "Federal Democratic Republic of Ethiopia Ministry of Education",
+  "textbookDetails": {
+    "totalPages": 231,
+    "totalUnits": 7,
+    "authors": [
+      "Yonas Nibret (B.Sc., M.A.)",
+      "Sefiw Melesse (M.Sc.)",
+      "Abebe Habte (M.Sc.)"
+    ],
+    "evaluators": [
+      "Solomon Belay (Ph.D.)",
+      "Getachew Talema (M.A.)",
+      "Fasika Beyene (M.A.)"
+    ]
+  },
+  "units": [
+    {
+      "id": "unit-07",
+      "unitNumber": 7,
+      "title": "Physical Phenomena in the Surrounding",
+      "tagline": "Light, Sound, Heat, Electricity, and Magnetism in Everyday Life",
+      "pageRange": "pp. 187–223",
+      "authors": ["Yonas Nibret", "Sefiw Melesse", "Abebe Habte"],
+      "description": "Explores the fundamental physical forces and energies shaping our world: the laws of reflection and refraction of light, sound wave propagation through vibrations, heat transfer mechanisms, basic electrical circuits, and magnetic properties.",
+      "priority": "P0",
+      "icon": "sunny",
+      "accentColor": "#00E5FF",
+      "totalLessons": 7,
+      "learningCompetencies": [
+        "State and demonstrate the law of reflection (θi = θr)",
+        "Explain refraction of light at the boundary between different media",
+        "Describe rectilinear propagation of light and image formation",
+        "Investigate how vibrating objects produce sound and sound requires a material medium",
+        "Distinguish between conduction, convection, and radiation",
+        "Construct and test simple electric circuits with cells, wires, switches, and loads",
+        "Identify magnetic poles and map magnetic field lines with compass needles"
+      ]
+    },
+    {
+      "id": "unit-02",
+      "unitNumber": 2,
+      "title": "Composition of Matter",
+      "tagline": "Atoms, Subatomic Particles, Elements, and Molecules",
+      "pageRange": "pp. 25–60",
+      "authors": ["Yonas Nibret", "Sefiw Melesse", "Abebe Habte"],
+      "description": "Unveils the microscopic foundation of matter: Dalton's atomic theory, subatomic particles (protons, neutrons, electrons), atomic number, mass number, and molecular structures.",
+      "priority": "P1",
+      "icon": "nuclear",
+      "accentColor": "#8B5CF6",
+      "totalLessons": 2,
+      "learningCompetencies": [
+        "Explain the internal structure of atoms containing protons, neutrons, and electrons",
+        "Relate atomic number (Z) to proton count and mass number (A) to nucleons",
+        "Construct simple molecular representations of elements and compounds"
+      ]
+    },
+    {
+      "id": "unit-06",
+      "unitNumber": 6,
+      "title": "The Solar System",
+      "tagline": "Planets, Gravitation, and Conditions for Life in Space",
+      "pageRange": "pp. 164–186",
+      "authors": ["Yonas Nibret", "Sefiw Melesse", "Abebe Habte"],
+      "description": "Surveys the celestial neighborhood: the Sun, inner rocky planets, outer gas giants, planetary orbits governed by gravity, and the unique factors that make planet Earth habitable.",
+      "priority": "P1",
+      "icon": "planet",
+      "accentColor": "#F59E0B",
+      "totalLessons": 2,
+      "learningCompetencies": [
+        "Identify the components of the Solar System in order of distance from the Sun",
+        "Compare terrestrial planets and Jovian gas giants",
+        "Explain the critical role of gravity in orbital motion",
+        "Discuss factors enabling life on Earth (water, atmosphere, temperature range)"
+      ]
+    },
+    {
+      "id": "unit-01",
+      "unitNumber": 1,
+      "title": "Basics of Scientific Investigation",
+      "tagline": "Scientific Measurements, Laboratory Safety, and Fair Tests",
+      "pageRange": "pp. 1–24",
+      "authors": ["Yonas Nibret", "Sefiw Melesse", "Abebe Habte"],
+      "description": "Introduces the scientific method, standard SI units, laboratory safety rules, and precision measurements.",
+      "priority": "P2",
+      "icon": "flask",
+      "accentColor": "#10B981",
+      "totalLessons": 1,
+      "learningCompetencies": [
+        "Apply basic laboratory safety procedures",
+        "Measure physical quantities using standard scientific instruments",
+        "Formulate testable hypotheses and conduct controlled experiments"
+      ]
+    }
+  ]
+}
