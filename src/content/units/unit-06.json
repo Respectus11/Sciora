@@ -1,0 +1,194 @@
+{
+  "unitId": "unit-06",
+  "unitTitle": "The Solar System",
+  "textbookUnit": 6,
+  "pageRange": "pp. 164–186",
+  "lessons": [
+    {
+      "id": "lesson-6-solar",
+      "unitId": "unit-06",
+      "lessonNumber": "6.1",
+      "title": "The Solar System: Planets & Orbital Dynamics",
+      "subtitle": "Explore terrestrial worlds, gas giants, gravitational orbits, and Earth habitability",
+      "textbookPageRef": "Grade 8 General Science pp. 164–186",
+      "estimatedMinutes": 15,
+      "curriculumCompetencies": [
+        "Identify the components of the solar system in order of distance from the Sun",
+        "Compare terrestrial inner planets (Mercury, Venus, Earth, Mars) and Jovian gas giants (Jupiter, Saturn, Uranus, Neptune)",
+        "Explain gravitational attraction and conditions supporting life on Earth"
+      ],
+      "simulationId": "sim-6-solar",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "Our Place in the Cosmos",
+          "content": "Looking up at the night sky from the Ethiopian highlands, we behold thousands of stars and wandering celestial bodies. We study Unit 6 of your textbook (pp. 164–186), exploring our Solar System.",
+          "highlightBox": {
+            "title": "Textbook Focus • pp. 164–186",
+            "text": "The Solar System consists of our central star, the Sun, eight major planets, their natural moons, dwarf planets, asteroids, and comets, all bound by gravitational pull.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: Entoto Observatory & Space Science",
+          "content": "Perched at 3,200 meters above sea level in the eucalyptus-covered hills overlooking Addis Ababa stands the Entoto Observatory and Research Center.\n\nOperated by the Ethiopian Space Science and Technology Institute (ESSTI), its twin 1-meter optical telescopes pierce through thin, unpolluted mountain air to track distant planetary orbits, monitor space weather, and observe deep space.\n\nEthiopia also launched its own remote sensing satellites (ETRSS-1 and ET-SMART-RSS) to monitor agricultural patterns and climate change from Earth orbit!",
+          "highlightBox": {
+            "title": "Ethiopian Space Science",
+            "text": "Entoto Observatory is one of Africa's premier high-altitude astronomical research hubs, demonstrating modern Ethiopian contributions to space exploration (Unit 6, p. 165).",
+            "variant": "context"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "Planetary Classification & Orbital Law",
+          "content": "Planetary Order from the Sun:\n1. Mercury (closest, extreme temperatures)\n2. Venus (hottest planet due to runaway greenhouse effect)\n3. Earth (water, oxygen atmosphere, life)\n4. Mars (the red planet, thin CO₂ atmosphere)\n   — Asteroid Belt —\n5. Jupiter (largest planet, Great Red Spot, 79+ moons)\n6. Saturn (spectacular ring system of ice and rock)\n7. Uranus (tilted on its side, ice giant)\n8. Neptune (windy, deep blue, outermost planet)\n\nCategories:\n• Terrestrial Planets: Mercury, Venus, Earth, Mars (dense, rocky crusts).\n• Jovian Giants: Jupiter, Saturn, Uranus, Neptune (massive, gaseous/icy, rings, many moons).",
+          "highlightBox": {
+            "title": "Kepler & Gravity",
+            "text": "Planets closer to the Sun experience stronger gravitational pull and travel faster in shorter orbits (Mercury takes 88 days; Neptune takes 165 Earth years!).",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Predict Planetary Orbital Period",
+          "content": "Consider orbital speed and distance:",
+          "predictionData": {
+            "prompt": "If a planet orbits twice as far from the Sun as Earth does (like Mars), will its year (time to complete one full revolution around the Sun) be longer or shorter than 365 days?",
+            "choices": [
+              {
+                "id": "pred-sol-1",
+                "text": "Shorter, because planets speed up when further out.",
+                "isScientificallySound": false,
+                "feedback": "Planets further out experience weaker gravity and travel more slowly."
+              },
+              {
+                "id": "pred-sol-2",
+                "text": "Longer, because the orbital path is much larger and the orbital speed is slower.",
+                "isScientificallySound": true,
+                "feedback": "Correct! Outer planets have longer orbits and slower orbital speeds (Mars takes 687 Earth days)."
+              },
+              {
+                "id": "pred-sol-3",
+                "text": "Exactly 365 days, because all planets in our solar system share the same year.",
+                "isScientificallySound": false,
+                "feedback": "Every planet has a distinct orbital period governed by Kepler's laws."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Solar System Orbit Simulator",
+          "content": "Animate planetary orbits around the Sun. Compare sizes, orbital distances, and surface temperatures.",
+          "simulationData": {
+            "simId": "sim-6-solar",
+            "instructions": [
+              "Toggle between Inner Terrestrial and Outer Jovian planet views.",
+              "Speed up or pause the planetary clock.",
+              "Tap on any planet to reveal its diameter, moons, and atmospheric composition.",
+              "Observe how Mercury zips around rapidly while Neptune moves slowly in its orbit."
+            ],
+            "guidingQuestions": [
+              "Which planet has the shortest year?",
+              "Why is Venus hotter than Mercury even though Mercury is closer to the Sun?"
+            ]
+          }
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Solar System Observations",
+          "content": "1. Speed Gradient: Inner planets circled rapidly (Mercury completed 4 orbits while Earth finished 1). Outer gas giants crept along wide ellipses.\n2. Atmospheric Heat: Venus recorded the highest surface temperature (~465°C), hotter than Mercury (~430°C day), proving atmospheric greenhouse trapping.\n3. Habitability Zone: Only Earth maintained temperatures that permit liquid water, a breathable nitrogen-oxygen atmosphere, and a protective magnetic field.",
+          "highlightBox": {
+            "title": "Habitability Conditions",
+            "text": "Earth's distance from the Sun ('Goldilocks Zone') ensures temperatures where water remains liquid, essential for cellular biology.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Gravity as the Cosmic Glue",
+          "content": "Why do planets not fly off into empty space in a straight line? Sir Isaac Newton proved that every mass in the universe attracts every other mass through Gravity.\n\nThe massive Sun exerts an enormous gravitational pull on every planet. The planet's forward inertial velocity and the Sun's inward gravitational tug balance continuously, keeping the planet falling around the Sun in a stable elliptical orbit!\n\nWithout the Sun's gravity, planets would travel off into interstellar space. Without orbital velocity, planets would plummet directly into the fiery Sun.",
+          "highlightBox": {
+            "title": "Newton's Law of Universal Gravitation",
+            "text": "F = G × (m1 × m2) / r², where gravitational force decreases rapidly as distance r increases.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Concept Checkpoint Quiz",
+          "content": "Test your astronomical knowledge:",
+          "quizData": {
+            "questions": [
+              {
+                "id": "q-6-1-1",
+                "question": "Which planet in the solar system is the largest in both mass and volume?",
+                "options": ["Saturn", "Jupiter", "Earth", "Neptune"],
+                "correctIndex": 1,
+                "explanation": "Jupiter is the largest planet, with a mass more than twice that of all other planets combined.",
+                "textbookPageRef": "p. 172"
+              },
+              {
+                "id": "q-6-1-2",
+                "question": "Why is Venus the hottest planet in the Solar System, even though Mercury is closer to the Sun?",
+                "options": [
+                  "Venus has thousands of active nuclear volcanoes",
+                  "Venus has a thick atmosphere of Carbon Dioxide causing extreme runaway greenhouse effect",
+                  "Venus is radioactive throughout its core",
+                  "Venus is closer to the Asteroid belt"
+                ],
+                "correctIndex": 1,
+                "explanation": "Venus has a dense CO₂ atmosphere that traps infrared radiation, creating a severe runaway greenhouse effect (~465°C).",
+                "textbookPageRef": "p. 169"
+              },
+              {
+                "id": "q-6-1-3",
+                "question": "What primary force keeps planets in stable elliptical orbits around the Sun?",
+                "options": [
+                  "Magnetic repulsion",
+                  "Sun's gravitational attraction",
+                  "Solar radiation wind pressure",
+                  "Centrifugal atmospheric repulsion"
+                ],
+                "correctIndex": 1,
+                "explanation": "The gravitational force exerted by the Sun provides the necessary centripetal force to keep planets in orbit.",
+                "textbookPageRef": "p. 176"
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconceptions Debunked",
+          "content": "Clear up this common misconception about space:",
+          "misconceptionData": {
+            "myth": "Astronauts float in orbit because there is zero gravity in space.",
+            "reality": "Gravity in low Earth orbit is still about 90% as strong as on Earth's surface!",
+            "scientificReason": "Astronauts float because both they and their spacecraft are in continuous free-fall together around the Earth at high horizontal velocity (~28,000 km/h)."
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Summary & Mastery Saved",
+          "content": "Splendid! You have completed Lesson 6.1 The Solar System.\n\nSummary:\n1. 8 planets: 4 rocky terrestrial + 4 Jovian gas giants.\n2. Gravity balances orbital inertia to maintain planetary paths.\n3. Earth occupies the habitable zone with liquid water and atmosphere.\n\nSaved to device local memory.",
+          "highlightBox": {
+            "title": "Unit 6 Complete",
+            "text": "Planetary dynamics and gravitation concepts mastered.",
+            "variant": "info"
+          }
+        }
+      ]
+    }
+  ]
+}
