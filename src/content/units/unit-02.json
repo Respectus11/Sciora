@@ -1,0 +1,184 @@
+{
+  "unitId": "unit-02",
+  "unitTitle": "Composition of Matter",
+  "textbookUnit": 2,
+  "pageRange": "pp. 25–60",
+  "lessons": [
+    {
+      "id": "lesson-2-atom",
+      "unitId": "unit-02",
+      "lessonNumber": "2.1",
+      "title": "Atom Structure: Protons, Neutrons & Electrons",
+      "subtitle": "Build atomic nuclei and electron shells to determine atomic number Z and mass number A",
+      "textbookPageRef": "Grade 8 General Science pp. 25–37",
+      "estimatedMinutes": 12,
+      "curriculumCompetencies": [
+        "Identify the three fundamental subatomic particles: protons, neutrons, and electrons",
+        "Define atomic number (Z) as the number of protons and mass number (A) as protons + neutrons",
+        "Distinguish electrically neutral atoms from charged ions"
+      ],
+      "simulationId": "sim-2-atom",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "The Microscopic Building Blocks",
+          "content": "All matter in the universe—from the air in Addis Ababa to the basalt rocks of the Simien Mountains—is made of tiny particles called Atoms. In this lesson, we study Section 2.1 of your textbook (pp. 25–37).",
+          "highlightBox": {
+            "title": "Textbook Focus • pp. 25–37",
+            "text": "An atom consists of a tiny, dense central nucleus containing positively charged protons and neutral neutrons, surrounded by negatively charged electrons in energy shells.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: Mineral Wealth of Ethiopia",
+          "content": "Ethiopia is blessed with rich geological deposits: gold in Shakiso (Oromia), tantalum in Kenticha, and potassium salts (potash) in the Dallol depression.\n\nEvery single one of these valuable elements has unique physical and chemical properties determined entirely by the number of protons packed into its atomic nucleus!\n\nFor instance, Gold (Au) atoms have exactly 79 protons, while Iron (Fe) in local smithing has exactly 26 protons. Change the proton count, and you change the element completely.",
+          "highlightBox": {
+            "title": "Geology & Elemental Science",
+            "text": "The mineral wealth of the Ethiopian Rift Valley is a direct macroscopic manifestation of atomic structures and elemental bonding (Section 2.1, p. 28).",
+            "variant": "context"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "Atomic Number (Z) and Mass Number (A)",
+          "content": "Subatomic Particles:\n1. Proton (p⁺): Positive charge (+1), mass ~ 1 amu, located in nucleus.\n2. Neutron (n⁰): Neutral charge (0), mass ~ 1 amu, located in nucleus.\n3. Electron (e⁻): Negative charge (-1), mass ~ 1/1840 amu, orbits in shells.\n\nKey Formulas:\n• Atomic Number (Z) = Number of Protons\n• Mass Number (A) = Number of Protons + Number of Neutrons (A = Z + N)\n• Net Electrical Charge = Protons - Electrons (Neutral when p⁺ = e⁻)",
+          "highlightBox": {
+            "title": "The Identity Principle",
+            "text": "The number of protons (Z) uniquely identifies the element. Carbon ALWAYS has Z = 6; Oxygen ALWAYS has Z = 8.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Predict Atomic Charge",
+          "content": "Consider this particle assembly scenario:",
+          "predictionData": {
+            "prompt": "If an atom has 6 protons, 6 neutrons, and only 5 electrons, what is the net electrical charge and identity of this atom?",
+            "choices": [
+              {
+                "id": "pred-at-1",
+                "text": "It is a neutral Carbon atom with charge 0.",
+                "isScientificallySound": false,
+                "feedback": "It has 6 positive charges and only 5 negative charges, so charges do not cancel out."
+              },
+              {
+                "id": "pred-at-2",
+                "text": "It is a positively charged Carbon ion (C⁺) with a net charge of +1.",
+                "isScientificallySound": true,
+                "feedback": "Correct! Z = 6 identifies Carbon. Net charge = 6 - 5 = +1 (a positive cation)."
+              },
+              {
+                "id": "pred-at-3",
+                "text": "It becomes Boron because an electron is missing.",
+                "isScientificallySound": false,
+                "feedback": "Protons determine element identity, not electrons. With 6 protons it is still Carbon."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Interactive Atom Builder",
+          "content": "Add and remove protons, neutrons, and electrons to synthesize elements and check stability on the virtual periodic chart.",
+          "simulationData": {
+            "simId": "sim-2-atom",
+            "instructions": [
+              "Add protons to change the element identity (Hydrogen, Helium, Lithium, Carbon, Oxygen).",
+              "Add neutrons to change the isotopic mass number A.",
+              "Add electrons to observe shell capacity (2 in first shell, 8 in second shell).",
+              "Check whether the atom is Neutral, a Positive Ion, or a Negative Ion."
+            ],
+            "guidingQuestions": [
+              "What happens to the element symbol when you add a proton?",
+              "What happens when electrons equal protons?"
+            ]
+          }
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Atom Lab Observations",
+          "content": "1. Element Identity: Every time a proton was dragged into the nucleus, the element name and atomic number jumped immediately.\n2. Mass Contribution: Adding neutrons increased the mass number A without changing electrical charge or element identity.\n3. Electrical Neutrality: Whenever proton count equaled electron count, the net charge indicator read exactly 0 (Neutral Atom).",
+          "highlightBox": {
+            "title": "Observation Summary",
+            "text": "Protons define identity; neutrons define mass; electrons define chemical charge and bonding.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Bohr Model & Electron Shells",
+          "content": "Niels Bohr established that electrons do not orbit randomly; they occupy distinct concentric energy levels or shells:\n• Shell 1 (K shell): Holds up to 2 electrons.\n• Shell 2 (L shell): Holds up to 8 electrons.\n• Shell 3 (M shell): Holds up to 8 electrons (for the first 20 elements).\n\nAtoms are most chemically stable when their outermost valence shell is completely full (like noble gases Helium and Neon). Atoms gain, lose, or share electrons during chemical reactions to achieve this stable configuration.",
+          "highlightBox": {
+            "title": "Shell Rule (2n² Formula)",
+            "text": "Max electrons per shell n = 2n². For Grade 8 syllabus: Shell 1 = 2, Shell 2 = 8, Shell 3 = 8.",
+            "variant": "key"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Concept Checkpoint Quiz",
+          "content": "Verify your understanding of atomic structure:",
+          "quizData": {
+            "questions": [
+              {
+                "id": "q-2-1-1",
+                "question": "Which subatomic particle has a positive electrical charge and is located in the nucleus?",
+                "options": ["Proton", "Neutron", "Electron", "Photon"],
+                "correctIndex": 0,
+                "explanation": "Protons carry a +1 charge and reside in the central atomic nucleus.",
+                "textbookPageRef": "p. 26"
+              },
+              {
+                "id": "q-2-1-2",
+                "question": "An atom has 8 protons, 8 neutrons, and 10 electrons. What is its net electrical charge?",
+                "options": ["+2", "-2", "0 (Neutral)", "+8"],
+                "correctIndex": 1,
+                "explanation": "Net charge = (Protons) - (Electrons) = 8 - 10 = -2 (an oxide anion O²⁻).",
+                "textbookPageRef": "p. 29"
+              },
+              {
+                "id": "q-2-1-3",
+                "question": "What is the maximum number of electrons that can occupy the first (innermost) electron shell?",
+                "options": ["2", "8", "18", "32"],
+                "correctIndex": 0,
+                "explanation": "The innermost K-shell can accommodate a maximum of 2 electrons (e.g. Helium).",
+                "textbookPageRef": "p. 31"
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconceptions Debunked",
+          "content": "Correct this frequent misunderstanding:",
+          "misconceptionData": {
+            "myth": "Atoms are solid, hard billiard balls with matter packed completely solid throughout.",
+            "reality": "Atoms are over 99.9999999% empty space!",
+            "scientificReason": "Rutherford's gold foil experiment showed that if the nucleus were the size of a marble in the center of a football stadium, the electrons would be tiny gnats buzzing in the far upper bleachers."
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Summary & Mastery Saved",
+          "content": "Congratulations on completing Lesson 2.1!\n\nSummary:\n1. Atoms consist of protons (+), neutrons (0), and electrons (-).\n2. Atomic number Z = protons; Mass number A = protons + neutrons.\n3. Electron shells fill in 2, 8, 8 order for early elements.\n\nSaved to device local memory.",
+          "highlightBox": {
+            "title": "Unit 2 Mastery",
+            "text": "Subatomic structure verified.",
+            "variant": "info"
+          }
+        }
+      ]
+    }
+  ]
+}
