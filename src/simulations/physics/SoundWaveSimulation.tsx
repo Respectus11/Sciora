@@ -1,88 +1,95 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Switch } from 'react-native';
-import Svg, {
-  Line,
-  Circle,
-  Rect,
-  Path,
-  Text as SvgText,
-  G,
-} from 'react-native-svg';
+import Svg, { Line, Circle, Rect, Path, Text as SvgText, G } from 'react-native-svg';
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
-import { colors, spacing, typography, radii } from '@/design-system';
+import { colors, spacing, radii } from '@/design-system';
+
+interface SoundMedium {
+  id: string;
+  name: string;
+  speed: number;
+  particleColor: string;
+}
+
+const MEDIA: SoundMedium[] = [
+  { id: 'air', name: 'Air (20°C)', speed: 343, particleColor: 'rgba(255, 255, 255, 0.3)' },
+  { id: 'water', name: 'Fresh Water', speed: 1482, particleColor: 'rgba(56, 189, 248, 0.5)' },
+  { id: 'steel', name: 'Steel Rail', speed: 5960, particleColor: 'rgba(148, 163, 184, 0.8)' },
+];
 
 export const SoundWaveSimulation: React.FC = () => {
-  const [frequency, setFrequency] = useState(440); // Standard concert A (Hz)
-  const [amplitude, setAmplitude] = useState(5); // Amplitude in mm (1 to 10)
-  const [isVacuum, setIsVacuum] = useState(false); // Bell-jar vacuum chamber toggle
+  const [frequency, setFrequency] = useState(440);
+  const [amplitude, setAmplitude] = useState(5);
+  const [isVacuum, setIsVacuum] = useState(false);
+  const [selectedMedium, setSelectedMedium] = useState<SoundMedium>(MEDIA[0]);
 
-  // Physical wave calculations
-  const speedOfSound = 340; // m/s in air
-  const wavelength = isVacuum ? 0 : speedOfSound / frequency; // λ = v / f in meters
-  const decibels = isVacuum ? 0 : Math.round(40 + amplitude * 5); // Rough dB estimate
-
-  // SVG parameters
+  const speedOfSound = isVacuum ? 0 : selectedMedium.speed;
+  const wavelength = isVacuum ? 0 : speedOfSound / frequency;
+  const decibels = isVacuum ? 0 : Math.round(40 + amplitude * 5);
   const svgWidth = 340;
   const svgHeight = 280;
-
-  // Number of wave cycles visible on screen (proportional to frequency)
-  const cycleCount = Math.max(2, Math.min(8, Math.round(frequency / 100)));
+  const cycleCount = Math.max(2, Math.min(8, Math.round(frequency / 120)));
 
   return (
     <SimulationWorkspace
-      title="Acoustic Vibration & Vacuum Lab"
-      unitTag="Grade 8 Physics • Unit 7.3"
+      title='Acoustic Vibration & Medium Lab'
+      unitTag='Grade 8 Physics • Unit 7.3'
+      onReset={() => {
+        setFrequency(440);
+        setAmplitude(5);
+        setIsVacuum(false);
+        setSelectedMedium(MEDIA[0]);
+      }}
       telemetry={[
-        { label: 'Frequency (Pitch)', value: `${frequency}`, unit: 'Hz', color: colors.cyan },
-        { label: 'Amplitude (Loudness)', value: `${amplitude}`, unit: 'mm', color: colors.amber },
-        { label: 'Wavelength (λ)', value: isVacuum ? '0.00' : `${wavelength.toFixed(2)}`, unit: 'm', color: colors.violet },
-        { label: 'Sound Output', value: isVacuum ? '0 (SILENCE)' : `${decibels} dB`, color: isVacuum ? colors.rose : colors.emerald },
+        { label: 'Frequency (f)', value: String(frequency), unit: 'Hz', color: colors.cyan },
+        { label: 'Wave Speed (v)', value: isVacuum ? '0' : String(speedOfSound), unit: 'm/s', color: colors.amber },
+        { label: 'Wavelength (λ)', value: isVacuum ? '0.00' : wavelength.toFixed(2), unit: 'm', color: colors.violet },
+        { label: 'Sound Output', value: isVacuum ? '0 (SILENCE)' : String(decibels) + ' dB', color: isVacuum ? colors.rose : colors.emerald },
       ]}
       instructions={[
-        'Adjust Frequency (100–1000 Hz) to observe pitch: higher frequency produces tightly packed waves.',
-        'Adjust Amplitude (1–10 mm) to see loudness: greater amplitude produces more vigorous vibrations.',
-        'Toggle the "Evacuate Air (Vacuum Chamber)" switch to test whether sound can travel without a medium.',
+        'Adjust Frequency (150–880 Hz) to observe pitch: higher frequency creates shorter wavelengths (λ = v / f).',
+        'Compare propagation speed across Air (343 m/s), Water (1482 m/s), and Steel (5960 m/s).',
+        'Observe how sound travels fastest in dense solids where particles are tightly coupled.',
+        'Toggle the Vacuum Chamber switch to verify that sound cannot propagate without a material medium.',
       ]}
       controlsNode={
-        <GlassCard variant="base" padding="md" style={styles.controlsCard}>
-          {/* Frequency (Pitch) Controller */}
+        <GlassCard variant='base' padding='md' style={styles.controlsCard}>
+          <Text style={styles.controlHeader}>Transmission Medium:</Text>
+          <View style={styles.btnRow}>
+            {MEDIA.map((m) => (
+              <Pressable
+                key={m.id}
+                disabled={isVacuum}
+                style={[styles.chip, !isVacuum && selectedMedium.id === m.id ? styles.chipActive : undefined, isVacuum ? styles.chipDisabled : undefined]}
+                onPress={() => setSelectedMedium(m)}
+              >
+                <Text style={[styles.chipText, !isVacuum && selectedMedium.id === m.id ? styles.chipTextActive : undefined]}>
+                  {m.name} ({m.speed} m/s)
+                </Text>
+              </Pressable>
+            ))}
+          </View>
           <Text style={styles.controlHeader}>Frequency / Pitch (Hz):</Text>
           <View style={styles.btnRow}>
             {[150, 300, 440, 600, 880].map((f) => (
-              <Pressable
-                key={f}
-                style={[styles.chip, frequency === f ? styles.chipActive : undefined]}
-                onPress={() => setFrequency(f)}
-              >
-                <Text style={[styles.chipText, frequency === f ? styles.chipTextActive : undefined]}>
-                  {f} Hz
-                </Text>
+              <Pressable key={f} style={[styles.chip, frequency === f ? styles.chipActive : undefined]} onPress={() => setFrequency(f)}>
+                <Text style={[styles.chipText, frequency === f ? styles.chipTextActive : undefined]}>{f} Hz</Text>
               </Pressable>
             ))}
           </View>
-
-          {/* Amplitude (Loudness) Controller */}
           <Text style={styles.controlHeader}>Vibration Amplitude (Loudness):</Text>
           <View style={styles.btnRow}>
             {[2, 4, 6, 8, 10].map((a) => (
-              <Pressable
-                key={a}
-                style={[styles.chip, amplitude === a ? styles.chipActive : undefined]}
-                onPress={() => setAmplitude(a)}
-              >
-                <Text style={[styles.chipText, amplitude === a ? styles.chipTextActive : undefined]}>
-                  {a} mm {a >= 8 ? '(Loud)' : a <= 2 ? '(Soft)' : ''}
-                </Text>
+              <Pressable key={a} style={[styles.chip, amplitude === a ? styles.chipActive : undefined]} onPress={() => setAmplitude(a)}>
+                <Text style={[styles.chipText, amplitude === a ? styles.chipTextActive : undefined]}>{a} mm</Text>
               </Pressable>
             ))}
           </View>
-
-          {/* Bell-jar Vacuum Chamber Switch */}
           <View style={styles.vacuumRow}>
             <View style={styles.vacuumTextGroup}>
               <Text style={styles.vacuumTitle}>Evacuate Chamber (Vacuum Pump)</Text>
-              <Text style={styles.vacuumSub}>Remove all air molecules around the sound source</Text>
+              <Text style={styles.vacuumSub}>Remove all molecules around the sound source</Text>
             </View>
             <Switch
               value={isVacuum}
@@ -95,154 +102,69 @@ export const SoundWaveSimulation: React.FC = () => {
       }
     >
       {() => (
-        <Svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
-          {/* Vacuum Glass Bell Jar Outline */}
+        <Svg width='100%' height='100%' viewBox={'0 0 ' + svgWidth + ' ' + svgHeight}>
           <Rect
-            x="15"
-            y="20"
+            x='15'
+            y='20'
             width={svgWidth - 30}
             height={svgHeight - 40}
-            rx="16"
+            rx='16'
             fill={isVacuum ? 'rgba(15, 23, 42, 0.95)' : 'rgba(15, 23, 42, 0.5)'}
             stroke={isVacuum ? colors.rose : 'rgba(56, 189, 248, 0.4)'}
-            strokeWidth="2"
+            strokeWidth='2'
           />
-          <SvgText
-            x="28"
-            y="42"
-            fill={isVacuum ? colors.rose : colors.cyan}
-            fontSize="10"
-            fontWeight="bold"
-          >
-            {isVacuum ? 'VACUUM CHAMBER (AIR EVACUATED • 0 kPa)' : 'NORMAL AIR PRESSURE (101.3 kPa)'}
+          <SvgText x='28' y='42' fill={isVacuum ? colors.rose : colors.cyan} fontSize='10' fontWeight='bold'>
+            {isVacuum ? 'VACUUM CHAMBER (NO MEDIUM • 0 m/s)' : selectedMedium.name.toUpperCase() + ' (v = ' + selectedMedium.speed + ' m/s)'}
           </SvgText>
-
-          {/* Left: Ethiopian Kebero Drumhead / Vibrating Source */}
-          <Rect x="30" y="80" width="16" height="120" rx="4" fill="#78350F" stroke="#F59E0B" strokeWidth="2" />
-          <Line
-            x1="46"
-            y1="85"
-            x2="46"
-            y2="195"
-            stroke="#FDE047"
-            strokeWidth={amplitude * 0.8}
-            opacity="0.9"
-          />
-          <SvgText x="38" y="220" fill="#FDE047" fontSize="9" fontWeight="bold" textAnchor="middle">
-            DRUM
-          </SvgText>
-
-          {/* Longitudinal Pressure Waves or Vacuum State */}
+          <Rect x='30' y='80' width='16' height='120' rx='4' fill='#78350F' stroke='#F59E0B' strokeWidth='2' />
+          <Line x1='46' y1='85' x2='46' y2='195' stroke='#FDE047' strokeWidth={amplitude * 0.8} opacity='0.9' />
+          <SvgText x='38' y='220' fill='#FDE047' fontSize='9' fontWeight='bold' textAnchor='middle'>DRUM</SvgText>
           {!isVacuum ? (
             <G>
-              {/* Compressions (dark dense vertical lines) & Rarefactions (faint sparse lines) */}
               {Array.from({ length: cycleCount * 3 }).map((_, i) => {
                 const spacingPx = (svgWidth - 140) / (cycleCount * 3);
                 const xPos = 65 + i * spacingPx;
                 const isCompression = i % 3 === 0;
-
                 return (
                   <G key={i}>
-                    {/* Air particle dots in this wavefront */}
-                    {Array.from({ length: 9 }).map((_, row) => {
-                      const yPos = 90 + row * 12;
-                      return (
-                        <Circle
-                          key={row}
-                          cx={xPos + (isCompression ? 0 : Math.sin(row) * 4)}
-                          cy={yPos}
-                          r={isCompression ? 2.5 : 1.2}
-                          fill={isCompression ? colors.cyan : 'rgba(255, 255, 255, 0.25)'}
-                        />
-                      );
-                    })}
-
-                    {/* Compression wavefront indicator line */}
-                    {isCompression && (
-                      <Line
-                        x1={xPos}
-                        y1="82"
-                        x2={xPos}
-                        y2="200"
-                        stroke="rgba(0, 229, 255, 0.4)"
-                        strokeWidth="1.5"
-                        strokeDasharray="2,3"
+                    {Array.from({ length: 9 }).map((_, row) => (
+                      <Circle
+                        key={row}
+                        cx={xPos + (isCompression ? 0 : Math.sin(row) * 4)}
+                        cy={90 + row * 12}
+                        r={isCompression ? 2.5 : 1.2}
+                        fill={isCompression ? colors.cyan : selectedMedium.particleColor}
                       />
+                    ))}
+                    {isCompression && (
+                      <Line x1={xPos} y1='82' x2={xPos} y2='200' stroke='rgba(0, 229, 255, 0.4)' strokeWidth='1.5' strokeDasharray='2,3' />
                     )}
                   </G>
                 );
               })}
-
-              {/* Compression / Rarefaction Labels */}
-              <SvgText x="90" y="72" fill={colors.cyan} fontSize="9" fontWeight="bold">
-                C (Compression)
-              </SvgText>
-              <SvgText x="145" y="72" fill={colors.textMuted} fontSize="9">
-                R (Rarefaction)
-              </SvgText>
-
-              {/* Sine Wave Curve Representation Underneath */}
+              <SvgText x='90' y='72' fill={colors.cyan} fontSize='9' fontWeight='bold'>C (Compression)</SvgText>
+              <SvgText x='150' y='72' fill={colors.textMuted} fontSize='9'>R (Rarefaction)</SvgText>
               <Path
-                d={`M 65 240 Q ${65 + 30} ${240 - amplitude * 2} ${65 + 60} 240 T ${65 + 120} 240 T ${65 + 180} 240`}
-                fill="none"
+                d={'M 65 240 Q ' + (65 + 30) + ' ' + (240 - amplitude * 2) + ' ' + (65 + 60) + ' 240 T ' + (65 + 120) + ' 240 T ' + (65 + 180) + ' 240'}
+                fill='none'
                 stroke={colors.amber}
-                strokeWidth="2"
+                strokeWidth='2'
               />
-              <SvgText x="65" y="260" fill={colors.amber} fontSize="8">
-                Pressure Waveform
-              </SvgText>
+              <SvgText x='65' y='260' fill={colors.amber} fontSize='8'>Pressure Waveform</SvgText>
             </G>
           ) : (
-            /* Vacuum State Display */
             <G>
-              <SvgText
-                x={svgWidth / 2 + 10}
-                y="135"
-                fill={colors.rose}
-                fontSize="14"
-                fontWeight="bold"
-                textAnchor="middle"
-              >
+              <SvgText x={svgWidth / 2 + 10} y='135' fill={colors.rose} fontSize='14' fontWeight='bold' textAnchor='middle'>
                 NO PARTICLES IN VACUUM
               </SvgText>
-              <SvgText
-                x={svgWidth / 2 + 10}
-                y="155"
-                fill={colors.textSecondary}
-                fontSize="10"
-                textAnchor="middle"
-              >
-                Vibrations cannot propagate without a material medium
+              <SvgText x={svgWidth / 2 + 10} y='155' fill={colors.textSecondary} fontSize='10' textAnchor='middle'>
+                Sound waves require a material medium to propagate
               </SvgText>
-              <SvgText
-                x={svgWidth / 2 + 10}
-                y="175"
-                fill={colors.textMuted}
-                fontSize="9"
-                textAnchor="middle"
-              >
-                Sound Energy = 0.00 Joules at Listener
+              <SvgText x={svgWidth / 2 + 10} y='175' fill={colors.textMuted} fontSize='9' textAnchor='middle'>
+                Bell jar test: Silence in vacuum (v = 0 m/s)
               </SvgText>
             </G>
           )}
-
-          {/* Right: Human Ear / Sensor Icon */}
-          <Path
-            d="M 285 110 C 300 110 305 125 300 140 C 295 155 300 165 292 170"
-            fill="none"
-            stroke={isVacuum ? colors.textMuted : colors.emerald}
-            strokeWidth="3"
-          />
-          <SvgText
-            x="294"
-            y="185"
-            fill={isVacuum ? colors.textMuted : colors.emerald}
-            fontSize="9"
-            fontWeight="bold"
-            textAnchor="middle"
-          >
-            {isVacuum ? 'SILENCE' : 'HEARS SOUND'}
-          </SvgText>
         </Svg>
       )}
     </SimulationWorkspace>
@@ -250,61 +172,16 @@ export const SoundWaveSimulation: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  controlsCard: {
-    borderColor: 'rgba(0, 229, 255, 0.25)',
-  },
-  controlHeader: {
-    ...typography.caption,
-    color: colors.textMuted,
-    marginBottom: spacing.xs,
-  },
-  btnRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: spacing.md,
-  },
-  chip: {
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-    borderRadius: radii.sm,
-    backgroundColor: colors.spaceElevated,
-    borderWidth: 1,
-    borderColor: colors.glassBorderSubtle,
-    alignItems: 'center',
-  },
-  chipActive: {
-    backgroundColor: 'rgba(0, 229, 255, 0.15)',
-    borderColor: colors.cyan,
-  },
-  chipText: {
-    ...typography.caption,
-    fontSize: 10,
-    color: colors.textSecondary,
-  },
-  chipTextActive: {
-    color: colors.cyan,
-    fontWeight: '700',
-  },
-  vacuumRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: colors.glassBorderSubtle,
-  },
-  vacuumTextGroup: {
-    flex: 1,
-    paddingRight: spacing.md,
-  },
-  vacuumTitle: {
-    ...typography.bodyMedium,
-    color: colors.textPrimary,
-    fontWeight: '600',
-  },
-  vacuumSub: {
-    ...typography.caption,
-    color: colors.textSecondary,
-    fontSize: 11,
-  },
+  controlsCard: { marginTop: spacing.sm },
+  controlHeader: { fontSize: 12, fontWeight: '600', color: colors.textSecondary, marginBottom: spacing.xs, marginTop: spacing.xs },
+  btnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.xs },
+  chip: { paddingVertical: 6, paddingHorizontal: 10, borderRadius: radii.sm, backgroundColor: 'rgba(255,255,255,0.06)', borderWidth: 1, borderColor: 'transparent' },
+  chipActive: { backgroundColor: 'rgba(0,229,255,0.12)', borderColor: colors.cyan },
+  chipDisabled: { opacity: 0.3 },
+  chipText: { fontSize: 11, color: colors.textSecondary },
+  chipTextActive: { color: colors.textPrimary, fontWeight: 'bold' },
+  vacuumRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.sm, paddingTop: spacing.sm, borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.08)' },
+  vacuumTextGroup: { flex: 1, marginRight: spacing.sm },
+  vacuumTitle: { fontSize: 12, fontWeight: 'bold', color: colors.textPrimary },
+  vacuumSub: { fontSize: 10, color: colors.textMuted, marginTop: 2 },
 });
