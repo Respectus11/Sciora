@@ -7,46 +7,117 @@ import Svg, {
   Path,
   Text as SvgText,
   G,
+  Polygon,
 } from 'react-native-svg';
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
 
+interface TestMaterial {
+  id: string;
+  name: string;
+  symbol: string;
+  category: 'Ferromagnetic' | 'Paramagnetic' | 'Diamagnetic' | 'Non-magnetic';
+  isAttracted: boolean;
+  attractionForce: number; // 0 to 100
+  color: string;
+  explanation: string;
+}
+
+const MATERIALS: TestMaterial[] = [
+  {
+    id: 'iron',
+    name: 'Iron Nail',
+    symbol: 'Fe',
+    category: 'Ferromagnetic',
+    isAttracted: true,
+    attractionForce: 98,
+    color: '#94A3B8',
+    explanation: 'Contains permanent magnetic domains that align strongly with the external field.',
+  },
+  {
+    id: 'nickel',
+    name: 'Nickel Coin',
+    symbol: 'Ni',
+    category: 'Ferromagnetic',
+    isAttracted: true,
+    attractionForce: 72,
+    color: '#CBD5E1',
+    explanation: 'Ferromagnetic transition metal; experiences strong magnetic attraction.',
+  },
+  {
+    id: 'aluminum',
+    name: 'Aluminum Foil',
+    symbol: 'Al',
+    category: 'Paramagnetic',
+    isAttracted: false,
+    attractionForce: 0,
+    color: '#E2E8F0',
+    explanation: 'Paramagnetic with negligible susceptibility; will not cling to a bar magnet.',
+  },
+  {
+    id: 'copper',
+    name: 'Copper Wire',
+    symbol: 'Cu',
+    category: 'Diamagnetic',
+    isAttracted: false,
+    attractionForce: 0,
+    color: '#F97316',
+    explanation: 'Diamagnetic; weakly repelled by magnetic fields in laboratory micro-scales, effectively non-magnetic.',
+  },
+  {
+    id: 'wood',
+    name: 'Wood Splint',
+    symbol: 'Wood',
+    category: 'Non-magnetic',
+    isAttracted: false,
+    attractionForce: 0,
+    color: '#B45309',
+    explanation: 'Organic insulator with completely paired electrons and zero magnetic domains.',
+  },
+];
+
 export const MagnetismSimulation: React.FC = () => {
-  const [compassAngleIndex, setCompassAngleIndex] = useState(1); // 0 to 4
+  const [compassAngleIndex, setCompassAngleIndex] = useState(1); // 0 to 3
   const [isBrokenInHalf, setIsBrokenInHalf] = useState(false);
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string>('iron');
+  const [materialDistance, setMaterialDistance] = useState<'far' | 'near'>('near');
 
   // Compass test positions around the bar magnet
   const compassPositions = [
     { label: 'Off North Pole', x: 50, y: 140, needleAngle: 180, desc: 'Repels compass N, attracts S' },
-    { label: 'Top Field Loop', x: 170, y: 60, needleAngle: 0, desc: 'Parallel to magnet body (N → S)' },
+    { label: 'Top Field Loop', x: 170, y: 60, needleAngle: 0, desc: 'Parallel to magnet body (N -> S)' },
     { label: 'Off South Pole', x: 290, y: 140, needleAngle: 0, desc: 'Attracts compass N, repels S' },
-    { label: 'Bottom Field Loop', x: 170, y: 220, needleAngle: 0, desc: 'Parallel to magnet body (N → S)' },
+    { label: 'Bottom Field Loop', x: 170, y: 220, needleAngle: 0, desc: 'Parallel to magnet body (N -> S)' },
   ];
 
   const currentCompass = compassPositions[compassAngleIndex];
+  const activeMaterial = MATERIALS.find((m) => m.id === selectedMaterialId) || MATERIALS[0];
 
   // SVG parameters
-  const svgWidth = 340;
-  const svgHeight = 280;
-  const originX = svgWidth / 2;
-  const originY = svgHeight / 2;
+  const svgWidth = 360;
+  const svgHeight = 290;
+
+  // Material coordinate based on distance
+  const matX = materialDistance === 'near' ? 275 : 325;
+  const matY = 195;
 
   return (
     <SimulationWorkspace
-      title="Bar Magnet & Field Lines Lab"
+      title="Bar Magnet, Field Lines & Materials Lab"
       unitTag="Grade 8 Physics • Unit 7.6"
       telemetry={[
         { label: 'Compass Position', value: currentCompass.label, color: colors.cyan },
-        { label: 'Field Direction', value: 'N (Out) → S (In)', color: colors.amber },
-        { label: 'Magnetic Monopoles', value: 'IMPOSSIBLE', color: colors.rose },
-        { label: 'Magnet State', value: isBrokenInHalf ? '2 Dipoles Formed' : 'Single Bar Dipole', color: colors.emerald },
+        { label: 'Test Sample', value: activeMaterial.name, color: colors.amber },
+        { label: 'Classification', value: activeMaterial.category, color: activeMaterial.isAttracted ? colors.emerald : colors.rose },
+        { label: 'Attraction Force', value: `${activeMaterial.attractionForce}%`, color: activeMaterial.isAttracted ? colors.emerald : colors.textMuted },
+        { label: 'Monopole Rule', value: isBrokenInHalf ? '2 Dipoles Formed' : 'Single Dipole', color: colors.violet },
       ]}
       instructions={[
-        'Move the test compass to different locations around the bar magnet.',
-        'Observe how the compass needle always points along the curved magnetic field lines from North to South.',
-        'Tap "Cut Magnet in Half" to see whether a separate North or South pole can ever be created.',
-        'Notice how two new North and South poles immediately appear at the cut boundary.',
+        'Move the test compass to different locations around the bar magnet to trace field vectors.',
+        'Observe how the compass needle always aligns tangentially with field lines from North to South.',
+        'Select different materials (Iron, Nickel, Aluminum, Copper, Wood) to test magnetic susceptibility.',
+        'Tap "Cut Magnet in Half" to verify whether isolated magnetic monopoles can ever exist.',
       ]}
       controlsNode={
         <GlassCard variant="base" padding="md" style={styles.controlsCard}>
@@ -64,6 +135,68 @@ export const MagnetismSimulation: React.FC = () => {
                 </Text>
               </Pressable>
             ))}
+          </View>
+
+          {/* Materials Tray */}
+          <Text style={[styles.controlHeader, { marginTop: spacing.xs }]}>
+            Materials Tray (Magnetic Susceptibility Test):
+          </Text>
+          <View style={styles.btnRow}>
+            {MATERIALS.map((mat) => {
+              const isSelected = mat.id === selectedMaterialId;
+              return (
+                <Pressable
+                  key={mat.id}
+                  style={[
+                    styles.chip,
+                    isSelected ? styles.chipActive : undefined,
+                    isSelected && mat.isAttracted ? { borderColor: colors.emerald } : undefined,
+                  ]}
+                  onPress={() => setSelectedMaterialId(mat.id)}
+                >
+                  <Text
+                    style={[
+                      styles.chipText,
+                      isSelected ? styles.chipTextActive : undefined,
+                      isSelected && mat.isAttracted ? { color: colors.emerald } : undefined,
+                    ]}
+                  >
+                    {mat.name} ({mat.symbol})
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          {/* Proximity Toggle */}
+          <View style={styles.distanceRow}>
+            <Text style={styles.distanceLabel}>Sample Distance to Pole:</Text>
+            <View style={styles.toggleGroup}>
+              <Pressable
+                style={[styles.toggleBtn, materialDistance === 'near' && styles.toggleBtnActive]}
+                onPress={() => setMaterialDistance('near')}
+              >
+                <Text style={[styles.toggleText, materialDistance === 'near' && styles.toggleTextActive]}>
+                  Near (5 cm)
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[styles.toggleBtn, materialDistance === 'far' && styles.toggleBtnActive]}
+                onPress={() => setMaterialDistance('far')}
+              >
+                <Text style={[styles.toggleText, materialDistance === 'far' && styles.toggleTextActive]}>
+                  Far (20 cm)
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+
+          {/* Explanation Banner */}
+          <View style={styles.explanationBox}>
+            <Text style={styles.explanationTitle}>
+              {activeMaterial.name} ({activeMaterial.category}):
+            </Text>
+            <Text style={styles.explanationBody}>{activeMaterial.explanation}</Text>
           </View>
 
           {/* Cut Magnet in Half Toggle */}
@@ -87,10 +220,10 @@ export const MagnetismSimulation: React.FC = () => {
       {() => (
         <Svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
           {/* 1. Curved Magnetic Field Lines (Outer Loops) */}
-          <G opacity="0.45">
+          <G opacity="0.5">
             {/* Top wide loop */}
             <Path
-              d="M 100 120 C 60 20 280 20 240 120"
+              d="M 100 120 C 60 15 280 15 240 120"
               fill="none"
               stroke="#38BDF8"
               strokeWidth="1.5"
@@ -98,7 +231,7 @@ export const MagnetismSimulation: React.FC = () => {
             />
             {/* Top tight loop */}
             <Path
-              d="M 115 120 C 90 60 250 60 225 120"
+              d="M 115 120 C 90 55 250 55 225 120"
               fill="none"
               stroke="#38BDF8"
               strokeWidth="1.5"
@@ -106,7 +239,7 @@ export const MagnetismSimulation: React.FC = () => {
             />
             {/* Bottom tight loop */}
             <Path
-              d="M 115 160 C 90 220 250 220 225 160"
+              d="M 115 160 C 90 225 250 225 225 160"
               fill="none"
               stroke="#38BDF8"
               strokeWidth="1.5"
@@ -114,103 +247,142 @@ export const MagnetismSimulation: React.FC = () => {
             />
             {/* Bottom wide loop */}
             <Path
-              d="M 100 160 C 60 260 280 260 240 160"
+              d="M 100 160 C 60 265 280 265 240 160"
               fill="none"
               stroke="#38BDF8"
               strokeWidth="1.5"
               strokeDasharray="4,3"
             />
-            {/* Field directional arrowheads */}
-            <SvgText x="170" y="32" fill="#38BDF8" fontSize="10" textAnchor="middle">
-              → Magnetic Field (N to S) →
-            </SvgText>
-            <SvgText x="170" y="258" fill="#38BDF8" fontSize="10" textAnchor="middle">
-              → Magnetic Field (N to S) →
+            {/* Tangent arrows on loops */}
+            <Polygon points="170,23 175,28 165,28" fill="#38BDF8" transform="rotate(90, 170, 26)" />
+            <Polygon points="170,63 175,68 165,68" fill="#38BDF8" transform="rotate(90, 170, 66)" />
+            <Polygon points="170,217 175,222 165,222" fill="#38BDF8" transform="rotate(90, 170, 220)" />
+            <Polygon points="170,257 175,262 165,262" fill="#38BDF8" transform="rotate(90, 170, 260)" />
+
+            <SvgText x="170" y="20" fill="#38BDF8" fontSize="9" textAnchor="middle">
+              Field Direction: North -&gt; South
             </SvgText>
           </G>
 
-          {/* 2. Bar Magnet(s) Display */}
+          {/* 2. Primary Bar Magnet(s) */}
           {!isBrokenInHalf ? (
-            /* Single Intact Bar Magnet */
-            <G>
-              {/* North Pole Half (Red, Left) */}
-              <Rect x="90" y="120" width="80" height="40" rx="4" fill="#EF4444" stroke="#DC2626" strokeWidth="1.5" />
+            <G id="single-magnet">
+              {/* North Pole (Red) */}
+              <Rect x="90" y="120" width="80" height="40" fill="#EF4444" rx="4" />
               <SvgText x="130" y="145" fill="#FFFFFF" fontSize="16" fontWeight="bold" textAnchor="middle">
-                NORTH (N)
+                N
               </SvgText>
-
-              {/* South Pole Half (Blue, Right) */}
-              <Rect x="170" y="120" width="80" height="40" rx="4" fill="#2563EB" stroke="#1D4ED8" strokeWidth="1.5" />
+              {/* South Pole (Blue) */}
+              <Rect x="170" y="120" width="80" height="40" fill="#3B82F6" rx="4" />
               <SvgText x="210" y="145" fill="#FFFFFF" fontSize="16" fontWeight="bold" textAnchor="middle">
-                SOUTH (S)
-              </SvgText>
-
-              <SvgText x="170" y="180" fill={colors.textSecondary} fontSize="10" textAnchor="middle">
-                Permanent Bar Magnet (Magnetic Dipole)
+                S
               </SvgText>
             </G>
           ) : (
-            /* Broken in Half: TWO Complete Dipole Magnets! */
-            <G>
-              {/* Left Magnet: [N | S] */}
-              <Rect x="50" y="120" width="55" height="40" rx="3" fill="#EF4444" />
-              <SvgText x="77" y="145" fill="#FFFFFF" fontSize="12" fontWeight="bold" textAnchor="middle">
+            <G id="broken-magnets">
+              {/* Left Half (became complete dipole) */}
+              <Rect x="60" y="120" width="45" height="40" fill="#EF4444" rx="3" />
+              <SvgText x="82" y="145" fill="#FFFFFF" fontSize="13" fontWeight="bold" textAnchor="middle">
                 N
               </SvgText>
-              <Rect x="105" y="120" width="55" height="40" rx="3" fill="#2563EB" />
-              <SvgText x="132" y="145" fill="#FFFFFF" fontSize="12" fontWeight="bold" textAnchor="middle">
+              <Rect x="105" y="120" width="45" height="40" fill="#3B82F6" rx="3" />
+              <SvgText x="127" y="145" fill="#FFFFFF" fontSize="13" fontWeight="bold" textAnchor="middle">
                 S
               </SvgText>
 
-              {/* Cut gap with scissors indicator */}
-              <Line x1="165" y1="110" x2="165" y2="170" stroke="#FDE047" strokeWidth="2" strokeDasharray="3,2" />
-              <SvgText x="170" y="105" fill="#FDE047" fontSize="9" fontWeight="bold" textAnchor="middle">
-                FRACTURE
-              </SvgText>
-
-              {/* Right Magnet: [N | S] */}
-              <Rect x="180" y="120" width="55" height="40" rx="3" fill="#EF4444" />
-              <SvgText x="207" y="145" fill="#FFFFFF" fontSize="12" fontWeight="bold" textAnchor="middle">
+              {/* Right Half (became complete dipole) */}
+              <Rect x="190" y="120" width="45" height="40" fill="#EF4444" rx="3" />
+              <SvgText x="212" y="145" fill="#FFFFFF" fontSize="13" fontWeight="bold" textAnchor="middle">
                 N
               </SvgText>
-              <Rect x="235" y="120" width="55" height="40" rx="3" fill="#2563EB" />
-              <SvgText x="262" y="145" fill="#FFFFFF" fontSize="12" fontWeight="bold" textAnchor="middle">
+              <Rect x="235" y="120" width="45" height="40" fill="#3B82F6" rx="3" />
+              <SvgText x="257" y="145" fill="#FFFFFF" fontSize="13" fontWeight="bold" textAnchor="middle">
                 S
               </SvgText>
 
-              <SvgText x="170" y="180" fill={colors.emerald} fontSize="10" fontWeight="bold" textAnchor="middle">
-                Two New Dipoles Created • No Monopoles Exist!
+              {/* Cut gap indicator */}
+              <Line x1="170" y1="105" x2="170" y2="175" stroke="#F59E0B" strokeWidth="2" strokeDasharray="3,3" />
+              <SvgText x="170" y="100" fill="#F59E0B" fontSize="9" textAnchor="middle">
+                Cut Surface
               </SvgText>
             </G>
           )}
 
-          {/* 3. Interactive Test Compass */}
-          <G>
-            {/* Compass housing */}
-            <Circle cx={currentCompass.x} cy={currentCompass.y} r="22" fill="#0F172A" stroke="#F59E0B" strokeWidth="2" />
-            {/* Compass Needle (Red North tip, Silver South tip) */}
-            <Line
-              x1={currentCompass.x - 14}
-              y1={currentCompass.y}
-              x2={currentCompass.x}
-              y2={currentCompass.y}
-              stroke="#EF4444"
-              strokeWidth="4"
+          {/* 3. Materials Test Station */}
+          <G id="materials-test-station">
+            {/* Sample holder */}
+            <Rect
+              x={matX}
+              y={matY}
+              width="44"
+              height="36"
+              fill={activeMaterial.color}
+              rx="4"
+              stroke={activeMaterial.isAttracted ? '#10B981' : '#64748B'}
+              strokeWidth="2"
+              opacity="0.9"
             />
-            <Line
-              x1={currentCompass.x}
-              y1={currentCompass.y}
-              x2={currentCompass.x + 14}
-              y2={currentCompass.y}
-              stroke="#94A3B8"
-              strokeWidth="4"
-            />
-            <Circle cx={currentCompass.x} cy={currentCompass.y} r="3" fill="#FEF08A" />
-            <SvgText x={currentCompass.x - 10} y={currentCompass.y - 6} fill="#EF4444" fontSize="8" fontWeight="bold">
-              N
+            <SvgText
+              x={matX + 22}
+              y={matY + 22}
+              fill="#0F172A"
+              fontSize="11"
+              fontWeight="bold"
+              textAnchor="middle"
+            >
+              {activeMaterial.symbol}
             </SvgText>
-            <SvgText x={currentCompass.x + 6} y={currentCompass.y - 6} fill="#94A3B8" fontSize="8" fontWeight="bold">
-              S
+            <SvgText
+              x={matX + 22}
+              y={matY + 46}
+              fill="#94A3B8"
+              fontSize="8"
+              textAnchor="middle"
+            >
+              {activeMaterial.name}
+            </SvgText>
+
+            {/* Attraction Force Lines if ferromagnetic & near */}
+            {activeMaterial.isAttracted && (
+              <G opacity={materialDistance === 'near' ? '1' : '0.4'}>
+                <Line
+                  x1="250"
+                  y1="150"
+                  x2={matX}
+                  y2={matY + 18}
+                  stroke="#10B981"
+                  strokeWidth="2"
+                  strokeDasharray="2,2"
+                />
+                <SvgText
+                  x={(250 + matX) / 2}
+                  y={(150 + matY) / 2 - 4}
+                  fill="#10B981"
+                  fontSize="8"
+                  fontWeight="bold"
+                  textAnchor="middle"
+                >
+                  F = {materialDistance === 'near' ? activeMaterial.attractionForce : Math.round(activeMaterial.attractionForce * 0.25)}%
+                </SvgText>
+              </G>
+            )}
+          </G>
+
+          {/* 4. Movable Testing Compass */}
+          <G transform={`translate(${currentCompass.x}, ${currentCompass.y})`}>
+            {/* Compass Outer Ring */}
+            <Circle cx="0" cy="0" r="24" fill="#0F172A" stroke="#38BDF8" strokeWidth="2" />
+            <Circle cx="0" cy="0" r="2" fill="#FFFFFF" />
+
+            {/* Needle Pivot Group */}
+            <G transform={`rotate(${currentCompass.needleAngle})`}>
+              {/* North Needle (Red - points towards magnetic south) */}
+              <Polygon points="0,-20 5,-2 -5,-2" fill="#EF4444" />
+              {/* South Needle (Silver/Blue - points away) */}
+              <Polygon points="0,20 5,2 -5,2" fill="#94A3B8" />
+            </G>
+            <SvgText x="0" y="32" fill="#FFFFFF" fontSize="8" textAnchor="middle">
+              Compass
             </SvgText>
           </G>
         </Svg>
@@ -221,23 +393,24 @@ export const MagnetismSimulation: React.FC = () => {
 
 const styles = StyleSheet.create({
   controlsCard: {
-    borderColor: 'rgba(0, 229, 255, 0.25)',
+    gap: spacing.sm,
   },
   controlHeader: {
     ...typography.caption,
-    color: colors.textMuted,
-    marginBottom: spacing.xs,
+    fontWeight: '700',
+    color: colors.textSecondary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   btnRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: spacing.md,
   },
   chip: {
-    paddingVertical: 6,
+    paddingVertical: 5,
     paddingHorizontal: 8,
     borderRadius: radii.sm,
-    backgroundColor: colors.spaceElevated,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
     marginRight: 6,
@@ -255,6 +428,59 @@ const styles = StyleSheet.create({
   chipTextActive: {
     color: colors.cyan,
     fontWeight: '700',
+  },
+  distanceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 2,
+  },
+  distanceLabel: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    fontSize: 11,
+  },
+  toggleGroup: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: radii.sm,
+    padding: 2,
+  },
+  toggleBtn: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: radii.sm - 2,
+  },
+  toggleBtnActive: {
+    backgroundColor: colors.cyan,
+  },
+  toggleText: {
+    ...typography.caption,
+    fontSize: 10,
+    color: colors.textSecondary,
+  },
+  toggleTextActive: {
+    color: colors.spaceDark,
+    fontWeight: '700',
+  },
+  explanationBox: {
+    backgroundColor: 'rgba(15, 23, 42, 0.6)',
+    borderRadius: radii.sm,
+    padding: spacing.sm,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.cyan,
+  },
+  explanationTitle: {
+    ...typography.caption,
+    fontWeight: '700',
+    color: colors.cyan,
+    marginBottom: 2,
+  },
+  explanationBody: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    fontSize: 11,
+    lineHeight: 15,
   },
   cutRow: {
     flexDirection: 'row',
