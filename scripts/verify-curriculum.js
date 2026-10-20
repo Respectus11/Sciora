@@ -4,6 +4,9 @@ const path = require('path');
 const curriculum = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../src/content/curriculum.json'), 'utf-8')
 );
+const unit01 = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../src/content/units/unit-01.json'), 'utf-8')
+);
 const unit07 = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../src/content/units/unit-07.json'), 'utf-8')
 );
@@ -19,6 +22,7 @@ console.log(`Curriculum: ${curriculum.curriculumName} (Grade ${curriculum.grade}
 console.log(`Units cataloged: ${curriculum.units.length}`);
 
 const allLessons = [
+  ...unit01.lessons,
   ...unit07.lessons,
   ...unit02.lessons,
   ...unit06.lessons,

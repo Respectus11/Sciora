@@ -1,0 +1,170 @@
+{
+  "unitId": "unit-01",
+  "unitTitle": "Basics of Scientific Investigation",
+  "textbookUnit": 1,
+  "pageRange": "pp. 1-24",
+  "lessons": [
+    {
+      "id": "lesson-1-density",
+      "unitId": "unit-01",
+      "lessonNumber": "1.1",
+      "title": "Scientific Measurement: Mass, Volume & Density",
+      "subtitle": "Use graduated cylinders and electronic balances to calculate density and predict buoyancy",
+      "textbookPageRef": "Grade 8 General Science pp. 1-18",
+      "estimatedMinutes": 15,
+      "curriculumCompetencies": [
+        "State and apply the SI units of mass (kg), length (m), and volume (m3 or mL)",
+        "Determine the density of regular and irregular solids using the water displacement method",
+        "Formulate testable hypotheses relating object density to flotation in fluids"
+      ],
+      "simulationId": "sim-1-density",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "type": "intro",
+          "title": "Measuring the Physical World",
+          "content": "Science begins with measurement. From testing agricultural soil in Gojjam to calibrating machinery in Hawassa Industrial Park, accurate measurements of mass, length, and volume allow scientists to make fair comparisons. In this lesson, we explore Unit 1, Section 1.2 (pp. 5-18) of your Grade 8 General Science textbook.",
+          "highlightBox": {
+            "title": "Textbook Focus - pp. 5-18",
+            "text": "Density is defined as mass per unit volume (rho = m / V). The standard SI unit is kg/m3, commonly expressed in school laboratories as g/cm3 or g/mL.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 2,
+          "type": "ethiopian_context",
+          "title": "Real-World Context: Lake Tana & The Wooden Tankwa",
+          "content": "On Lake Tana, fishers and travelers have built traditional boats called Tankwa from papyrus reeds for hundreds of years.\n\nEven though papyrus stems are solid, the air trapped inside their porous tissues gives the boat an overall average density far less than Lake Tana's fresh water (1.0 g/cm3).\n\nIn contrast, if a stone anchor of the same size were thrown into the lake, it would sink immediately because rock density (2.5-3.0 g/cm3) exceeds water density. Whether an object sinks or floats is governed entirely by density!",
+          "highlightBox": {
+            "title": "Indigenous Engineering & Density",
+            "text": "The traditional papyrus Tankwa of Lake Tana demonstrates buoyant equilibrium: total mass divided by total displaced volume is less than the density of water (1.0 g/cm3).",
+            "variant": "success"
+          }
+        },
+        {
+          "stepNumber": 3,
+          "type": "key_idea",
+          "title": "Key Scientific Concept: rho = m / V",
+          "content": "To find the density of an irregular solid (like a rock or metal nut):\n\n1. Measure mass (m) on a balance in grams (g).\n2. Measure initial water volume (V1) in a graduated cylinder.\n3. Gently submerge the solid; note the final water volume (V2).\n4. The solid's volume is V = V2 - V1 (Archimedes' displacement principle).\n5. Compute density: rho = m / V.\n\nIf rho < 1.0 g/cm3, the object floats in fresh water. If rho > 1.0 g/cm3, it sinks.",
+          "highlightBox": {
+            "title": "The Density Formula",
+            "text": "Density (rho) = Mass (m) / Volume (V). Pure water at room temperature has a density of exactly 1.0 g/cm3 (or 1000 kg/m3).",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 4,
+          "type": "prediction",
+          "title": "Scientific Prediction: The Solid Block Challenge",
+          "content": "Consider two identical solid cubes of equal volume (50 cm3). Cube A is made of solid Iron (density 7.8 g/cm3). Cube B is made of dried Acacia wood (density 0.65 g/cm3).\n\nIf both cubes are placed into a tank of water (density 1.0 g/cm3), what will happen?",
+          "predictionData": {
+            "question": "What happens when the Iron and Wood blocks are placed into water?",
+            "choices": [
+              {
+                "id": "c1",
+                "text": "Both blocks will sink because all solids are heavier than water",
+                "isScientificallySound": false,
+                "feedback": "Mass alone does not determine flotation; density (mass divided by volume) determines buoyancy."
+              },
+              {
+                "id": "c2",
+                "text": "Iron sinks because its density (7.8 g/cm3) > water (1.0 g/cm3), while Acacia wood floats because its density (0.65 g/cm3) < water",
+                "isScientificallySound": true,
+                "feedback": "Correct! Flotation depends on comparing the object's density to the fluid's density."
+              },
+              {
+                "id": "c3",
+                "text": "Both will float because they have identical cubic volumes",
+                "isScientificallySound": false,
+                "feedback": "Having equal volumes does not mean they have equal masses or densities."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 5,
+          "type": "simulation",
+          "title": "Interactive Lab: The Water Displacement Balance",
+          "content": "Adjust the object mass on the electronic balance and observe the displaced water level in the graduated cylinder. Calculate the density and observe buoyant equilibrium.",
+          "simulationId": "sim-1-density"
+        },
+        {
+          "stepNumber": 6,
+          "type": "observation",
+          "title": "Guided Observation: What Happened to the Water Level?",
+          "content": "Reflect on your laboratory observations:\n\n1. When the 156 g iron cylinder was lowered into 100 mL of water, the water level rose to 120 mL. The volume displaced was exactly 20 cm3.\n2. Dividing mass by volume: 156 g / 20 cm3 = 7.8 g/cm3.\n3. When the lighter wood sample was tested, only a fraction of its volume submerged, displacing just enough water weight to balance its total mass.",
+          "highlightBox": {
+            "title": "Core Finding",
+            "text": "The volume of fluid displaced by a fully submerged object is exactly equal to the volume of that object (Section 1.3, p. 14).",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 7,
+          "type": "explanation",
+          "title": "Scientific Explanation: Archimedes & Buoyant Force",
+          "content": "When an object enters fluid, two forces act on it:\n\n- Gravity (Downward): Weight of the object = m * g\n- Buoyant Force (Upward): Weight of the displaced fluid\n\nIf the object's density exceeds the fluid's density, gravity wins and the object accelerates downward until it rests on the container bottom. If the object's density is less, the buoyant force pushes it upward until it floats in equilibrium.",
+          "highlightBox": {
+            "title": "Buoyant Equilibrium",
+            "text": "A floating object displaces a weight of fluid exactly equal to its own total weight.",
+            "variant": "info"
+          }
+        },
+        {
+          "stepNumber": 8,
+          "type": "quiz",
+          "title": "Check Your Understanding",
+          "content": "Test your mastery of scientific measurement and density calculations from Section 1.2.",
+          "quizData": {
+            "questions": [
+              {
+                "question": "A piece of basalt rock has a mass of 120 g. When submerged in a graduated cylinder, the water level rises from 50 mL to 90 mL. What is the density of the rock?",
+                "options": [
+                  "1.33 g/cm3",
+                  "3.0 g/cm3",
+                  "0.33 g/cm3",
+                  "40 g/cm3"
+                ],
+                "correctIndex": 1,
+                "explanation": "Volume V = 90 mL - 50 mL = 40 cm3. Density = Mass / Volume = 120 g / 40 cm3 = 3.0 g/cm3."
+              },
+              {
+                "question": "What is the standard SI fundamental unit of mass?",
+                "options": [
+                  "Gram (g)",
+                  "Milligram (mg)",
+                  "Kilogram (kg)",
+                  "Newton (N)"
+                ],
+                "correctIndex": 2,
+                "explanation": "Under the International System of Units (SI), the kilogram (kg) is the base unit of mass."
+              }
+            ]
+          }
+        },
+        {
+          "stepNumber": 9,
+          "type": "misconception",
+          "title": "Common Misconception: 'Heavy Objects Always Sink'",
+          "content": "Students often believe that large, heavy objects automatically sink, while light objects float.\n\nThink about an Ethiopian Airlines cargo transport ship or giant steel tanker: it weighs tens of thousands of tonnes, yet it floats effortlessly!\n\nWhy? Because its hollow hull encloses huge amounts of air. The average density of the entire vessel (metal + air) is much lower than the density of sea water. Density, not total weight, decides flotation.",
+          "highlightBox": {
+            "title": "Remember",
+            "text": "Flotation depends on DENSITY (mass divided by volume), never mass alone!",
+            "variant": "warning"
+          }
+        },
+        {
+          "stepNumber": 10,
+          "type": "summary",
+          "title": "Unit 1 Summary & Ethiopian Connections",
+          "content": "In this lesson you mastered:\n\n- The density formula: rho = m / V\n- Water displacement for finding volumes of irregular solids\n- The flotation criterion: rho_object < rho_fluid floats, rho_object > rho_fluid sinks\n- Practical applications in Ethiopian geology, agriculture, and water transport",
+          "highlightBox": {
+            "title": "Lesson 1.1 Complete",
+            "text": "You are now equipped with the foundations of scientific measurement and density analysis.",
+            "variant": "success"
+          }
+        }
+      ]
+    }
+  ]
+}
