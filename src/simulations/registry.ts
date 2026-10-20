@@ -1,4 +1,5 @@
 import React from 'react';
+import { DensityMeasurementSimulation } from './investigation/DensityMeasurementSimulation';
 import { LightReflectionSimulation } from './physics/LightReflectionSimulation';
 import { LightRefractionSimulation } from './physics/LightRefractionSimulation';
 import { SoundWaveSimulation } from './physics/SoundWaveSimulation';
@@ -17,6 +18,13 @@ export interface SimulationRegistration {
 }
 
 const simulationsRegistry: Record<string, SimulationRegistration> = {
+  'sim-1-density': {
+    id: 'sim-1-density',
+    title: 'Water Displacement & Density Balance',
+    unitId: 'unit-01',
+    unitLabel: 'Unit 1.1',
+    component: DensityMeasurementSimulation,
+  },
   'sim-7-1-reflection': {
     id: 'sim-7-1-reflection',
     title: 'Law of Reflection & Plane Mirrors',
