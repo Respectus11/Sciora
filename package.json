@@ -38,7 +38,12 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node ./scripts/run-all-audits.js",
+    "audit:all": "node ./scripts/run-all-audits.js",
+    "audit:curriculum": "node ./scripts/verify-curriculum.js",
+    "audit:simulations": "node ./scripts/verify-simulations.js",
+    "audit:design": "node ./scripts/verify-design-system.js"
   },
   "private": true
 }
