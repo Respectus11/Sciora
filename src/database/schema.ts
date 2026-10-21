@@ -24,4 +24,20 @@ CREATE TABLE IF NOT EXISTS user_settings (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS student_notes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  lesson_id TEXT NOT NULL,
+  unit_id TEXT NOT NULL,
+  step_number INTEGER NOT NULL DEFAULT 1,
+  note_text TEXT NOT NULL,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS lesson_bookmarks (
+  lesson_id TEXT PRIMARY KEY,
+  unit_id TEXT NOT NULL,
+  bookmarked_at INTEGER NOT NULL
+);
 `;
