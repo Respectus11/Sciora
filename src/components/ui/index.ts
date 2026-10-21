@@ -12,3 +12,6 @@ export type { ScreenContainerProps } from './ScreenContainer';
 
 export { FormulaCard } from './FormulaCard';
 export type { FormulaCardProps, FormulaVariable } from './FormulaCard';
+
+export { TerminologyPill } from './TerminologyPill';
+export type { TerminologyPillProps } from './TerminologyPill';
