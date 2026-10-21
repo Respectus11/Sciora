@@ -15,3 +15,6 @@ export type { FormulaCardProps, FormulaVariable } from './FormulaCard';
 
 export { TerminologyPill } from './TerminologyPill';
 export type { TerminologyPillProps } from './TerminologyPill';
+
+export { StepProgress } from './StepProgress';
+export type { StepProgressProps } from './StepProgress';
