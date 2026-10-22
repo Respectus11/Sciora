@@ -42,7 +42,10 @@ example
 /ios
 /android
 
-# Markdown documentation and prompts (excluded per project specification)
+# Markdown documentation and prompts
 *.md
+!README.md
+!THIRD_PARTY_NOTICES.md
+!.github/**/*.md
 docs/
 *.prompt

@@ -19,6 +19,7 @@ const SUITES = [
   { name: 'Simulation Contracts & Registry Bindings', cmd: 'node scripts/verify-simulations.js' },
   { name: 'Design System & WCAG Contrast Standards', cmd: 'node scripts/verify-design-system.js' },
   { name: 'TypeScript Strict Type Checking', cmd: 'npx tsc --noEmit' },
+  { name: 'Code Quality & Lint Integrity (ESLint Expo)', cmd: 'npx expo lint' },
 ];
 
 let failedSuites = 0;

@@ -162,7 +162,7 @@ export default function HomeScreen() {
           <Text style={styles.inquiryTag}>Inquiry of the Day</Text>
         </View>
         <Text style={styles.inquiryQuestion}>
-          "Why does a pencil appear bent or broken when placed in a glass of water?"
+          &ldquo;Why does a pencil appear bent or broken when placed in a glass of water?&rdquo;
         </Text>
         <Text style={styles.inquiryAnswer}>
           Light changes speed as it passes between air and water, causing the rays to refract.

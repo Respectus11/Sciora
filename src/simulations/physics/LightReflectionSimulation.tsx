@@ -9,7 +9,6 @@ import Svg, {
   Defs,
   LinearGradient,
   Stop,
-  Polygon,
   Rect,
 } from 'react-native-svg';
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
@@ -117,7 +117,7 @@ export default function ProgressScreen() {
           <Text style={styles.privacyTitle}>Zero-Data Privacy Guarantee</Text>
         </View>
         <Text style={styles.privacyText}>
-          Sciora collects no personal details, names, locations, or analytics. All your progress is stored exclusively inside this device's local database.
+          Sciora collects no personal details, names, locations, or analytics. All your progress is stored exclusively inside this device&apos;s local database.
         </Text>
       </GlassCard>
     </ScreenContainer>

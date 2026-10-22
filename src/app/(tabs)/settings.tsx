@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, Alert, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ScreenContainer, GlassCard, Badge, PrimaryButton } from '@/components/ui';
+import { ScreenContainer, GlassCard, Badge } from '@/components/ui';
 import { colors, spacing, typography, radii } from '@/design-system';
 import { progressRepository } from '@/database/progressRepository';
 

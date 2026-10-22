@@ -8,7 +8,7 @@ import {
   StyleProp,
   ActivityIndicator,
 } from 'react-native';
-import { colors, radii, spacing, typography } from '@/design-system';
+import { colors, radii, spacing } from '@/design-system';
 
 export interface PrimaryButtonProps {
   title: string;

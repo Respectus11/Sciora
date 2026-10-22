@@ -5,7 +5,6 @@ import Svg, {
   Circle,
   Polygon,
   Rect,
-  Path,
   Text as SvgText,
   G,
   Defs,
@@ -128,7 +127,7 @@ export const LightRefractionSimulation: React.FC = () => {
               onPress={() => setLabMode('boundary')}
             >
               <Text style={[styles.tabBtnText, labMode === 'boundary' && styles.tabBtnTextActive]}>
-                Snell's Law Boundary
+                Snell&apos;s Law Boundary
               </Text>
             </Pressable>
             <Pressable
@@ -198,7 +197,7 @@ export const LightRefractionSimulation: React.FC = () => {
             </>
           ) : (
             <View style={styles.prismInfoBox}>
-              <Text style={styles.prismInfoTitle}>Newton's Prism Dispersion Experiment</Text>
+              <Text style={styles.prismInfoTitle}>Newton&apos;s Prism Dispersion Experiment</Text>
               <Text style={styles.prismInfoBody}>
                 White light contains all spectral frequencies. Because shorter wavelengths (violet, λ≈400nm)
                 experience a higher refractive index in glass than longer wavelengths (red, λ≈700nm), violet light

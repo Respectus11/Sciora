@@ -1,5 +1,5 @@
 import { getDatabase } from '@/database/db';
-import { progressRepository, LessonProgressRecord } from '@/database/progressRepository';
+import { LessonProgressRecord } from '@/database/progressRepository';
 import { notesRepository, StudentNote, LessonBookmark } from '@/database/notesRepository';
 
 export interface QuizAttemptRecord {

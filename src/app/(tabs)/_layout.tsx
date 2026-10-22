@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router';
 import { StyleSheet, View, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, typography } from '@/design-system';
+import { colors } from '@/design-system';
 
 export default function TabsLayout() {
   return (

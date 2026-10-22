@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import Svg, { Line, Circle, Rect, Text as SvgText, G, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
-import { colors, spacing, typography, radii } from '@/design-system';
+import { colors, spacing, radii } from '@/design-system';
 
 interface RodMaterial {
   id: string;

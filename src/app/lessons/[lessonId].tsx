@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, GlassCard, Badge, PrimaryButton } from '@/components/ui';
@@ -342,7 +342,7 @@ function renderStepContent(
                   <Ionicons name="close-circle" size={20} color={colors.rose} />
                   <Text style={styles.mythHeader}>COMMON STUDENT MISCONCEPTION</Text>
                 </View>
-                <Text style={styles.mythBody}>"{step.misconceptionData.myth}"</Text>
+                <Text style={styles.mythBody}>&ldquo;{step.misconceptionData.myth}&rdquo;</Text>
               </GlassCard>
 
               {/* Reality Card */}
