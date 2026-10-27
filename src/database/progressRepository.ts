@@ -29,6 +29,28 @@ export const progressRepository = {
     return result || null;
   },
 
+  async getMostRecentInProgressLesson(): Promise<LessonProgressRecord | null> {
+    const db = await getDatabase();
+    const result = await db.getFirstAsync<LessonProgressRecord>(
+      'SELECT * FROM lesson_progress WHERE is_completed = 0 AND completed_step > 0 ORDER BY updated_at DESC LIMIT 1;'
+    );
+    return result || null;
+  },
+
+  async getQuizAnswersByLesson(lessonId: string): Promise<Record<string, number>> {
+    const db = await getDatabase();
+    const rows = await db.getAllAsync<{ question_id: string | null; selected_index: number }>(
+      'SELECT question_id, selected_index FROM quiz_attempts WHERE lesson_id = ? ORDER BY attempted_at ASC, id ASC;',
+      [lessonId]
+    );
+
+    const answers: Record<string, number> = {};
+    for (const row of rows) {
+      if (row.question_id) answers[row.question_id] = row.selected_index;
+    }
+    return answers;
+  },
+
   async saveLessonStep(
     lessonId: string,
     unitId: string,
@@ -41,7 +63,7 @@ export const progressRepository = {
       `INSERT INTO lesson_progress (lesson_id, unit_id, current_step, completed_step, is_completed, updated_at)
        VALUES (?, ?, ?, ?, ?, ?)
        ON CONFLICT(lesson_id) DO UPDATE SET
-         current_step = MAX(lesson_progress.current_step, excluded.current_step),
+         current_step = excluded.current_step,
          completed_step = MAX(lesson_progress.completed_step, excluded.completed_step),
          is_completed = CASE WHEN excluded.is_completed = 1 THEN 1 ELSE lesson_progress.is_completed END,
          updated_at = excluded.updated_at;`,
