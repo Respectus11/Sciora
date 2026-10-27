@@ -24,7 +24,7 @@ export const ThermalConductionSimulation: React.FC = () => {
     if (isHeating && timeElapsed < 60) {
       interval = setInterval(() => {
         setTimeElapsed((prev) => Math.min(60, prev + 1));
-      }, 500);
+      }, 1000);
     }
     return () => clearInterval(interval);
   }, [isHeating, timeElapsed]);
@@ -47,6 +47,7 @@ export const ThermalConductionSimulation: React.FC = () => {
   ];
 
   const handleReset = () => {
+    setFlameTemp(200);
     setTimeElapsed(0);
     setIsHeating(true);
   };
