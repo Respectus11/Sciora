@@ -24,12 +24,16 @@
       "title": "Physical Phenomena in the Surrounding",
       "tagline": "Light, Sound, Heat, Electricity, and Magnetism in Everyday Life",
       "pageRange": "pp. 187–223",
-      "authors": ["Yonas Nibret", "Sefiw Melesse", "Abebe Habte"],
+      "authors": [
+        "Yonas Nibret",
+        "Sefiw Melesse",
+        "Abebe Habte"
+      ],
       "description": "Explores the fundamental physical forces and energies shaping our world: the laws of reflection and refraction of light, sound wave propagation through vibrations, heat transfer mechanisms, basic electrical circuits, and magnetic properties.",
       "priority": "P0",
       "icon": "sunny",
       "accentColor": "#00E5FF",
-      "totalLessons": 7,
+      "totalLessons": 6,
       "learningCompetencies": [
         "State and demonstrate the law of reflection (θi = θr)",
         "Explain refraction of light at the boundary between different media",
@@ -46,12 +50,16 @@
       "title": "Composition of Matter",
       "tagline": "Atoms, Subatomic Particles, Elements, and Molecules",
       "pageRange": "pp. 25–60",
-      "authors": ["Yonas Nibret", "Sefiw Melesse", "Abebe Habte"],
+      "authors": [
+        "Yonas Nibret",
+        "Sefiw Melesse",
+        "Abebe Habte"
+      ],
       "description": "Unveils the microscopic foundation of matter: Dalton's atomic theory, subatomic particles (protons, neutrons, electrons), atomic number, mass number, and molecular structures.",
       "priority": "P1",
       "icon": "nuclear",
       "accentColor": "#8B5CF6",
-      "totalLessons": 2,
+      "totalLessons": 1,
       "learningCompetencies": [
         "Explain the internal structure of atoms containing protons, neutrons, and electrons",
         "Relate atomic number (Z) to proton count and mass number (A) to nucleons",
@@ -64,12 +72,16 @@
       "title": "The Solar System",
       "tagline": "Planets, Gravitation, and Conditions for Life in Space",
       "pageRange": "pp. 164–186",
-      "authors": ["Yonas Nibret", "Sefiw Melesse", "Abebe Habte"],
+      "authors": [
+        "Yonas Nibret",
+        "Sefiw Melesse",
+        "Abebe Habte"
+      ],
       "description": "Surveys the celestial neighborhood: the Sun, inner rocky planets, outer gas giants, planetary orbits governed by gravity, and the unique factors that make planet Earth habitable.",
       "priority": "P1",
       "icon": "planet",
       "accentColor": "#F59E0B",
-      "totalLessons": 2,
+      "totalLessons": 1,
       "learningCompetencies": [
         "Identify the components of the Solar System in order of distance from the Sun",
         "Compare terrestrial planets and Jovian gas giants",
@@ -83,7 +95,11 @@
       "title": "Basics of Scientific Investigation",
       "tagline": "Scientific Measurements, Laboratory Safety, and Fair Tests",
       "pageRange": "pp. 1–24",
-      "authors": ["Yonas Nibret", "Sefiw Melesse", "Abebe Habte"],
+      "authors": [
+        "Yonas Nibret",
+        "Sefiw Melesse",
+        "Abebe Habte"
+      ],
       "description": "Introduces the scientific method, standard SI units, laboratory safety rules, and precision measurements.",
       "priority": "P2",
       "icon": "flask",
