@@ -83,6 +83,8 @@ export const progressRepository = {
       `INSERT INTO lesson_progress (lesson_id, unit_id, current_step, completed_step, prediction_choice_id, prediction_correct, is_completed, updated_at)
        VALUES (?, ?, 4, 4, ?, ?, 0, ?)
        ON CONFLICT(lesson_id) DO UPDATE SET
+         current_step = 4,
+         completed_step = MAX(lesson_progress.completed_step, 4),
          prediction_choice_id = excluded.prediction_choice_id,
          prediction_correct = excluded.prediction_correct,
          updated_at = excluded.updated_at;`,
