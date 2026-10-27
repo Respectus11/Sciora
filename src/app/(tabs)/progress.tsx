@@ -4,18 +4,29 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { ScreenContainer, GlassCard, Badge } from '@/components/ui';
 import { progressRepository, GlobalStats } from '@/database/progressRepository';
+import { contentService } from '@/services/contentService';
 import { colors, spacing, typography, radii } from '@/design-system';
 
 export default function ProgressScreen() {
+  const [completedIds, setCompletedIds] = useState<string[]>([]);
   const [stats, setStats] = useState<GlobalStats>({
     completedLessonsCount: 0,
     totalQuestionsAnswered: 0,
     correctQuestionsCount: 0,
-    accuracyPercent: 100,
+    accuracyPercent: 0,
   });
 
-  const loadStats = useCallback(() => {
-    progressRepository.getGlobalStats().then(setStats).catch(() => {});
+  const loadStats = useCallback(async () => {
+    try {
+      const [nextStats, nextCompletedIds] = await Promise.all([
+        progressRepository.getGlobalStats(),
+        progressRepository.getAllCompletedLessonIds(),
+      ]);
+      setStats(nextStats);
+      setCompletedIds(nextCompletedIds);
+    } catch (error) {
+      console.warn('Unable to load progress:', error);
+    }
   }, []);
 
   useFocusEffect(
@@ -24,8 +35,14 @@ export default function ProgressScreen() {
     }, [loadStats])
   );
 
-  const totalLabs = 11;
-  const progressRatio = Math.min(1, stats.completedLessonsCount / totalLabs);
+  const allLessons = contentService.getAllLessons();
+  const totalLabs = allLessons.length;
+  const progressRatio = totalLabs > 0 ? Math.min(1, stats.completedLessonsCount / totalLabs) : 0;
+  const unitProgress = contentService.getAllUnits().map((unit) => {
+    const lessons = contentService.getLessonsByUnit(unit.id);
+    const completed = lessons.filter((lesson) => completedIds.includes(lesson.id)).length;
+    return { unit, total: lessons.length, completed };
+  }).filter((item) => item.total > 0);
   const progressPercent = Math.round(progressRatio * 100);
 
   return (
@@ -54,7 +71,9 @@ export default function ProgressScreen() {
           </View>
           <View style={styles.metricDivider} />
           <View style={styles.metricItem}>
-            <Text style={styles.metricNumber}>{stats.accuracyPercent}%</Text>
+            <Text style={styles.metricNumber}>
+              {stats.totalQuestionsAnswered > 0 ? `${stats.accuracyPercent}%` : '—'}
+            </Text>
             <Text style={styles.metricLabel}>Quiz Accuracy</Text>
           </View>
         </View>
@@ -72,43 +91,33 @@ export default function ProgressScreen() {
       {/* Mastery by Unit */}
       <Text style={styles.sectionHeader}>Mastery by Unit</Text>
 
-      {/* Unit 7 */}
-      <GlassCard variant="base" style={styles.unitProgressCard}>
-        <View style={styles.unitHeaderRow}>
-          <Text style={styles.unitTitle}>Unit 7: Physical Phenomena</Text>
-          <Text style={styles.unitScore}>{stats.completedLessonsCount} / 7 Labs</Text>
-        </View>
-        <View style={styles.progressBarBackground}>
-          <View
-            style={[
-              styles.progressBarFill,
-              { width: `${Math.round((stats.completedLessonsCount / 7) * 100)}%`, backgroundColor: colors.cyan },
-            ]}
-          />
-        </View>
-      </GlassCard>
+      {unitProgress.map(({ unit, total, completed }) => {
+        const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+        const accent = unit.id === 'unit-07'
+          ? colors.cyan
+          : unit.id === 'unit-02'
+          ? colors.violet
+          : unit.id === 'unit-06'
+          ? colors.amber
+          : colors.emerald;
 
-      {/* Unit 2 */}
-      <GlassCard variant="base" style={styles.unitProgressCard}>
-        <View style={styles.unitHeaderRow}>
-          <Text style={styles.unitTitle}>Unit 2: Composition of Matter</Text>
-          <Text style={styles.unitScore}>0 / 2 Labs</Text>
-        </View>
-        <View style={styles.progressBarBackground}>
-          <View style={[styles.progressBarFill, { width: '0%', backgroundColor: colors.violet }]} />
-        </View>
-      </GlassCard>
-
-      {/* Unit 6 */}
-      <GlassCard variant="base" style={styles.unitProgressCard}>
-        <View style={styles.unitHeaderRow}>
-          <Text style={styles.unitTitle}>Unit 6: The Solar System</Text>
-          <Text style={styles.unitScore}>0 / 2 Labs</Text>
-        </View>
-        <View style={styles.progressBarBackground}>
-          <View style={[styles.progressBarFill, { width: '0%', backgroundColor: colors.amber }]} />
-        </View>
-      </GlassCard>
+        return (
+          <GlassCard key={unit.id} variant="base" style={styles.unitProgressCard}>
+            <View style={styles.unitHeaderRow}>
+              <Text style={styles.unitTitle}>{`Unit ${unit.unitNumber}: ${unit.title}`}</Text>
+              <Text style={styles.unitScore}>{completed} / {total} lessons</Text>
+            </View>
+            <View style={styles.progressBarBackground}>
+              <View
+                style={[
+                  styles.progressBarFill,
+                  { width: `${percent}%`, backgroundColor: accent },
+                ]}
+              />
+            </View>
+          </GlassCard>
+        );
+      })}
 
       {/* Privacy & Offline Guarantee */}
       <GlassCard variant="base" style={styles.privacyCard}>
