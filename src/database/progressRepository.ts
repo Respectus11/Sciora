@@ -32,7 +32,7 @@ export const progressRepository = {
   async getMostRecentInProgressLesson(): Promise<LessonProgressRecord | null> {
     const db = await getDatabase();
     const result = await db.getFirstAsync<LessonProgressRecord>(
-      'SELECT * FROM lesson_progress WHERE is_completed = 0 AND completed_step > 0 ORDER BY updated_at DESC LIMIT 1;'
+      'SELECT * FROM lesson_progress WHERE is_completed = 0 AND (current_step > 1 OR completed_step > 0) ORDER BY updated_at DESC LIMIT 1;'
     );
     return result || null;
   },
@@ -128,7 +128,7 @@ export const progressRepository = {
     const accuracyPercent =
       totalQuestionsAnswered > 0
         ? Math.round((correctQuestionsCount / totalQuestionsAnswered) * 100)
-        : 100;
+        : 0;
 
     return {
       completedLessonsCount,
