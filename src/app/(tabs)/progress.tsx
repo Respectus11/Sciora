@@ -37,7 +37,8 @@ export default function ProgressScreen() {
 
   const allLessons = contentService.getAllLessons();
   const totalLabs = allLessons.length;
-  const progressRatio = totalLabs > 0 ? Math.min(1, stats.completedLessonsCount / totalLabs) : 0;
+  const completedImplementedCount = allLessons.filter((lesson) => completedIds.includes(lesson.id)).length;
+  const progressRatio = totalLabs > 0 ? Math.min(1, completedImplementedCount / totalLabs) : 0;
   const unitProgress = contentService.getAllUnits().map((unit) => {
     const lessons = contentService.getLessonsByUnit(unit.id);
     const completed = lessons.filter((lesson) => completedIds.includes(lesson.id)).length;
@@ -61,7 +62,7 @@ export default function ProgressScreen() {
 
         <View style={styles.metricRow}>
           <View style={styles.metricItem}>
-            <Text style={styles.metricNumber}>{stats.completedLessonsCount}</Text>
+            <Text style={styles.metricNumber}>{completedImplementedCount}</Text>
             <Text style={styles.metricLabel}>Labs Completed</Text>
           </View>
           <View style={styles.metricDivider} />
@@ -83,7 +84,7 @@ export default function ProgressScreen() {
             <View style={[styles.progressBarFill, { width: `${Math.max(5, progressPercent)}%` }]} />
           </View>
           <Text style={styles.overallProgressText}>
-            {stats.completedLessonsCount} of {totalLabs} core interactive labs completed ({progressPercent}%)
+            {completedImplementedCount} of {totalLabs} core interactive labs completed ({progressPercent}%)
           </Text>
         </View>
       </GlassCard>
