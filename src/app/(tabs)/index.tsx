@@ -13,6 +13,7 @@ export default function HomeScreen() {
     contentService.getAllLessons()[0]?.id || 'lesson-7-1-reflection'
   );
   const [resumeStep, setResumeStep] = useState(0);
+  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
   const [stats, setStats] = useState<GlobalStats>({
     completedLessonsCount: 0,
     totalQuestionsAnswered: 0,
@@ -32,6 +33,7 @@ export default function HomeScreen() {
           ]);
           if (!active) return;
           setStats(nextStats);
+          setCompletedLessonIds(completedIds);
 
           const lessons = contentService.getAllLessons();
           const candidateId = nextLesson?.lesson_id ||
@@ -50,6 +52,9 @@ export default function HomeScreen() {
 
   const resumeLesson = contentService.getLessonById(resumeLessonId) ||
     contentService.getAllLessons()[0];
+  const completedImplementedCount = contentService.getAllLessons().filter(
+    (lesson) => completedLessonIds.includes(lesson.id)
+  ).length;
 
   return (
     <ScreenContainer scrollable={true} contentContainerStyle={styles.container}>
@@ -215,7 +220,7 @@ export default function HomeScreen() {
         </View>
         <View style={styles.statsRow}>
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>{stats.completedLessonsCount}/{contentService.getAllLessons().length}</Text>
+            <Text style={styles.statValue}>{completedImplementedCount}/{contentService.getAllLessons().length}</Text>
             <Text style={styles.statLabel}>Labs Completed</Text>
           </View>
           <View style={styles.statDivider} />
