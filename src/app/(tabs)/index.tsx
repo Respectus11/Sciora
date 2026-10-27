@@ -12,6 +12,7 @@ export default function HomeScreen() {
   const [resumeLessonId, setResumeLessonId] = useState<string>(
     contentService.getAllLessons()[0]?.id || 'lesson-7-1-reflection'
   );
+  const [resumeStep, setResumeStep] = useState(0);
   const [stats, setStats] = useState<GlobalStats>({
     completedLessonsCount: 0,
     totalQuestionsAnswered: 0,
@@ -37,6 +38,7 @@ export default function HomeScreen() {
             lessons.find((item) => !completedIds.includes(item.id))?.id ||
             lessons[0]?.id;
           if (candidateId) setResumeLessonId(candidateId);
+          setResumeStep(nextLesson?.lesson_id === candidateId ? nextLesson.current_step : 0);
         } catch (error) {
           console.warn('Unable to load home progress:', error);
         }
@@ -90,16 +92,16 @@ export default function HomeScreen() {
           <View style={styles.progressHeaderRow}>
             <Text style={styles.progressLabel}>Progress</Text>
             <Text style={styles.progressPercent}>
-              {resumeLesson ? `${Math.round((Math.min(resumeLesson.steps.length, 1) / resumeLesson.steps.length) * 100)}% lesson progress` : 'Ready to start'}
+              {resumeLesson ? `${Math.round((Math.min(resumeStep, resumeLesson.steps.length) / resumeLesson.steps.length) * 100)}% lesson progress` : 'Ready to start'}
             </Text>
           </View>
           <View style={styles.progressBarBackground}>
-            <View style={[styles.progressBarFill, { width: '0%' }]} />
+            <View style={[styles.progressBarFill, { width: `${resumeLesson && resumeLesson.steps.length > 0 ? Math.round((Math.min(resumeStep, resumeLesson.steps.length) / resumeLesson.steps.length) * 100) : 0}%` }]} />
           </View>
         </View>
 
         <PrimaryButton
-          title="Resume Simulation Lab"
+          title={resumeStep > 0 ? 'Resume Lesson' : 'Start Lesson'}
           variant="cyan"
           size="md"
           icon={<Ionicons name="arrow-forward" size={18} color={colors.cyanDark} />}
@@ -219,7 +221,7 @@ export default function HomeScreen() {
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
             <Text style={styles.statValue}>{stats.correctQuestionsCount}/{stats.totalQuestionsAnswered}</Text>
-            <Text style={styles.statLabel}>Questions Mastered</Text>
+            <Text style={styles.statLabel}>Correct / Answered</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
