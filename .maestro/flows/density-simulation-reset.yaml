@@ -1,0 +1,38 @@
+appId: com.sciora.grade8science
+---
+- launchApp:
+    clearState: true
+- assertVisible:
+    text: "Scientific Measurement: Mass, Volume & Density"
+- tapOn:
+    text: "Start Lesson"
+- tapOn:
+    text: "Next Step →"
+- tapOn:
+    text: "Next Step →"
+- tapOn:
+    text: "Next Step →"
+- tapOn:
+    text: "Next Step →"
+- assertVisible:
+    text: "Water Displacement & Density Lab"
+- scrollUntilVisible:
+    element:
+      text: "Select Iron Nugget"
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    text: "Select Iron Nugget"
+- tapOn:
+    text: "Submerge sample in water"
+- assertVisible:
+    text: "157.4 g"
+# Reset must restore the default Acacia sample and lift it out of the water.
+- tapOn:
+    text: "Reset simulation"
+- assertVisible:
+    text: "Submerge sample in water"
+- assertVisible:
+    text: "26 g"
+- assertVisible:
+    text: "0 mL"
