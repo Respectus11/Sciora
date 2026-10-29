@@ -16,7 +16,7 @@ jobs:
   android-e2e:
     name: Build Android and run Maestro flows
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 75
 
     steps:
       - name: Checkout repository
@@ -52,6 +52,18 @@ jobs:
       - name: Generate Android native project
         run: npx expo prebuild --platform android --no-install
 
+      # Cache only after Expo has generated the native Gradle project.
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            android/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('android/**/*.gradle*', 'android/gradle/wrapper/gradle-wrapper.properties', 'android/gradle/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew --no-daemon assembleDebug
@@ -76,7 +88,7 @@ jobs:
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -camera-back none -gpu swiftshader_indirect
           script: |
             adb install android/app/build/outputs/apk/debug/app-debug.apk
-            maestro test .maestro/flows
+            timeout --signal=TERM --kill-after=30s 12m maestro test .maestro/flows
 
       - name: Upload Maestro diagnostics on failure
         if: failure()
