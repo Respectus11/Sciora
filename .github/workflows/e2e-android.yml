@@ -62,9 +62,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build debug APK
+      - name: Build release APK with bundled JavaScript
         working-directory: android
-        run: ./gradlew --no-daemon assembleDebug
+        run: ./gradlew --no-daemon assembleRelease
 
       - name: Install Maestro CLI
         run: |
@@ -88,7 +88,7 @@ jobs:
             set -euo pipefail
             export MAESTRO_DRIVER_STARTUP_TIMEOUT=180000
             adb wait-for-device
-            timeout --signal=TERM --kill-after=30s 90s adb install android/app/build/outputs/apk/debug/app-debug.apk
+            timeout --signal=TERM --kill-after=30s 90s adb install android/app/build/outputs/apk/release/app-release.apk
             timeout --signal=TERM --kill-after=30s 12m maestro test .maestro/flows
 
       - name: Upload Maestro diagnostics on failure
