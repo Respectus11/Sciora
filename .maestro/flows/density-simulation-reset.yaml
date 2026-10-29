@@ -36,9 +36,19 @@ appId: com.sciora.grade8science
 # Reset must restore the default Acacia sample and lift it out of the water.
 - tapOn:
     text: "Reset simulation"
-- assertVisible:
-    text: "Submerge sample in water"
+- scrollUntilVisible:
+    element:
+      text: "26 g"
+    direction: DOWN
+    timeout: 10000
 - assertVisible:
     text: "26 g"
 - assertVisible:
     text: "0 mL"
+- scrollUntilVisible:
+    element:
+      text: "Submerge sample in water"
+    direction: DOWN
+    timeout: 10000
+- assertVisible:
+    text: "Submerge sample in water"
