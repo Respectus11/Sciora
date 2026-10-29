@@ -27,6 +27,12 @@ appId: com.sciora.grade8science
     text: "Submerge sample in water"
 - assertVisible:
     text: "157.4 g"
+# Reset is in the toolbar above the canvas, so scroll back to it.
+- scrollUntilVisible:
+    element:
+      text: "Reset simulation"
+    direction: UP
+    timeout: 10000
 # Reset must restore the default Acacia sample and lift it out of the water.
 - tapOn:
     text: "Reset simulation"
