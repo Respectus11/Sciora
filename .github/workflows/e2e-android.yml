@@ -1,0 +1,104 @@
+name: Sciora Android End-to-End Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sciora-android-e2e-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android-e2e:
+    name: Build Android and run Maestro flows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android compile SDK
+        run: |
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.0.0"
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Generate Android native project
+        run: npx expo prebuild --platform android --no-install
+
+      # Cache only after Expo has generated the native Gradle project.
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            android/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('android/**/*.gradle*', 'android/gradle/wrapper/gradle-wrapper.properties', 'android/gradle/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build release APK with bundled JavaScript
+        working-directory: android
+        run: ./gradlew --no-daemon assembleRelease
+
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Run Android end-to-end flows
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          cores: 2
+          ram-size: 2048M
+          heap-size: 512M
+          emulator-boot-timeout: 900
+          disable-animations: true
+          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -camera-back none -gpu swiftshader_indirect
+          script: |
+            set -euo pipefail
+            export MAESTRO_DRIVER_STARTUP_TIMEOUT=180000
+            adb wait-for-device
+            timeout --signal=TERM --kill-after=30s 90s adb install android/app/build/outputs/apk/release/app-release.apk
+            timeout --signal=TERM --kill-after=30s 12m maestro test .maestro/flows
+
+      - name: Upload Maestro diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: sciora-maestro-diagnostics
+          path: |
+            ~/.maestro/tests
+            ~/.maestro/logs
+            android/app/build/outputs/logs
+          if-no-files-found: ignore
+          retention-days: 7
