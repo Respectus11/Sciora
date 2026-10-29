@@ -105,6 +105,11 @@ export const LightRefractionSimulation: React.FC = () => {
     <SimulationWorkspace
       title="Light Refraction, Snell's Law & Prism Lab"
       unitTag="Grade 8 Physics • Unit 7.1B"
+      onReset={() => {
+        setAngle1(45);
+        setSelectedMediumId('crown-glass');
+        setLabMode('boundary');
+      }}
       telemetry={[
         { label: 'Incidence (θ₁)', value: `${angle1}°`, color: colors.cyan },
         { label: 'Refraction (θ₂)', value: `${angle2Deg.toFixed(1)}°`, color: colors.amber },

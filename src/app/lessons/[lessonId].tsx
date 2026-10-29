@@ -23,14 +23,39 @@ export default function LessonScreen() {
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
 
   useEffect(() => {
-    // Load previously saved step from SQLite if available
-    if (lesson) {
-      progressRepository.getLessonProgress(lesson.id).then((saved) => {
-        if (saved && saved.current_step > 1 && saved.current_step <= lesson.steps.length) {
-          // Keep current step or let student resume
+    let cancelled = false;
+
+    const restoreProgress = async () => {
+      if (!lesson) return;
+      try {
+        const [saved, answers] = await Promise.all([
+          progressRepository.getLessonProgress(lesson.id),
+          progressRepository.getQuizAnswersByLesson(lesson.id),
+        ]);
+        if (cancelled) return;
+
+        setQuizAnswers(answers);
+
+        if (saved?.prediction_choice_id) {
+          const predictionStep = lesson.steps.find((step) => step.type === 'prediction');
+          const choice = predictionStep?.predictionData?.choices.find(
+            (item) => item.id === saved.prediction_choice_id
+          );
+          if (choice) setSelectedPrediction(choice);
         }
-      });
-    }
+
+        if (saved && !saved.is_completed && saved.current_step >= 1) {
+          setCurrentStepIndex(Math.min(saved.current_step - 1, lesson.steps.length - 1));
+        }
+      } catch (error) {
+        console.warn('Unable to restore lesson progress:', error);
+      }
+    };
+
+    restoreProgress();
+    return () => {
+      cancelled = true;
+    };
   }, [lesson]);
 
   if (!lesson) {
@@ -47,31 +72,44 @@ export default function LessonScreen() {
   const progressRatio = (currentStepIndex + 1) / totalSteps;
 
   const handleNextStep = async () => {
-    if (currentStepIndex < totalSteps - 1) {
-      const nextIndex = currentStepIndex + 1;
-      setCurrentStepIndex(nextIndex);
-      // Persist step to SQLite
-      await progressRepository.saveLessonStep(
-        lesson.id,
-        lesson.unitId,
-        nextIndex + 1,
-        nextIndex + 1 === totalSteps
-      );
-    } else {
-      // Completed! Mark complete in SQLite
-      await progressRepository.saveLessonStep(
-        lesson.id,
-        lesson.unitId,
-        totalSteps,
-        true
-      );
-      router.push('/(tabs)/progress');
+    try {
+      if (currentStepIndex < totalSteps - 1) {
+        const nextIndex = currentStepIndex + 1;
+        await progressRepository.saveLessonStep(
+          lesson.id,
+          lesson.unitId,
+          nextIndex + 1,
+          false
+        );
+        setCurrentStepIndex(nextIndex);
+      } else {
+        await progressRepository.saveLessonStep(
+          lesson.id,
+          lesson.unitId,
+          totalSteps,
+          true
+        );
+        router.push('/(tabs)/progress');
+      }
+    } catch (error) {
+      console.warn('Unable to save lesson progress:', error);
     }
   };
 
-  const handlePrevStep = () => {
+  const handlePrevStep = async () => {
     if (currentStepIndex > 0) {
-      setCurrentStepIndex((prev) => prev - 1);
+      const previousIndex = currentStepIndex - 1;
+      setCurrentStepIndex(previousIndex);
+      try {
+        await progressRepository.saveLessonStep(
+          lesson.id,
+          lesson.unitId,
+          previousIndex + 1,
+          false
+        );
+      } catch (error) {
+        console.warn('Unable to save lesson position:', error);
+      }
     } else {
       router.back();
     }

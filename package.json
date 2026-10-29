@@ -46,7 +46,8 @@
     "audit:all": "node ./scripts/run-all-audits.js",
     "audit:curriculum": "node ./scripts/verify-curriculum.js",
     "audit:simulations": "node ./scripts/verify-simulations.js",
-    "audit:design": "node ./scripts/verify-design-system.js"
+    "audit:design": "node ./scripts/verify-design-system.js",
+    "test:unit": "node --test tests"
   },
   "private": true
 }

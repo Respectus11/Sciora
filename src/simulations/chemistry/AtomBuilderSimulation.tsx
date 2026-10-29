@@ -84,6 +84,7 @@ export const AtomBuilderSimulation: React.FC = () => {
     <SimulationWorkspace
       title="Bohr Atomic Model, Isotopes & Ions Lab"
       unitTag="Grade 8 Science • Unit 2.1"
+      onReset={() => setPreset(6, 6, 6)}
       telemetry={[
         { label: 'Element', value: `${element.name} (${element.symbol})`, color: colors.violet },
         { label: 'Atomic Number (Z)', value: `${z}`, color: colors.cyan },

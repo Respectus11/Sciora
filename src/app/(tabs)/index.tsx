@@ -5,21 +5,56 @@ import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, GlassCard, PrimaryButton, Badge } from '@/components/ui';
 import { colors, spacing, typography, radii } from '@/design-system';
 import { progressRepository, GlobalStats } from '@/database/progressRepository';
+import { contentService } from '@/services/contentService';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [resumeLessonId, setResumeLessonId] = useState<string>(
+    contentService.getAllLessons()[0]?.id || 'lesson-7-1-reflection'
+  );
+  const [resumeStep, setResumeStep] = useState(0);
+  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
   const [stats, setStats] = useState<GlobalStats>({
     completedLessonsCount: 0,
     totalQuestionsAnswered: 0,
     correctQuestionsCount: 0,
-    accuracyPercent: 100,
+    accuracyPercent: 0,
   });
 
   useFocusEffect(
     useCallback(() => {
-      progressRepository.getGlobalStats().then(setStats).catch(() => {});
+      let active = true;
+      const loadHomeState = async () => {
+        try {
+          const [nextLesson, completedIds, nextStats] = await Promise.all([
+            progressRepository.getMostRecentInProgressLesson(),
+            progressRepository.getAllCompletedLessonIds(),
+            progressRepository.getGlobalStats(),
+          ]);
+          if (!active) return;
+          setStats(nextStats);
+          setCompletedLessonIds(completedIds);
+
+          const lessons = contentService.getAllLessons();
+          const candidateId = nextLesson?.lesson_id ||
+            lessons.find((item) => !completedIds.includes(item.id))?.id ||
+            lessons[0]?.id;
+          if (candidateId) setResumeLessonId(candidateId);
+          setResumeStep(nextLesson?.lesson_id === candidateId ? nextLesson.current_step : 0);
+        } catch (error) {
+          console.warn('Unable to load home progress:', error);
+        }
+      };
+      loadHomeState();
+      return () => { active = false; };
     }, [])
   );
+
+  const resumeLesson = contentService.getLessonById(resumeLessonId) ||
+    contentService.getAllLessons()[0];
+  const completedImplementedCount = contentService.getAllLessons().filter(
+    (lesson) => completedLessonIds.includes(lesson.id)
+  ).length;
 
   return (
     <ScreenContainer scrollable={true} contentContainerStyle={styles.container}>
@@ -49,31 +84,33 @@ export default function HomeScreen() {
         padding="lg"
       >
         <View style={styles.heroTopRow}>
-          <Badge label="Active Lab • Unit 7.1" variant="cyan" />
-          <Text style={styles.heroTimeText}>~12 min</Text>
+          <Badge label={resumeLesson ? `Unit ${resumeLesson.unitId.replace('unit-', '')} • ${resumeLesson.lessonNumber}` : 'Available lesson'} variant="cyan" />
+          <Text style={styles.heroTimeText}>{resumeLesson ? `~${resumeLesson.estimatedMinutes} min` : ''}</Text>
         </View>
 
-        <Text style={styles.heroTitle}>7.1 Light Reflection & Mirror Lab</Text>
+        <Text style={styles.heroTitle}>{resumeLesson?.title || 'Explore Sciora'}</Text>
         <Text style={styles.heroDescription}>
-          Explore the law of reflection ($\theta_i = \theta_r$) with virtual light beams and plane mirrors.
+          {resumeLesson?.subtitle || 'Choose a science lesson to begin learning.'}
         </Text>
 
         <View style={styles.progressContainer}>
           <View style={styles.progressHeaderRow}>
             <Text style={styles.progressLabel}>Progress</Text>
-            <Text style={styles.progressPercent}>40% Complete</Text>
+            <Text style={styles.progressPercent}>
+              {resumeLesson ? `${Math.round((Math.min(resumeStep, resumeLesson.steps.length) / resumeLesson.steps.length) * 100)}% lesson progress` : 'Ready to start'}
+            </Text>
           </View>
           <View style={styles.progressBarBackground}>
-            <View style={[styles.progressBarFill, { width: '40%' }]} />
+            <View style={[styles.progressBarFill, { width: `${resumeLesson && resumeLesson.steps.length > 0 ? Math.round((Math.min(resumeStep, resumeLesson.steps.length) / resumeLesson.steps.length) * 100) : 0}%` }]} />
           </View>
         </View>
 
         <PrimaryButton
-          title="Resume Simulation Lab"
+          title={resumeStep > 0 ? 'Resume Lesson' : 'Start Lesson'}
           variant="cyan"
           size="md"
           icon={<Ionicons name="arrow-forward" size={18} color={colors.cyanDark} />}
-          onPress={() => router.push('/lessons/lesson-7-1-reflection')}
+          onPress={() => resumeLesson && router.push(`/lessons/${resumeLesson.id}` as any)}
           style={styles.heroButton}
         />
       </GlassCard>
@@ -98,7 +135,7 @@ export default function HomeScreen() {
           <GlassCard variant="base" glow="cyan" style={styles.unitCard}>
             <View style={styles.unitIconContainer}>
               <Ionicons name="sunny" size={24} color={colors.cyan} />
-              <Badge label="6 Labs" variant="cyan" />
+              <Badge label={`${contentService.getLessonsByUnit('unit-07').length} Labs`} variant="cyan" />
             </View>
             <Text style={styles.unitCardNumber}>Unit 7 • pp. 187–223</Text>
             <Text style={styles.unitCardTitle}>Physical Phenomena in the Surrounding</Text>
@@ -114,7 +151,7 @@ export default function HomeScreen() {
           <GlassCard variant="base" glow="violet" style={styles.unitCard}>
             <View style={styles.unitIconContainer}>
               <Ionicons name="nuclear" size={24} color={colors.violet} />
-              <Badge label="2 Labs" variant="violet" />
+              <Badge label={`${contentService.getLessonsByUnit('unit-02').length} Labs`} variant="violet" />
             </View>
             <Text style={styles.unitCardNumber}>Unit 2 • pp. 25–37</Text>
             <Text style={styles.unitCardTitle}>Composition of Matter</Text>
@@ -130,7 +167,7 @@ export default function HomeScreen() {
           <GlassCard variant="base" glow="amber" style={styles.unitCard}>
             <View style={styles.unitIconContainer}>
               <Ionicons name="planet" size={24} color={colors.amber} />
-              <Badge label="2 Labs" variant="amber" />
+              <Badge label={`${contentService.getLessonsByUnit('unit-06').length} Labs`} variant="amber" />
             </View>
             <Text style={styles.unitCardNumber}>Unit 6 • pp. 164–186</Text>
             <Text style={styles.unitCardTitle}>The Solar System</Text>
@@ -183,13 +220,13 @@ export default function HomeScreen() {
         </View>
         <View style={styles.statsRow}>
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>{stats.completedLessonsCount}/11</Text>
+            <Text style={styles.statValue}>{completedImplementedCount}/{contentService.getAllLessons().length}</Text>
             <Text style={styles.statLabel}>Labs Completed</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <Text style={styles.statValue}>{stats.correctQuestionsCount}/35</Text>
-            <Text style={styles.statLabel}>Questions Mastered</Text>
+            <Text style={styles.statValue}>{stats.correctQuestionsCount}/{stats.totalQuestionsAnswered}</Text>
+            <Text style={styles.statLabel}>Correct / Answered</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>

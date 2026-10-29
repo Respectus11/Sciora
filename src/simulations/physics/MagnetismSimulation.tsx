@@ -106,6 +106,12 @@ export const MagnetismSimulation: React.FC = () => {
     <SimulationWorkspace
       title="Bar Magnet, Field Lines & Materials Lab"
       unitTag="Grade 8 Physics • Unit 7.6"
+      onReset={() => {
+        setCompassAngleIndex(1);
+        setIsBrokenInHalf(false);
+        setSelectedMaterialId('iron');
+        setMaterialDistance('near');
+      }}
       telemetry={[
         { label: 'Compass Position', value: currentCompass.label, color: colors.cyan },
         { label: 'Test Sample', value: activeMaterial.name, color: colors.amber },

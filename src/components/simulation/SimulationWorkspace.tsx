@@ -14,7 +14,7 @@ interface TelemetryItem {
 interface SimulationWorkspaceProps {
   title: string;
   unitTag: string;
-  children: (props: { paused: boolean; resetKey: number }) => React.ReactNode;
+  children: (props: { resetKey: number }) => React.ReactNode;
   telemetry: TelemetryItem[];
   instructions?: string[];
   controlsNode?: React.ReactNode;
@@ -30,13 +30,11 @@ export const SimulationWorkspace: React.FC<SimulationWorkspaceProps> = ({
   controlsNode,
   onReset,
 }) => {
-  const [paused, setPaused] = useState(false);
   const [resetKey, setResetKey] = useState(0);
   const [showInstructions, setShowInstructions] = useState(false);
 
   const handleReset = () => {
     setResetKey((prev) => prev + 1);
-    setPaused(false);
     if (onReset) onReset();
   };
 
@@ -69,18 +67,6 @@ export const SimulationWorkspace: React.FC<SimulationWorkspaceProps> = ({
 
           <Pressable
             style={styles.iconBtn}
-            onPress={() => setPaused((prev) => !prev)}
-            accessibilityLabel={paused ? 'Resume simulation' : 'Pause simulation'}
-          >
-            <Ionicons
-              name={paused ? 'play' : 'pause'}
-              size={18}
-              color={colors.cyan}
-            />
-          </Pressable>
-
-          <Pressable
-            style={styles.iconBtn}
             onPress={handleReset}
             accessibilityLabel="Reset simulation"
           >
@@ -103,8 +89,8 @@ export const SimulationWorkspace: React.FC<SimulationWorkspaceProps> = ({
       )}
 
       {/* 3. Interactive Vector Canvas Frame */}
-      <View style={styles.canvasFrame}>
-        {children({ paused, resetKey })}
+      <View key={resetKey} style={styles.canvasFrame}>
+        {children({ resetKey })}
       </View>
 
       {/* 4. Live Telemetry HUD Strip */}
