@@ -37,14 +37,12 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
 
-      - name: Install Android build and emulator packages
+      - name: Install Android compile SDK
         run: |
           sdkmanager --install \
             "platform-tools" \
-            "emulator" \
             "platforms;android-36" \
-            "build-tools;36.0.0" \
-            "system-images;android-35;google_apis;x86_64"
+            "build-tools;36.0.0"
 
       - name: Install JavaScript dependencies
         run: npm ci
@@ -76,7 +74,7 @@ jobs:
       - name: Run Android end-to-end flows
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 30
           target: google_apis
           arch: x86_64
           profile: pixel_2
@@ -84,10 +82,14 @@ jobs:
           ram-size: 2048M
           heap-size: 512M
           emulator-boot-timeout: 900
+          disable-linux-hw-accel: false
           disable-animations: true
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -camera-back none -gpu swiftshader_indirect
           script: |
-            adb install android/app/build/outputs/apk/debug/app-debug.apk
+            set -euo pipefail
+            export MAESTRO_DRIVER_STARTUP_TIMEOUT=180000
+            adb wait-for-device
+            timeout --signal=TERM --kill-after=30s 90s adb install android/app/build/outputs/apk/debug/app-debug.apk
             timeout --signal=TERM --kill-after=30s 12m maestro test .maestro/flows
 
       - name: Upload Maestro diagnostics on failure
