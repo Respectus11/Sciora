@@ -1,0 +1,32 @@
+appId: com.sciora.grade8science
+---
+# Confirm every registered simulation route can be opened and renders its title.
+- launchApp:
+    clearState: true
+- openLink: "sciora://simulations/sim-1-density"
+- assertVisible:
+    text: "Water Displacement & Density Lab"
+- openLink: "sciora://simulations/sim-7-1-reflection"
+- assertVisible:
+    text: "Law of Reflection & Specular Optics Lab"
+- openLink: "sciora://simulations/sim-7-1-refraction"
+- assertVisible:
+    text: "Light Refraction, Snell's Law & Prism Lab"
+- openLink: "sciora://simulations/sim-7-3-sound"
+- assertVisible:
+    text: "Acoustic Vibration & Medium Lab"
+- openLink: "sciora://simulations/sim-7-4-heat"
+- assertVisible:
+    text: "Thermal Conduction Lab"
+- openLink: "sciora://simulations/sim-7-5-circuit"
+- assertVisible:
+    text: "Electric Circuit Builder & Ohms Law"
+- openLink: "sciora://simulations/sim-7-6-magnetism"
+- assertVisible:
+    text: "Bar Magnet, Field Lines & Materials Lab"
+- openLink: "sciora://simulations/sim-2-atom"
+- assertVisible:
+    text: "Bohr Atomic Model, Isotopes & Ions Lab"
+- openLink: "sciora://simulations/sim-6-solar"
+- assertVisible:
+    text: "Planetary Dynamics & Keplerian Solar System Lab"
