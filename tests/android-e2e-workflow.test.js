@@ -44,3 +44,15 @@ test('failed Android E2E runs retain diagnostic artifacts', () => {
   assert.match(workflow, /sciora-logcat\\.txt/);
   assert.match(workflow, /retention-days: 7/);
 });
+
+test('release APK package metadata is validated before emulator provisioning', () => {
+  const metadataCheck = workflow.indexOf('name: Verify release APK metadata');
+  const emulatorStep = workflow.indexOf('name: Run Android end-to-end flows');
+
+  assert.ok(metadataCheck >= 0 && metadataCheck < emulatorStep,
+    'Release APK metadata must be checked before the emulator is started');
+  assert.match(workflow, /aapt.*dump badging/);
+  assert.match(workflow, /EXPECTED_PACKAGE/);
+  assert.match(workflow, /ACTUAL_PACKAGE/);
+  assert.match(workflow, /test "\$ACTUAL_PACKAGE" = "\$EXPECTED_PACKAGE"/);
+});
