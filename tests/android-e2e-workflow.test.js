@@ -13,7 +13,7 @@ test('Android E2E workflow preflights and builds a bundled release APK', () => {
   assert.match(workflow, /expo export --platform android/);
   assert.match(workflow, /expo prebuild --platform android --no-install/);
   assert.match(workflow, /-PreactNativeArchitectures=x86_64 assembleRelease/);
-  assert.match(workflow, /app-release\\.apk/);
+  assert.match(workflow, /app-release\.apk/);
   assert.doesNotMatch(workflow, /assembleDebug/);
 });
 
@@ -26,22 +26,22 @@ test('runner disk cleanup happens before emulator provisioning', () => {
     'Preinstalled toolchains should be removed before emulator provisioning');
   assert.ok(postBuildCleanup > workflow.indexOf('assembleRelease') && postBuildCleanup < emulatorStep,
     'Build intermediates should be removed after APK creation but before emulator provisioning');
-  assert.match(workflow, /test -s android\\/app\\/build\\/outputs\\/apk\\/release\\/app-release\\.apk/);
-  assert.match(workflow, /rm -rf node_modules android\\/app\\/build\\/intermediates/);
+  assert.match(workflow, /APK="android\/app\/build\/outputs\/apk\/release\/app-release\.apk"/);
+  assert.match(workflow, /rm -rf node_modules android\/app\/build\/intermediates/);
 });
 
 test('Android emulator workflow has bounded startup and test execution', () => {
   assert.match(workflow, /api-level: 30/);
   assert.match(workflow, /emulator-boot-timeout: 900/);
   assert.match(workflow, /MAESTRO_DRIVER_STARTUP_TIMEOUT=180000/);
-  assert.match(workflow, /12m maestro test \.maestro\\/flows/);
+  assert.match(workflow, /12m maestro test \.maestro\/flows/);
   assert.match(workflow, /timeout --signal=TERM/);
 });
 
 test('failed Android E2E runs retain diagnostic artifacts', () => {
   assert.match(workflow, /if: failure\(\)/);
-  assert.match(workflow, /actions\\/upload-artifact@v5/);
-  assert.match(workflow, /sciora-logcat\\.txt/);
+  assert.match(workflow, /actions\/upload-artifact@v5/);
+  assert.match(workflow, /sciora-logcat\.txt/);
   assert.match(workflow, /retention-days: 7/);
 });
 
