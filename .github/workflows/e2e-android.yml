@@ -47,6 +47,10 @@ jobs:
       - name: Install JavaScript dependencies
         run: npm ci
 
+      # Fail fast on Metro/Expo Router bundling issues before spending time on Gradle.
+      - name: Preflight Android JavaScript bundle
+        run: npx expo export --platform android --output-dir .expo-e2e-export
+
       - name: Generate Android native project
         run: npx expo prebuild --platform android --no-install
 
@@ -88,6 +92,9 @@ jobs:
             set -euo pipefail
             export MAESTRO_DRIVER_STARTUP_TIMEOUT=180000
             adb wait-for-device
+            adb logcat -c
+            trap 'adb logcat -d > /tmp/sciora-logcat.txt || true' ERR
+            adb shell getprop sys.boot_completed
             timeout --signal=TERM --kill-after=30s 90s adb install android/app/build/outputs/apk/release/app-release.apk
             timeout --signal=TERM --kill-after=30s 12m maestro test .maestro/flows
 
@@ -100,5 +107,6 @@ jobs:
             ~/.maestro/tests
             ~/.maestro/logs
             android/app/build/outputs/logs
+            /tmp/sciora-logcat.txt
           if-no-files-found: ignore
           retention-days: 7
