@@ -22,6 +22,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      # Free large preinstalled toolchains not used by this React Native Android job.
+      - name: Reclaim runner disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/powershell /usr/share/swift
+          df -h /
+
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
@@ -49,7 +55,9 @@ jobs:
 
       # Fail fast on Metro/Expo Router bundling issues before spending time on Gradle.
       - name: Preflight Android JavaScript bundle
-        run: npx expo export --platform android --output-dir .expo-e2e-export
+        run: |
+          npx expo export --platform android --output-dir .expo-e2e-export
+          rm -rf .expo-e2e-export
 
       - name: Generate Android native project
         run: npx expo prebuild --platform android --no-install
@@ -68,7 +76,16 @@ jobs:
 
       - name: Build release APK with bundled JavaScript
         working-directory: android
-        run: ./gradlew --no-daemon assembleRelease
+        run: ./gradlew --no-daemon -PreactNativeArchitectures=x86_64 assembleRelease
+
+      # Native intermediates and node_modules are no longer needed once the APK exists.
+      - name: Reclaim disk space before Android emulator
+        working-directory: .
+        run: |
+          test -s android/app/build/outputs/apk/release/app-release.apk
+          rm -rf node_modules android/app/build/intermediates android/app/build/tmp android/app/build/generated android/.gradle
+          rm -rf ~/.gradle/caches/build-cache-*
+          df -h /
 
       - name: Install Maestro CLI
         run: |
@@ -93,8 +110,9 @@ jobs:
             export MAESTRO_DRIVER_STARTUP_TIMEOUT=180000
             adb wait-for-device
             adb logcat -c
-            trap 'adb logcat -d > /tmp/sciora-logcat.txt || true' ERR
-            adb shell getprop sys.boot_completed
+            trap 'adb logcat -d > /tmp/sciora-logcat.txt || true' EXIT
+            BOOT_STATUS="$(adb shell getprop sys.boot_completed | tr -d '\\r')"
+            test "$BOOT_STATUS" = "1"
             timeout --signal=TERM --kill-after=30s 90s adb install android/app/build/outputs/apk/release/app-release.apk
             timeout --signal=TERM --kill-after=30s 12m maestro test .maestro/flows
 
