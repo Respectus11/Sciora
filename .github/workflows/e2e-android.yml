@@ -78,6 +78,16 @@ jobs:
         working-directory: android
         run: ./gradlew --no-daemon -PreactNativeArchitectures=x86_64 assembleRelease
 
+      - name: Verify release APK metadata
+        run: |
+          APK="android/app/build/outputs/apk/release/app-release.apk"
+          test -s "$APK"
+          unzip -tq "$APK"
+          EXPECTED_PACKAGE="$(node -p "require('./app.json').expo.android.package")"
+          ACTUAL_PACKAGE="$("$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$APK" | sed -n "s/^package: name='\\([^']*\\)'.*/\\1/p")"
+          test "$ACTUAL_PACKAGE" = "$EXPECTED_PACKAGE"
+          echo "Verified Android package: $ACTUAL_PACKAGE"
+
       # Native intermediates and node_modules are no longer needed once the APK exists.
       - name: Reclaim disk space before Android emulator
         working-directory: .
