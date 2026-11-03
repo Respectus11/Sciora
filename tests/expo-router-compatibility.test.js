@@ -12,7 +12,7 @@ function sourceFiles(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const target = path.join(directory, entry.name);
     if (entry.isDirectory()) return sourceFiles(target);
-    return /\\.[jt]sx?$/.test(entry.name) ? [target] : [];
+    return /\.[jt]sx?$/.test(entry.name) ? [target] : [];
   });
 }
 
@@ -23,7 +23,7 @@ test('application navigation imports use Expo Router SDK 56+ entry points', () =
   const legacyImports = [];
   for (const file of files) {
     const source = fs.readFileSync(file, 'utf8');
-    const importPattern = /(?:from\\s*|import\\s*\\()(['"])@react-navigation\\/[^'"]+\\1/g;
+    const importPattern = /(?:from\s*|import\s*\()(['"])@react-navigation\/[^'"]+\1/g;
     for (const match of source.matchAll(importPattern)) {
       legacyImports.push(path.relative(root, file) + ': ' + match[0]);
     }
@@ -40,12 +40,12 @@ test('root theme provider is imported from the Expo Router compatibility entry p
   const rootLayout = fs.readFileSync(path.join(appRoot, '_layout.tsx'), 'utf8');
   assert.match(
     rootLayout,
-    /from\\s+['"]expo-router\\/react-navigation['"]/,
+    /from\s+['"]expo-router\/react-navigation['"]/,
     'Root layout should import ThemeProvider and DarkTheme from expo-router/react-navigation'
   );
   assert.doesNotMatch(
     rootLayout,
-    /from\\s+['"]@react-navigation\\/native['"]/,
+    /from\s+['"]@react-navigation\/native['"]/,
     'Root layout must not import directly from @react-navigation/native'
   );
 });
