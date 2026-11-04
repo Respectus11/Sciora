@@ -113,7 +113,6 @@ jobs:
           ram-size: 2048M
           heap-size: 512M
           emulator-boot-timeout: 900
-          disable-animations: true
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -camera-back none -gpu swiftshader_indirect
           script: |
             set -euo pipefail
