@@ -149,6 +149,13 @@ if (pkg && lock) {
 
 if (eas) {
   const build = eas.build || {};
+  if (!eas.cli || !['local', 'remote'].includes(eas.cli.appVersionSource)) {
+    warn('EAS appVersionSource is not explicit. Choose local or remote before a store release; remote is Expo\'s recommended version management mode.');
+  }
+  if (build.production && build.production.autoIncrement !== true &&
+      !(app && app.expo && Number.isInteger(app.expo.android && app.expo.android.versionCode))) {
+    warn('No Android versionCode or production autoIncrement is configured. Set a unique version code strategy before store updates.');
+  }
   if (!build.development || build.development.developmentClient !== true ||
       build.development.distribution !== 'internal') {
     fail('EAS development profile must enable a development client with internal distribution.');
