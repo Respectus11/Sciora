@@ -31,7 +31,11 @@ const results = [];
 SUITES.forEach((suite, index) => {
   process.stdout.write(`[${index + 1}/${SUITES.length}] Running ${suite.name}... `);
   try {
-    execSync(suite.cmd, { cwd: ROOT_DIR, stdio: 'pipe' });
+    const output = execSync(suite.cmd, { cwd: ROOT_DIR, encoding: 'utf8', stdio: 'pipe' });
+    if (suite.name === 'Production Release Readiness') {
+      const warningLines = output.split(/\\r?\\n/).filter((line) => line.includes('⚠️'));
+      warningLines.forEach((line) => console.warn(line));
+    }
     console.log('✅ PASSED');
     results.push({ name: suite.name, passed: true });
   } catch (error) {
