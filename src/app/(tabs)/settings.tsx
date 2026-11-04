@@ -48,6 +48,9 @@ export default function SettingsScreen() {
           <Switch
             value={reduceMotion}
             onValueChange={setReduceMotion}
+            accessibilityRole="switch"
+            accessibilityLabel="Reduce motion"
+            accessibilityHint="Controls the reduce motion preference for supported visual effects."
             thumbColor={reduceMotion ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
@@ -65,6 +68,9 @@ export default function SettingsScreen() {
           <Switch
             value={highContrast}
             onValueChange={setHighContrast}
+            accessibilityRole="switch"
+            accessibilityLabel="High-contrast opaque cards"
+            accessibilityHint="Controls the opaque card preference for supported screens."
             thumbColor={highContrast ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
@@ -82,6 +88,9 @@ export default function SettingsScreen() {
           <Switch
             value={hapticsEnabled}
             onValueChange={setHapticsEnabled}
+            accessibilityRole="switch"
+            accessibilityLabel="Haptic feedback"
+            accessibilityHint="Controls vibration feedback for supported interactions."
             thumbColor={hapticsEnabled ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
@@ -186,6 +195,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   settingRow: {
+    minHeight: spacing.minTouchTarget,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -226,6 +236,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   dangerButton: {
+    minHeight: spacing.minTouchTarget,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
