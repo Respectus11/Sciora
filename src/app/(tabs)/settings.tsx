@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, Alert, Pressable } from 'react-native';
+import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, GlassCard, Badge } from '@/components/ui';
 import { colors, spacing, typography, radii } from '@/design-system';
@@ -155,7 +156,7 @@ export default function SettingsScreen() {
       {/* 4. About & Open Source Notices */}
       <Text style={styles.sectionHeader}>About Sciora</Text>
       <GlassCard variant="base" style={styles.card}>
-        <Text style={styles.aboutTitle}>Sciora v1.0.0 (Phase C Build)</Text>
+        <Text style={styles.aboutTitle}>Sciora v{Constants.expoConfig?.version ?? '1.0.0'}</Text>
         <Text style={styles.aboutBody}>
           Sciora is a completely free, offline-first educational application designed specifically for Ethiopian Grade 8 students. It features zero advertisements, subscriptions, or paywalls.
         </Text>
