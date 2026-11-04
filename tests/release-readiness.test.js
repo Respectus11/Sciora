@@ -41,3 +41,21 @@ test('release audit clearly identifies the current Android production artifact t
     assert.match(result.stderr, /Use app-bundle for a Google Play Store release/);
   }
 });
+
+test('release audit highlights unresolved store versioning choices', () => {
+  const eas = require('../eas.json');
+  const app = require('../app.json').expo;
+  const result = spawnSync(
+    process.execPath,
+    ['scripts/verify-release-readiness.js'],
+    { cwd: root, encoding: 'utf8' }
+  );
+
+  assert.equal(result.status, 0);
+  if (!eas.cli?.appVersionSource) {
+    assert.match(result.stderr, /appVersionSource is not explicit/);
+  }
+  if (eas.build.production.autoIncrement !== true && !Number.isInteger(app.android?.versionCode)) {
+    assert.match(result.stderr, /No Android versionCode or production autoIncrement is configured/);
+  }
+});
