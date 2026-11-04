@@ -9,14 +9,17 @@ dist/
 web-build/
 expo-env.d.ts
 
-# Native
+# Native and signing artifacts
 .kotlin/
 *.orig.*
 *.jks
+*.keystore
 *.p8
 *.p12
 *.key
 *.mobileprovision
+*.apk
+*.aab
 
 # Metro
 .metro-health-check*
@@ -30,8 +33,14 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
+# local env files and secrets
+.env
+.env.*
+!.env.example
 .env*.local
+
+# Temporary release and E2E exports
+.expo-e2e-export/
 
 # typescript
 *.tsbuildinfo
