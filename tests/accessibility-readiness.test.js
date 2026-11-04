@@ -46,6 +46,6 @@ test('shared primary buttons expose accessible role, label, and disabled state',
 
 test('About screen displays the app version from Expo configuration', () => {
   assert.match(settings, /import Constants from ['"]expo-constants['"]/);
-  assert.match(settings, /Constants\\.expoConfig\\?\\.version/);
+  assert.match(settings, /Constants\.expoConfig\?\.version/);
   assert.doesNotMatch(settings, /Phase C Build/);
 });
