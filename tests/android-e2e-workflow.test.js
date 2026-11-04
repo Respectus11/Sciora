@@ -56,3 +56,11 @@ test('release APK package metadata is validated before emulator provisioning', (
   assert.match(workflow, /ACTUAL_PACKAGE/);
   assert.match(workflow, /test "\$ACTUAL_PACKAGE" = "\$EXPECTED_PACKAGE"/);
 });
+
+test('emulator runner does not invoke the unstable animation settings command', () => {
+  assert.doesNotMatch(
+    workflow,
+    /disable-animations:\\s*true/,
+    'Keep emulator animation settings at their defaults because the runner adb settings command can break the emulator connection'
+  );
+});
