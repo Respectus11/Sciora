@@ -33,7 +33,7 @@ SUITES.forEach((suite, index) => {
   try {
     const output = execSync(suite.cmd, { cwd: ROOT_DIR, encoding: 'utf8', stdio: 'pipe' });
     if (suite.name === 'Production Release Readiness') {
-      const warningLines = output.split(/\\r?\\n/).filter((line) => line.includes('⚠️'));
+      const warningLines = output.split(/\r?\n/).filter((line) => line.includes('⚠️'));
       warningLines.forEach((line) => console.warn(line));
     }
     console.log('✅ PASSED');
@@ -52,7 +52,7 @@ results.forEach((r) => {
 
 console.log('\n' + '='.repeat(40));
 if (failedSuites === 0) {
-  console.log('🎉 ALL AUDIT SUITES PASSED 100%! Ready for production.');
+  console.log('🎉 ALL AUTOMATED AUDIT SUITES PASSED. Review release warnings and complete the manual sign-off checklist before shipping.');
   console.log('========================================\n');
   process.exit(0);
 } else {
