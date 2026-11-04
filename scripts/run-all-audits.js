@@ -20,7 +20,7 @@ const SUITES = [
   { name: 'Expo Router SDK Compatibility Tests', cmd: 'node --test tests/expo-router-compatibility.test.js' },
   { name: 'Simulation Contracts & Registry Bindings', cmd: 'node scripts/verify-simulations.js' },
   { name: 'Design System & WCAG Contrast Standards', cmd: 'node scripts/verify-design-system.js' },
-  { name: 'Production Release Readiness', cmd: 'node scripts/verify-release-readiness.js' },
+  { name: 'Production Release Readiness', cmd: 'node scripts/verify-release-readiness.js 2>&1' },
   { name: 'TypeScript Strict Type Checking', cmd: 'npx tsc --noEmit' },
   { name: 'Code Quality & Lint Integrity (ESLint Expo)', cmd: 'npx expo lint' },
 ];
