@@ -109,7 +109,7 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_2
-          # Avoid the action's default post-boot ADB settings command; it disconnects this emulator image.
+          # The action's animation-tweak ADB command has disconnected this emulator after boot.
           disable-animations: false
           cores: 2
           ram-size: 2048M

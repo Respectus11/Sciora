@@ -20,6 +20,7 @@ const SUITES = [
   { name: 'Expo Router SDK Compatibility Tests', cmd: 'node --test tests/expo-router-compatibility.test.js' },
   { name: 'Simulation Contracts & Registry Bindings', cmd: 'node scripts/verify-simulations.js' },
   { name: 'Design System & WCAG Contrast Standards', cmd: 'node scripts/verify-design-system.js' },
+  { name: 'Production Release Readiness', cmd: 'node scripts/verify-release-readiness.js 2>&1' },
   { name: 'TypeScript Strict Type Checking', cmd: 'npx tsc --noEmit' },
   { name: 'Code Quality & Lint Integrity (ESLint Expo)', cmd: 'npx expo lint' },
 ];
@@ -30,7 +31,11 @@ const results = [];
 SUITES.forEach((suite, index) => {
   process.stdout.write(`[${index + 1}/${SUITES.length}] Running ${suite.name}... `);
   try {
-    execSync(suite.cmd, { cwd: ROOT_DIR, stdio: 'pipe' });
+    const output = execSync(suite.cmd, { cwd: ROOT_DIR, encoding: 'utf8', stdio: 'pipe' });
+    if (suite.name === 'Production Release Readiness') {
+      const warningLines = output.split(/\r?\n/).filter((line) => line.includes('⚠️'));
+      warningLines.forEach((line) => console.warn(line));
+    }
     console.log('✅ PASSED');
     results.push({ name: suite.name, passed: true });
   } catch (error) {
@@ -47,7 +52,7 @@ results.forEach((r) => {
 
 console.log('\n' + '='.repeat(40));
 if (failedSuites === 0) {
-  console.log('🎉 ALL AUDIT SUITES PASSED 100%! Ready for production.');
+  console.log('🎉 ALL AUTOMATED AUDIT SUITES PASSED. Review release warnings and complete the manual sign-off checklist before shipping.');
   console.log('========================================\n');
   process.exit(0);
 } else {
