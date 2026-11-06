@@ -109,6 +109,8 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_2
+          # The action's animation-tweak ADB command has disconnected this emulator after boot.
+          disable-animations: false
           cores: 2
           ram-size: 2048M
           heap-size: 512M
