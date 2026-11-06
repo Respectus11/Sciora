@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { DarkTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, ThemeProvider } from 'expo-router/react-navigation';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
 import { colors } from '@/design-system/colors';
+import { SettingsProvider, useAppSettings } from '@/contexts/SettingsContext';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -21,6 +22,28 @@ const scioraTheme = {
   },
 };
 
+function AppNavigation() {
+  const { settings } = useAppSettings();
+
+  return (
+    <ThemeProvider value={scioraTheme}>
+      <StatusBar style="light" />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: colors.spaceDark },
+          animation: settings.reduceMotion ? 'none' : 'slide_from_right',
+        }}
+      >
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="units/[unitId]" options={{ headerShown: false }} />
+        <Stack.Screen name="lessons/[lessonId]" options={{ headerShown: false }} />
+        <Stack.Screen name="simulations/[simulationId]" options={{ headerShown: false }} />
+      </Stack>
+    </ThemeProvider>
+  );
+}
+
 export default function RootLayout() {
   useEffect(() => {
     SplashScreen.hideAsync().catch(() => {});
@@ -28,21 +51,9 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={styles.root}>
-      <ThemeProvider value={scioraTheme}>
-        <StatusBar style="light" />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: colors.spaceDark },
-            animation: 'slide_from_right',
-          }}
-        >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="units/[unitId]" options={{ headerShown: false }} />
-          <Stack.Screen name="lessons/[lessonId]" options={{ headerShown: false }} />
-          <Stack.Screen name="simulations/[simulationId]" options={{ headerShown: false }} />
-        </Stack>
-      </ThemeProvider>
+      <SettingsProvider>
+        <AppNavigation />
+      </SettingsProvider>
     </GestureHandlerRootView>
   );
 }

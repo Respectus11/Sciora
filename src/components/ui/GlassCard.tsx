@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { colors, radii, spacing } from '@/design-system';
+import { useAppSettings } from '@/contexts/SettingsContext';
 
 export interface GlassCardProps {
   children: React.ReactNode;
@@ -22,8 +23,11 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   borderRadius = radii.card,
   padding = 'cardPadding',
 }) => {
-  // If variant is explicitly opaque or blur is disabled
-  if (variant === 'opaque') {
+  const { settings } = useAppSettings();
+  const useOpaqueSurface = variant === 'opaque' || settings.highContrast;
+
+  // Respect the global high-contrast preference on every shared card.
+  if (useOpaqueSurface) {
     return (
       <View
         style={[
