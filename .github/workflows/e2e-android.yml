@@ -117,7 +117,7 @@ jobs:
           emulator-boot-timeout: 900
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -camera-back none -gpu swiftshader_indirect
           script: |
-            set -euo pipefail
+            set -eu
             export MAESTRO_DRIVER_STARTUP_TIMEOUT=180000
             adb wait-for-device
             adb logcat -c
