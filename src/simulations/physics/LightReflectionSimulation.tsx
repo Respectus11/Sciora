@@ -80,6 +80,11 @@ export const LightReflectionSimulation: React.FC = () => {
     <SimulationWorkspace
       title="Law of Reflection & Specular Optics Lab"
       unitTag="Grade 8 Physics • Unit 7.1A"
+      onReset={() => {
+        setAngle(45);
+        setSurfaceMode('mirror');
+        setSelectedLaserId('cyan');
+      }}
       telemetry={[
         { label: 'Incidence (θi)', value: `${angle}°`, color: activeLaser.hex },
         { label: 'Reflection (θr)', value: surfaceMode === 'mirror' ? `${angle}°` : 'Scattered', color: colors.amber },

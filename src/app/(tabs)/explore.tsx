@@ -62,7 +62,7 @@ export default function ExploreScreen() {
           onPress={() => setSelectedFilter('unit-07')}
         >
           <Text style={[styles.filterText, selectedFilter === 'unit-07' ? styles.filterTextActive : undefined]}>
-            Unit 7: Physics (5 Labs)
+            Unit 7: Physics ({contentService.getLessonsByUnit('unit-07').length} Labs)
           </Text>
         </Pressable>
 
@@ -71,7 +71,7 @@ export default function ExploreScreen() {
           onPress={() => setSelectedFilter('unit-02')}
         >
           <Text style={[styles.filterText, selectedFilter === 'unit-02' ? styles.filterTextActive : undefined]}>
-            Unit 2: Matter (1 Lab)
+            Unit 2: Matter ({contentService.getLessonsByUnit('unit-02').length} Labs)
           </Text>
         </Pressable>
 
@@ -80,7 +80,7 @@ export default function ExploreScreen() {
           onPress={() => setSelectedFilter('unit-06')}
         >
           <Text style={[styles.filterText, selectedFilter === 'unit-06' ? styles.filterTextActive : undefined]}>
-            Unit 6: Solar System (1 Lab)
+            Unit 6: Solar System ({contentService.getLessonsByUnit('unit-06').length} Labs)
           </Text>
         </Pressable>
       </ScrollView>

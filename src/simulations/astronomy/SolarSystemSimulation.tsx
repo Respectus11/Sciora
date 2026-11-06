@@ -179,6 +179,11 @@ export const SolarSystemSimulation: React.FC = () => {
     <SimulationWorkspace
       title="Planetary Dynamics & Keplerian Solar System Lab"
       unitTag="Grade 8 Science • Unit 6.1"
+      onReset={() => {
+        setSelectedPlanetId('earth');
+        setFilterGroup('all');
+        setShowHabitableZone(true);
+      }}
       telemetry={[
         { label: 'Planet', value: selectedPlanet.name, color: selectedPlanet.color },
         { label: 'Classification', value: selectedPlanet.type, color: colors.cyan },

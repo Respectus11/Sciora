@@ -58,7 +58,6 @@
           "title": "Scientific Prediction: The Solid Block Challenge",
           "content": "Consider two identical solid cubes of equal volume (50 cm3). Cube A is made of solid Iron (density 7.8 g/cm3). Cube B is made of dried Acacia wood (density 0.65 g/cm3).\n\nIf both cubes are placed into a tank of water (density 1.0 g/cm3), what will happen?",
           "predictionData": {
-            "question": "What happens when the Iron and Wood blocks are placed into water?",
             "choices": [
               {
                 "id": "c1",
@@ -78,7 +77,8 @@
                 "isScientificallySound": false,
                 "feedback": "Having equal volumes does not mean they have equal masses or densities."
               }
-            ]
+            ],
+            "prompt": "What happens when the Iron and Wood blocks are placed into water?"
           }
         },
         {
@@ -126,7 +126,8 @@
                   "40 g/cm3"
                 ],
                 "correctIndex": 1,
-                "explanation": "Volume V = 90 mL - 50 mL = 40 cm3. Density = Mass / Volume = 120 g / 40 cm3 = 3.0 g/cm3."
+                "explanation": "Volume V = 90 mL - 50 mL = 40 cm3. Density = Mass / Volume = 120 g / 40 cm3 = 3.0 g/cm3.",
+                "id": "lesson-1-density-q1"
               },
               {
                 "question": "What is the standard SI fundamental unit of mass?",
@@ -137,7 +138,8 @@
                   "Newton (N)"
                 ],
                 "correctIndex": 2,
-                "explanation": "Under the International System of Units (SI), the kilogram (kg) is the base unit of mass."
+                "explanation": "Under the International System of Units (SI), the kilogram (kg) is the base unit of mass.",
+                "id": "lesson-1-density-q2"
               }
             ]
           }
