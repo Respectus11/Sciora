@@ -35,7 +35,7 @@ test('emulator script waits for boot and installs only the verified release APK'
 
 test('failed Android E2E runs retain diagnostics', () => {
   assert.match(workflow, /if: failure\(\)/);
-  assert.match(workflow, /actions\/upload-artifact@v5/);
+  assert.match(workflow, /actions\/upload-artifact@v6/);
   assert.match(workflow, /sciora-logcat\.txt/);
   assert.match(workflow, /retention-days: 7/);
 });
