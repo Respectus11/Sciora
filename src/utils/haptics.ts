@@ -28,7 +28,7 @@ class HapticsManager {
    * Medium tactile click for button presses, chip selections, and tab transitions.
    */
   async mediumClick(): Promise<void> {
-    if (!this.isSupported()) return;
+    if (!this.isSupported() || !getSettingsSnapshot().hapticsEnabled) return;
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     } catch {
@@ -40,7 +40,7 @@ class HapticsManager {
    * Heavy mechanical click for knife-switch circuit closures, magnet snaps, or docking.
    */
   async heavySnap(): Promise<void> {
-    if (!this.isSupported()) return;
+    if (!this.isSupported() || !getSettingsSnapshot().hapticsEnabled) return;
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     } catch {
@@ -52,7 +52,7 @@ class HapticsManager {
    * Success notification vibration pattern for correctly solved checkpoints or valid predictions.
    */
   async successNotification(): Promise<void> {
-    if (!this.isSupported()) return;
+    if (!this.isSupported() || !getSettingsSnapshot().hapticsEnabled) return;
     try {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     } catch {
@@ -64,7 +64,7 @@ class HapticsManager {
    * Warning vibration pattern for circuit fuse blow, thermal overload, or unstable isotopes.
    */
   async warningNotification(): Promise<void> {
-    if (!this.isSupported()) return;
+    if (!this.isSupported() || !getSettingsSnapshot().hapticsEnabled) return;
     try {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     } catch {
@@ -76,7 +76,7 @@ class HapticsManager {
    * Error alert vibration pattern for short circuits or incorrect checkpoint attempts.
    */
   async errorNotification(): Promise<void> {
-    if (!this.isSupported()) return;
+    if (!this.isSupported() || !getSettingsSnapshot().hapticsEnabled) return;
     try {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } catch {
@@ -88,7 +88,7 @@ class HapticsManager {
    * Selection feedback for scrolling picker wheels or carousel swipes.
    */
   async selection(): Promise<void> {
-    if (!this.isSupported()) return;
+    if (!this.isSupported() || !getSettingsSnapshot().hapticsEnabled) return;
     try {
       await Haptics.selectionAsync();
     } catch {
