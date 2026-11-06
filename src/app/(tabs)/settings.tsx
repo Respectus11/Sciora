@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Switch, Alert, Pressable } from 'react-native';
 import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, GlassCard, Badge } from '@/components/ui';
 import { colors, spacing, typography, radii } from '@/design-system';
 import { progressRepository } from '@/database/progressRepository';
+import { useAppSettings } from '@/contexts/SettingsContext';
+import type { UserSettingKey } from '@/database/settingsRepository';
 
 export default function SettingsScreen() {
-  const [reduceMotion, setReduceMotion] = useState(false);
-  const [highContrast, setHighContrast] = useState(false);
-  const [hapticsEnabled, setHapticsEnabled] = useState(true);
+  const { settings, isLoading, updatePreference } = useAppSettings();
+
+  const handlePreferenceChange = (key: UserSettingKey, value: boolean) => {
+    updatePreference(key, value).catch(() => {
+      Alert.alert('Setting not saved', 'Sciora could not save this preference on this device. Please try again.');
+    });
+  };
 
   const handleResetProgress = () => {
     Alert.alert(
@@ -43,16 +49,17 @@ export default function SettingsScreen() {
           <View style={styles.settingTextGroup}>
             <Text style={styles.settingLabel}>Reduce Motion</Text>
             <Text style={styles.settingDescription}>
-              Minimize particle animations and ray motion effects
+              Remove navigation transition animations for a calmer experience
             </Text>
           </View>
           <Switch
-            value={reduceMotion}
-            onValueChange={setReduceMotion}
+            value={settings.reduceMotion}
+            disabled={isLoading}
+            onValueChange={(value) => handlePreferenceChange('reduceMotion', value)}
             accessibilityRole="switch"
             accessibilityLabel="Reduce motion"
             accessibilityHint="Controls the reduce motion preference for supported visual effects."
-            thumbColor={reduceMotion ? colors.cyan : colors.textMuted}
+            thumbColor={settings.reduceMotion ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
         </View>
@@ -63,16 +70,17 @@ export default function SettingsScreen() {
           <View style={styles.settingTextGroup}>
             <Text style={styles.settingLabel}>High-Contrast Opaque Cards</Text>
             <Text style={styles.settingDescription}>
-              Disable glass blur for faster performance on older phones
+              Use solid opaque card surfaces throughout the app
             </Text>
           </View>
           <Switch
-            value={highContrast}
-            onValueChange={setHighContrast}
+            value={settings.highContrast}
+            disabled={isLoading}
+            onValueChange={(value) => handlePreferenceChange('highContrast', value)}
             accessibilityRole="switch"
             accessibilityLabel="High-contrast opaque cards"
             accessibilityHint="Controls the opaque card preference for supported screens."
-            thumbColor={highContrast ? colors.cyan : colors.textMuted}
+            thumbColor={settings.highContrast ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
         </View>
@@ -83,16 +91,17 @@ export default function SettingsScreen() {
           <View style={styles.settingTextGroup}>
             <Text style={styles.settingLabel}>Haptic Feedback</Text>
             <Text style={styles.settingDescription}>
-              Subtle vibration when adjusting simulation sliders
+              Enable vibration feedback for supported interactions
             </Text>
           </View>
           <Switch
-            value={hapticsEnabled}
-            onValueChange={setHapticsEnabled}
+            value={settings.hapticsEnabled}
+            disabled={isLoading}
+            onValueChange={(value) => handlePreferenceChange('hapticsEnabled', value)}
             accessibilityRole="switch"
             accessibilityLabel="Haptic feedback"
             accessibilityHint="Controls vibration feedback for supported interactions."
-            thumbColor={hapticsEnabled ? colors.cyan : colors.textMuted}
+            thumbColor={settings.hapticsEnabled ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
         </View>
