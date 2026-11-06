@@ -35,7 +35,7 @@ test('emulator script waits for boot and installs only the verified release APK'
 
 test('failed Android E2E runs retain diagnostics', () => {
   assert.match(workflow, /if: failure\(\)/);
-  assert.match(workflow, /actions\/upload-artifact@v5/);
+  assert.match(workflow, /actions\/upload-artifact@v6/);
   assert.match(workflow, /sciora-logcat\.txt/);
   assert.match(workflow, /retention-days: 7/);
 });
@@ -48,4 +48,11 @@ test('release APK package metadata is validated before emulator provisioning', (
   assert.match(workflow, /EXPECTED_PACKAGE/);
   assert.match(workflow, /ACTUAL_PACKAGE/);
   assert.match(workflow, /test "\$ACTUAL_PACKAGE" = "\$EXPECTED_PACKAGE"/);
+});
+
+test('emulator script uses options supported by the runner POSIX shell', () => {
+  const script = workflow.split(/^\s+script: \|\s*$/m)[1];
+  assert.ok(script, 'Emulator runner script block must exist');
+  assert.match(script, /^\s+set -eu\s*$/m);
+  assert.doesNotMatch(script, /\bpipefail\b/);
 });
