@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { getSettingsSnapshot } from './settingsRuntime';
 
 /**
  * Centralized Haptic Feedback Manager
@@ -15,7 +16,7 @@ class HapticsManager {
    * Light tactile feedback for stepper increments, slider dragging, or gentle ticks.
    */
   async lightTick(): Promise<void> {
-    if (!this.isSupported()) return;
+    if (!this.isSupported() || !getSettingsSnapshot().hapticsEnabled) return;
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     } catch {
