@@ -19,7 +19,7 @@ test('ADB transport readiness is bounded and retries an offline emulator', () =>
   assert.match(script, /timeout --signal=TERM --kill-after=5s 120s/);
   assert.match(script, /for attempt in \{1\.\.60\}/);
   assert.match(script, /get-state/);
-  assert.match(script, /ADB_STATE.*device/);
+  assert.match(script, /if \\[\\[ "\\$ADB_STATE" == "device" \\]\\]/);
 });
 
 test('Android boot and input service must be ready before installing the APK', () => {
