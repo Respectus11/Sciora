@@ -116,7 +116,7 @@ fi
 adb_cmd logcat -c
 
 timeout --signal=TERM --kill-after=30s 90s \
-  adb_cmd install -r "$APK_PATH"
+  adb -s "$EMULATOR_SERIAL" install -r "$APK_PATH"
 
 timeout --signal=TERM --kill-after=30s 12m \
   maestro test "$MAESTRO_FLOWS_PATH"
