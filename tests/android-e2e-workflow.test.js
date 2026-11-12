@@ -40,15 +40,17 @@ test('emulator invokes the Bash script once so shell state is preserved', () => 
   assert.match(emulatorScript, /trap capture_diagnostics EXIT/);
 });
 
-test('emulator script waits for boot with retries before installing the verified APK', () => {
-  assert.match(emulatorScript, /adb wait-for-device/);
+test('emulator script waits for ADB, Android boot, and InputManager before installing', () => {
+  assert.match(emulatorScript, /wait-for-device/);
+  assert.match(emulatorScript, /for attempt in \{1\.\.60\}/);
   assert.match(emulatorScript, /for attempt in \{1\.\.45\}/);
   assert.match(emulatorScript, /getprop sys\.boot_completed/);
-  assert.match(emulatorScript, /\[\[ "\$BOOT_STATUS" == "1" \]\]/);
+  assert.match(emulatorScript, /for attempt in \{1\.\.30\}/);
+  assert.match(emulatorScript, /service check input/);
   assert.match(emulatorScript, /timeout --signal=TERM --kill-after=30s 90s/);
-  assert.match(emulatorScript, /adb install android\/app\/build\/outputs\/apk\/release\/app-release\.apk/);
-  assert.match(emulatorScript, /12m/);
-  assert.match(emulatorScript, /maestro test \.maestro\/flows/);
+  assert.match(emulatorScript, /adb -s "\$EMULATOR_SERIAL" install -r "\$APK_PATH"/);
+  assert.match(emulatorScript, /timeout --signal=TERM --kill-after=30s 12m/);
+  assert.match(emulatorScript, /maestro test "\$MAESTRO_FLOWS_PATH"/);
 });
 
 test('failed Android E2E runs retain diagnostics using the supported artifact action', () => {
@@ -60,7 +62,7 @@ test('failed Android E2E runs retain diagnostics using the supported artifact ac
   assert.match(emulatorScript, /trap capture_diagnostics EXIT/);
 });
 
-test('release APK package metadata is validated before emulator provisioning', () => {
+test('release APK is validated and published with a SHA-256 summary', () => {
   const metadataCheck = workflow.indexOf('name: Verify release APK metadata');
   const emulatorStep = workflow.indexOf('name: Run Android end-to-end flows');
   assert.ok(metadataCheck >= 0 && metadataCheck < emulatorStep);
@@ -68,4 +70,8 @@ test('release APK package metadata is validated before emulator provisioning', (
   assert.match(workflow, /EXPECTED_PACKAGE/);
   assert.match(workflow, /ACTUAL_PACKAGE/);
   assert.match(workflow, /test "\$ACTUAL_PACKAGE" = "\$EXPECTED_PACKAGE"/);
+  assert.match(workflow, /sha256sum/);
+  assert.match(workflow, /GITHUB_STEP_SUMMARY/);
+  assert.match(workflow, /sciora-android-release-apk/);
+  assert.match(workflow, /steps\.build-release-apk\.outcome == 'success'/);
 });
