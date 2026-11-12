@@ -17,7 +17,13 @@ test('Android E2E workflow preflights and builds a bundled release APK', () => {
   assert.doesNotMatch(workflow, /assembleDebug/);
 });
 
-test('Android emulator is configured to avoid its unstable animation ADB command', () => {
+test('Android emulator runner is pinned to the input-service readiness fix', () => {
+  assert.match(
+    workflow,
+    /uses:\s+ReactiveCircus\/android-emulator-runner@ab495a9b42f2af30f5222bd978136f9b0a85b68a/
+  );
+  assert.match(workflow, /android-emulator-runner issue #489/);
+  assert.match(workflow, /pull\/495/);
   assert.match(workflow, /api-level: 30/);
   assert.match(workflow, /emulator-boot-timeout: 900/);
   assert.match(workflow, /^\s+disable-animations:\s+false\s*$/m);
@@ -29,7 +35,9 @@ test('emulator invokes the Bash script once so shell state is preserved', () => 
   assert.doesNotMatch(workflow, /^\s+script: \|/m);
   assert.match(emulatorScript, /^#!\/usr\/bin\/env bash/m);
   assert.match(emulatorScript, /^set -Eeuo pipefail$/m);
-  assert.match(emulatorScript, /export MAESTRO_DRIVER_STARTUP_TIMEOUT=180000/);
+  assert.match(emulatorScript, /MAESTRO_DRIVER_STARTUP_TIMEOUT/);
+  assert.match(emulatorScript, /service check input/);
+  assert.match(emulatorScript, /trap capture_diagnostics EXIT/);
 });
 
 test('emulator script waits for boot with retries before installing the verified APK', () => {
@@ -46,6 +54,7 @@ test('emulator script waits for boot with retries before installing the verified
 test('failed Android E2E runs retain diagnostics using the supported artifact action', () => {
   assert.match(workflow, /if: failure\(\)/);
   assert.match(workflow, /actions\/upload-artifact@v6/);
+  assert.match(workflow, /runner\.temp.*sciora-android-e2e/);
   assert.match(workflow, /sciora-logcat\.txt/);
   assert.match(workflow, /retention-days: 7/);
   assert.match(emulatorScript, /trap capture_diagnostics EXIT/);
