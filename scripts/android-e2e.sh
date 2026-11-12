@@ -71,7 +71,7 @@ fi
 # Verify boot readiness in this single Bash process before installing the APK.
 BOOT_STATUS=""
 for attempt in {1..45}; do
-  BOOT_STATUS="$(timeout 10s adb_cmd shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
+  BOOT_STATUS="$(timeout 10s adb -s "$EMULATOR_SERIAL" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
   if [[ "$BOOT_STATUS" == "1" ]]; then
     break
   fi
