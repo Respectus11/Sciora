@@ -113,7 +113,7 @@ jobs:
 
       - name: Run Android end-to-end flows
         # v2 can call input keyevent immediately after sys.boot_completed, before InputManager is registered.
-        # Pin the immutable upstream revision that waits for the input service (issues #432/#489).
+        # Track upstream PR #495 for the race tracked in issues #432/#489; pin its immutable revision.
         uses: ReactiveCircus/android-emulator-runner@ab495a9b42f2af30f5222bd978136f9b0a85b68a
         with:
           api-level: 30
