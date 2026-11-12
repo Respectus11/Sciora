@@ -46,7 +46,7 @@ capture_diagnostics() {
 
   # Upload only the recent logcat tail instead of an unbounded full device log.
   adb_cmd logcat -d -t 3000 -v threadtime > "$DIAGNOSTICS_DIR/logcat.txt" 2>&1 || true
-  printf '%s\\n' "$exit_code" > "$DIAGNOSTICS_DIR/exit-status.txt"
+  printf '%s\n' "$exit_code" > "$DIAGNOSTICS_DIR/exit-status.txt"
 }
 trap capture_diagnostics EXIT
 
