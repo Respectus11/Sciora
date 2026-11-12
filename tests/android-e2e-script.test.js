@@ -30,7 +30,7 @@ test('Android boot and input service must be ready before installing the APK', (
   assert.match(script, /timeout 10s adb -s "\$EMULATOR_SERIAL" shell getprop/);
   assert.match(script, /for attempt in \{1\.\.45\}/);
   assert.match(script, /for attempt in \{1\.\.30\}/);
-  assert.match(script, /\*: found\*/);
+  assert.ok(script.includes('*": found"*'));
 });
 
 test('APK and Maestro commands are bounded and accept explicit paths', () => {
