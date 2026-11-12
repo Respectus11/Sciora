@@ -92,9 +92,9 @@ jobs:
           {
             echo "### Android release APK"
             echo ""
-            echo "- Package: `$ACTUAL_PACKAGE`"
-            echo "- SHA-256: `$APK_SHA256`"
-            echo "- File: `$APK`"
+            echo "- Package: $ACTUAL_PACKAGE"
+            echo "- SHA-256: $APK_SHA256"
+            echo "- File: $APK"
           } >> "$GITHUB_STEP_SUMMARY"
 
       # Native intermediates and node_modules are no longer needed once the APK exists.
@@ -148,7 +148,6 @@ jobs:
             ~/.maestro/tests
             ~/.maestro/logs
             android/app/build/outputs/logs
-            /tmp/sciora-logcat.txt
             ${{ runner.temp }}/sciora-android-e2e
           if-no-files-found: ignore
           retention-days: 7
