@@ -25,8 +25,9 @@ test('ADB transport readiness is bounded and retries an offline emulator', () =>
 test('Android boot and input service must be ready before installing the APK', () => {
   const bootCheck = script.indexOf('getprop sys.boot_completed');
   const inputCheck = script.indexOf('service check input');
-  const install = script.indexOf('adb_cmd install -r');
+  const install = script.indexOf('install -r "$APK_PATH"');
   assert.ok(bootCheck >= 0 && inputCheck > bootCheck && install > inputCheck);
+  assert.match(script, /timeout 10s adb -s "\$EMULATOR_SERIAL" shell getprop/);
   assert.match(script, /for attempt in \{1\.\.45\}/);
   assert.match(script, /for attempt in \{1\.\.30\}/);
   assert.match(script, /\*: found\*/);
@@ -37,6 +38,7 @@ test('APK and Maestro commands are bounded and accept explicit paths', () => {
   assert.match(script, /MAESTRO_FLOWS_PATH/);
   assert.match(script, /timeout --signal=TERM --kill-after=30s 90s/);
   assert.match(script, /timeout --signal=TERM --kill-after=30s 12m/);
+  assert.match(script, /adb -s "\$EMULATOR_SERIAL" install -r "\$APK_PATH"/);
   assert.match(script, /maestro test "\$MAESTRO_FLOWS_PATH"/);
 });
 
