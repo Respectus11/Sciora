@@ -75,6 +75,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build release APK with bundled JavaScript
+        id: build-release-apk
         working-directory: android
         run: ./gradlew --no-daemon -PreactNativeArchitectures=x86_64 assembleRelease
 
@@ -87,6 +88,14 @@ jobs:
           ACTUAL_PACKAGE="$("$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$APK" | sed -n "s/^package: name='\\([^']*\\)'.*/\\1/p")"
           test "$ACTUAL_PACKAGE" = "$EXPECTED_PACKAGE"
           echo "Verified Android package: $ACTUAL_PACKAGE"
+          APK_SHA256="$(sha256sum "$APK" | cut -d ' ' -f1)"
+          {
+            echo "### Android release APK"
+            echo ""
+            echo "- Package: `$ACTUAL_PACKAGE`"
+            echo "- SHA-256: `$APK_SHA256`"
+            echo "- File: `$APK`"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # Native intermediates and node_modules are no longer needed once the APK exists.
       - name: Reclaim disk space before Android emulator
@@ -119,6 +128,16 @@ jobs:
           emulator-boot-timeout: 900
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -camera-back none -gpu swiftshader_indirect
           script: bash scripts/android-e2e.sh
+
+      # Keep the verified build available for manual installation even when Maestro fails.
+      - name: Upload verified Android release APK
+        if: ${{ always() && steps.build-release-apk.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: sciora-android-release-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Upload Maestro diagnostics on failure
         if: failure()
