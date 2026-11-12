@@ -12,6 +12,40 @@ adb_cmd() {
   adb -s "$EMULATOR_SERIAL" "$@"
 }
 
+# Keep CI failure evidence bounded and close to the run that produced it.
+DIAGNOSTICS_DIR="${RUNNER_TEMP:-/tmp}/sciora-android-e2e"
+mkdir -p "$DIAGNOSTICS_DIR"
+
+capture_diagnostics() {
+  local exit_code=$?
+
+  {
+    echo "Sciora Android E2E diagnostics"
+    echo "Exit code: $exit_code"
+    echo "Emulator: $EMULATOR_SERIAL"
+    echo
+    echo "ADB devices:"
+    adb devices -l || true
+    echo
+    echo "ADB state:"
+    adb_cmd get-state || true
+    echo
+    echo "Boot status:"
+    adb_cmd shell getprop sys.boot_completed || true
+    echo
+    echo "Input service:"
+    adb_cmd shell service check input || true
+    echo
+    echo "Focused activity:"
+    adb_cmd shell dumpsys activity activities | tail -n 120 || true
+  } > "$DIAGNOSTICS_DIR/device-state.txt" 2>&1
+
+  # Upload only the recent logcat tail instead of an unbounded full device log.
+  adb_cmd logcat -d -t 3000 -v threadtime > "$DIAGNOSTICS_DIR/logcat.txt" 2>&1 || true
+  printf '%s\\n' "$exit_code" > "$DIAGNOSTICS_DIR/exit-status.txt"
+}
+trap capture_diagnostics EXIT
+
 # ADB can report a newly started emulator as "offline" for a short period.
 # wait-for-device alone does not guarantee that the transport is online.
 timeout --signal=TERM --kill-after=5s 120s adb -s "$EMULATOR_SERIAL" wait-for-device
