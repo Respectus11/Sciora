@@ -47,6 +47,24 @@ if [[ "$BOOT_STATUS" != "1" ]]; then
   exit 1
 fi
 
+# sys.boot_completed may be set just before Android registers InputManagerService.
+# Wait for the service itself so UI automation does not race framework startup.
+INPUT_SERVICE_STATUS=""
+for attempt in {1..30}; do
+  INPUT_SERVICE_STATUS="$(adb_cmd shell service check input 2>/dev/null || true)"
+  case "$INPUT_SERVICE_STATUS" in
+    *": found"*) break ;;
+  esac
+  INPUT_SERVICE_STATUS=""
+  sleep 2
+done
+
+if [[ -z "$INPUT_SERVICE_STATUS" ]]; then
+  echo "Android input service did not become available after boot." >&2
+  adb_cmd shell service list 2>/dev/null | grep -i input || true
+  exit 1
+fi
+
 adb_cmd logcat -c
 
 timeout --signal=TERM --kill-after=30s 90s \
