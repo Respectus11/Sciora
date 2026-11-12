@@ -48,6 +48,7 @@
     "audit:simulations": "node ./scripts/verify-simulations.js",
     "audit:design": "node ./scripts/verify-design-system.js",
     "test:unit": "node --test tests",
+    "test:android-e2e": "node --test tests/android-e2e-workflow.test.js tests/android-e2e-script.test.js tests/maestro-app-identity.test.js",
     "audit:release": "node scripts/verify-release-readiness.js"
   },
   "private": true
