@@ -103,7 +103,9 @@ jobs:
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
 
       - name: Run Android end-to-end flows
-        uses: reactivecircus/android-emulator-runner@v2
+        # v2 can call input keyevent immediately after sys.boot_completed, before InputManager is registered.
+        # Pin the immutable upstream revision that waits for the input service (issues #432/#489).
+        uses: ReactiveCircus/android-emulator-runner@ab495a9b42f2af30f5222bd978136f9b0a85b68a
         with:
           api-level: 30
           target: google_apis
