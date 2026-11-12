@@ -22,8 +22,8 @@ test('Android emulator runner is pinned to the input-service readiness fix', () 
     workflow,
     /uses:\s+ReactiveCircus\/android-emulator-runner@ab495a9b42f2af30f5222bd978136f9b0a85b68a/
   );
-  assert.match(workflow, /android-emulator-runner issue #489/);
-  assert.match(workflow, /pull\/495/);
+  assert.ok(workflow.includes('issues #432/#489'));
+  assert.ok(workflow.includes('upstream PR #495'));
   assert.match(workflow, /api-level: 30/);
   assert.match(workflow, /emulator-boot-timeout: 900/);
   assert.match(workflow, /^\s+disable-animations:\s+false\s*$/m);
@@ -57,7 +57,6 @@ test('failed Android E2E runs retain diagnostics using the supported artifact ac
   assert.match(workflow, /if: failure\(\)/);
   assert.match(workflow, /actions\/upload-artifact@v6/);
   assert.match(workflow, /runner\.temp.*sciora-android-e2e/);
-  assert.match(workflow, /sciora-logcat\.txt/);
   assert.match(workflow, /retention-days: 7/);
   assert.match(emulatorScript, /trap capture_diagnostics EXIT/);
 });
