@@ -130,5 +130,6 @@ jobs:
             ~/.maestro/logs
             android/app/build/outputs/logs
             /tmp/sciora-logcat.txt
+            ${{ runner.temp }}/sciora-android-e2e
           if-no-files-found: ignore
           retention-days: 7
