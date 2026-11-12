@@ -8,6 +8,10 @@ export MAESTRO_DRIVER_STARTUP_TIMEOUT="${MAESTRO_DRIVER_STARTUP_TIMEOUT:-180000}
 EMULATOR_SERIAL="${ANDROID_SERIAL:-emulator-${EMULATOR_PORT:-5554}}"
 export ANDROID_SERIAL="$EMULATOR_SERIAL"
 
+# Keep CI defaults while allowing alternate APKs and flow directories locally.
+APK_PATH="${ANDROID_E2E_APK_PATH:-android/app/build/outputs/apk/release/app-release.apk}"
+MAESTRO_FLOWS_PATH="${MAESTRO_FLOWS_PATH:-.maestro/flows}"
+
 adb_cmd() {
   adb -s "$EMULATOR_SERIAL" "$@"
 }
@@ -99,10 +103,20 @@ if [[ -z "$INPUT_SERVICE_STATUS" ]]; then
   exit 1
 fi
 
+if [[ ! -s "$APK_PATH" ]]; then
+  echo "Release APK is missing or empty: $APK_PATH" >&2
+  exit 1
+fi
+
+if [[ ! -d "$MAESTRO_FLOWS_PATH" ]]; then
+  echo "Maestro flow directory does not exist: $MAESTRO_FLOWS_PATH" >&2
+  exit 1
+fi
+
 adb_cmd logcat -c
 
 timeout --signal=TERM --kill-after=30s 90s \
-  adb_cmd install android/app/build/outputs/apk/release/app-release.apk
+  adb_cmd install -r "$APK_PATH"
 
 timeout --signal=TERM --kill-after=30s 12m \
-  maestro test .maestro/flows
+  maestro test "$MAESTRO_FLOWS_PATH"
