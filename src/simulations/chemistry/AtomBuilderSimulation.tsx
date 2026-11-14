@@ -8,6 +8,7 @@ import Svg, {
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 interface ElementInfo {
   name: string;
@@ -123,7 +124,16 @@ export const AtomBuilderSimulation: React.FC = () => {
                   styles.presetChip,
                   protons === preset.p && neutrons === preset.n && electrons === preset.e && styles.presetChipActive,
                 ]}
-                onPress={() => setPreset(preset.p, preset.n, preset.e)}
+                onPress={() => {
+                  haptics.selection();
+                  setPreset(preset.p, preset.n, preset.e);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={`Select ${preset.label} preset`}
+                accessibilityState={{
+                  selected: protons === preset.p && neutrons === preset.n && electrons === preset.e,
+                }}
+                accessibilityHint="Loads isotope proton, neutron, and electron counts"
               >
                 <Text
                   style={[
@@ -145,14 +155,26 @@ export const AtomBuilderSimulation: React.FC = () => {
               <View style={styles.counterRow}>
                 <Pressable
                   style={styles.counterBtn}
-                  onPress={() => setProtons((prev) => Math.max(1, prev - 1))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setProtons((prev) => Math.max(1, prev - 1));
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Decrease protons"
+                  accessibilityHint="Decreases atomic number Z"
                 >
                   <Text style={styles.counterBtnText}>-</Text>
                 </Pressable>
                 <Text style={styles.counterVal}>{protons}</Text>
                 <Pressable
                   style={styles.counterBtn}
-                  onPress={() => setProtons((prev) => Math.min(18, prev + 1))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setProtons((prev) => Math.min(18, prev + 1));
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Increase protons"
+                  accessibilityHint="Increases atomic number Z"
                 >
                   <Text style={styles.counterBtnText}>+</Text>
                 </Pressable>
@@ -165,14 +187,26 @@ export const AtomBuilderSimulation: React.FC = () => {
               <View style={styles.counterRow}>
                 <Pressable
                   style={styles.counterBtn}
-                  onPress={() => setNeutrons((prev) => Math.max(0, prev - 1))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setNeutrons((prev) => Math.max(0, prev - 1));
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Decrease neutrons"
+                  accessibilityHint="Decreases nucleon count"
                 >
                   <Text style={styles.counterBtnText}>-</Text>
                 </Pressable>
                 <Text style={styles.counterVal}>{neutrons}</Text>
                 <Pressable
                   style={styles.counterBtn}
-                  onPress={() => setNeutrons((prev) => Math.min(24, prev + 1))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setNeutrons((prev) => Math.min(24, prev + 1));
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Increase neutrons"
+                  accessibilityHint="Increases nucleon count"
                 >
                   <Text style={styles.counterBtnText}>+</Text>
                 </Pressable>
@@ -185,14 +219,26 @@ export const AtomBuilderSimulation: React.FC = () => {
               <View style={styles.counterRow}>
                 <Pressable
                   style={styles.counterBtn}
-                  onPress={() => setElectrons((prev) => Math.max(0, prev - 1))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setElectrons((prev) => Math.max(0, prev - 1));
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Decrease electrons"
+                  accessibilityHint="Removes electron from Bohr shells"
                 >
                   <Text style={styles.counterBtnText}>-</Text>
                 </Pressable>
                 <Text style={styles.counterVal}>{electrons}</Text>
                 <Pressable
                   style={styles.counterBtn}
-                  onPress={() => setElectrons((prev) => Math.min(18, prev + 1))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setElectrons((prev) => Math.min(18, prev + 1));
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Increase electrons"
+                  accessibilityHint="Adds electron into Bohr shells"
                 >
                   <Text style={styles.counterBtnText}>+</Text>
                 </Pressable>
@@ -357,12 +403,15 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   presetChip: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    minHeight: spacing.minTouchTarget,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     borderRadius: radii.sm,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   presetChipActive: {
     backgroundColor: 'rgba(0, 229, 255, 0.15)',
@@ -406,8 +455,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
-    width: 28,
-    height: 28,
+    minWidth: spacing.minTouchTarget,
+    minHeight: spacing.minTouchTarget,
     borderRadius: radii.sm,
     justifyContent: 'center',
     alignItems: 'center',
