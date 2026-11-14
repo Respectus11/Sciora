@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, ViewStyle, StyleProp } from 'react-native';
+import { View, StyleSheet, ViewProps } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { colors, radii, spacing } from '@/design-system';
 import { useAppSettings } from '@/contexts/SettingsContext';
 
-export interface GlassCardProps {
+export interface GlassCardProps extends ViewProps {
   children: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
   variant?: 'base' | 'raised' | 'highlight' | 'opaque';
   glow?: 'cyan' | 'violet' | 'amber' | 'none';
   intensity?: number;
@@ -22,6 +21,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   intensity = 30,
   borderRadius = radii.card,
   padding = 'cardPadding',
+  ...rest
 }) => {
   const { settings } = useAppSettings();
   const useOpaqueSurface = variant === 'opaque' || settings.highContrast;
@@ -30,6 +30,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   if (useOpaqueSurface) {
     return (
       <View
+        {...rest}
         style={[
           styles.opaqueBase,
           {
@@ -54,6 +55,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
 
   return (
     <View
+      {...rest}
       style={[
         styles.container,
         {
