@@ -11,6 +11,7 @@ import Svg, {
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 interface PlanetData {
   id: string;
@@ -204,7 +205,13 @@ export const SolarSystemSimulation: React.FC = () => {
           <View style={styles.filterRow}>
             <Pressable
               style={[styles.filterBtn, filterGroup === 'all' && styles.filterBtnActive]}
-              onPress={() => setFilterGroup('all')}
+              onPress={() => {
+                haptics.selection();
+                setFilterGroup('all');
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Show all 8 planets"
+              accessibilityState={{ selected: filterGroup === 'all' }}
             >
               <Text style={[styles.filterBtnText, filterGroup === 'all' && styles.filterBtnTextActive]}>
                 All 8 Worlds
@@ -212,7 +219,13 @@ export const SolarSystemSimulation: React.FC = () => {
             </Pressable>
             <Pressable
               style={[styles.filterBtn, filterGroup === 'terrestrial' && styles.filterBtnActive]}
-              onPress={() => setFilterGroup('terrestrial')}
+              onPress={() => {
+                haptics.selection();
+                setFilterGroup('terrestrial');
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Filter inner terrestrial planets"
+              accessibilityState={{ selected: filterGroup === 'terrestrial' }}
             >
               <Text style={[styles.filterBtnText, filterGroup === 'terrestrial' && styles.filterBtnTextActive]}>
                 Terrestrial (Inner)
@@ -220,7 +233,13 @@ export const SolarSystemSimulation: React.FC = () => {
             </Pressable>
             <Pressable
               style={[styles.filterBtn, filterGroup === 'jovian' && styles.filterBtnActive]}
-              onPress={() => setFilterGroup('jovian')}
+              onPress={() => {
+                haptics.selection();
+                setFilterGroup('jovian');
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Filter outer Jovian planets"
+              accessibilityState={{ selected: filterGroup === 'jovian' }}
             >
               <Text style={[styles.filterBtnText, filterGroup === 'jovian' && styles.filterBtnTextActive]}>
                 Jovian (Outer)
@@ -240,7 +259,14 @@ export const SolarSystemSimulation: React.FC = () => {
                     isSelected && styles.chipActive,
                     isSelected && { borderColor: planet.color },
                   ]}
-                  onPress={() => setSelectedPlanetId(planet.id)}
+                  onPress={() => {
+                    haptics.selection();
+                    setSelectedPlanetId(planet.id);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Select ${planet.name} (${planet.type})`}
+                  accessibilityState={{ selected: isSelected }}
+                  accessibilityHint={`Inspects ${planet.distAU} AU orbit and Kepler telemetry`}
                 >
                   <View style={[styles.planetDot, { backgroundColor: planet.color }]} />
                   <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
@@ -259,7 +285,13 @@ export const SolarSystemSimulation: React.FC = () => {
               </Text>
               <Pressable
                 style={[styles.hzToggle, showHabitableZone && styles.hzToggleActive]}
-                onPress={() => setShowHabitableZone((prev) => !prev)}
+                onPress={() => {
+                  haptics.mediumClick();
+                  setShowHabitableZone((prev) => !prev);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={showHabitableZone ? 'Hide Goldilocks Zone overlay' : 'Show Goldilocks Zone overlay'}
+                accessibilityHint="Toggles circumstellar habitable temperature boundary"
               >
                 <Text style={[styles.hzToggleText, showHabitableZone && styles.hzToggleTextActive]}>
                   {showHabitableZone ? 'Hide Goldilocks Zone' : 'Show Goldilocks Zone'}
@@ -371,6 +403,7 @@ const styles = StyleSheet.create({
   },
   filterBtn: {
     flex: 1,
+    minHeight: spacing.minTouchTarget,
     paddingVertical: 5,
     paddingHorizontal: 8,
     borderRadius: radii.button,
@@ -378,6 +411,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   filterBtnActive: {
     backgroundColor: 'rgba(0, 229, 255, 0.15)',
@@ -400,6 +434,8 @@ const styles = StyleSheet.create({
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: spacing.minTouchTarget,
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: radii.sm,
@@ -445,10 +481,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   hzToggle: {
-    paddingVertical: 3,
-    paddingHorizontal: 6,
+    minHeight: spacing.minTouchTarget,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     borderRadius: radii.sm,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   hzToggleActive: {
     backgroundColor: 'rgba(16, 185, 129, 0.2)',
