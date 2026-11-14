@@ -14,6 +14,7 @@ import Svg, {
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 interface LaserColor {
   id: string;
@@ -114,7 +115,13 @@ export const LightReflectionSimulation: React.FC = () => {
                   styles.laserChip,
                   selectedLaserId === laser.id && { borderColor: laser.hex, backgroundColor: 'rgba(255,255,255,0.08)' },
                 ]}
-                onPress={() => setSelectedLaserId(laser.id)}
+                onPress={() => {
+                  haptics.selection();
+                  setSelectedLaserId(laser.id);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={`Select ${laser.name} laser (${laser.wavelength})`}
+                accessibilityState={{ selected: selectedLaserId === laser.id }}
               >
                 <Circle cx="4" cy="4" r="4" />
                 <View style={[styles.laserDot, { backgroundColor: laser.hex }]} />
@@ -130,10 +137,26 @@ export const LightReflectionSimulation: React.FC = () => {
             Adjust Incident Angle (θi):
           </Text>
           <View style={styles.stepperRow}>
-            <Pressable style={styles.stepBtn} onPress={() => adjustAngle(-5)}>
+            <Pressable
+              style={styles.stepBtn}
+              onPress={() => {
+                haptics.lightTick();
+                adjustAngle(-5);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Decrease angle by 5 degrees"
+            >
               <Text style={styles.stepBtnText}>-5°</Text>
             </Pressable>
-            <Pressable style={styles.stepBtn} onPress={() => adjustAngle(-1)}>
+            <Pressable
+              style={styles.stepBtn}
+              onPress={() => {
+                haptics.lightTick();
+                adjustAngle(-1);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Decrease angle by 1 degree"
+            >
               <Text style={styles.stepBtnText}>-1°</Text>
             </Pressable>
 
@@ -142,10 +165,26 @@ export const LightReflectionSimulation: React.FC = () => {
               <Text style={styles.currentAngleLabel}>from normal</Text>
             </View>
 
-            <Pressable style={styles.stepBtn} onPress={() => adjustAngle(1)}>
+            <Pressable
+              style={styles.stepBtn}
+              onPress={() => {
+                haptics.lightTick();
+                adjustAngle(1);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Increase angle by 1 degree"
+            >
               <Text style={styles.stepBtnText}>+1°</Text>
             </Pressable>
-            <Pressable style={styles.stepBtn} onPress={() => adjustAngle(5)}>
+            <Pressable
+              style={styles.stepBtn}
+              onPress={() => {
+                haptics.lightTick();
+                adjustAngle(5);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Increase angle by 5 degrees"
+            >
               <Text style={styles.stepBtnText}>+5°</Text>
             </Pressable>
           </View>
@@ -156,7 +195,13 @@ export const LightReflectionSimulation: React.FC = () => {
               <Pressable
                 key={preset}
                 style={[styles.presetChip, angle === preset ? styles.presetChipActive : undefined]}
-                onPress={() => setAngle(preset)}
+                onPress={() => {
+                  haptics.selection();
+                  setAngle(preset);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={`Set incident angle to ${preset} degrees`}
+                accessibilityState={{ selected: angle === preset }}
               >
                 <Text style={[styles.presetText, angle === preset ? styles.presetTextActive : undefined]}>
                   {preset === 0 ? '0° (Normal)' : `${preset}°`}
@@ -171,7 +216,13 @@ export const LightReflectionSimulation: React.FC = () => {
             <View style={styles.modeButtonsGroup}>
               <Pressable
                 style={[styles.modeBtn, surfaceMode === 'mirror' ? styles.modeBtnActive : undefined]}
-                onPress={() => setSurfaceMode('mirror')}
+                onPress={() => {
+                  haptics.mediumClick();
+                  setSurfaceMode('mirror');
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="Select specular reflection with plane mirror"
+                accessibilityState={{ selected: surfaceMode === 'mirror' }}
               >
                 <Text style={[styles.modeBtnText, surfaceMode === 'mirror' ? styles.modeBtnTextActive : undefined]}>
                   Specular (Mirror)
@@ -180,7 +231,13 @@ export const LightReflectionSimulation: React.FC = () => {
 
               <Pressable
                 style={[styles.modeBtn, surfaceMode === 'rough' ? styles.modeBtnActive : undefined]}
-                onPress={() => setSurfaceMode('rough')}
+                onPress={() => {
+                  haptics.mediumClick();
+                  setSurfaceMode('rough');
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="Select diffuse scattering reflection with rough surface"
+                accessibilityState={{ selected: surfaceMode === 'rough' }}
               >
                 <Text style={[styles.modeBtnText, surfaceMode === 'rough' ? styles.modeBtnTextActive : undefined]}>
                   Diffuse (Rough)
@@ -448,6 +505,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   laserChip: {
+    minHeight: spacing.minTouchTarget,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 5,
@@ -475,12 +533,16 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stepBtn: {
+    minWidth: spacing.minTouchTarget,
+    minHeight: spacing.minTouchTarget,
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: radii.button,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   stepBtnText: {
     ...typography.caption,
@@ -507,12 +569,15 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   presetChip: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    minHeight: spacing.minTouchTarget,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     borderRadius: radii.sm,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   presetChipActive: {
     backgroundColor: 'rgba(0, 229, 255, 0.15)',
@@ -544,12 +609,15 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   modeBtn: {
+    minHeight: spacing.minTouchTarget,
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: radii.button,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modeBtnActive: {
     backgroundColor: 'rgba(0, 229, 255, 0.15)',
