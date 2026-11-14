@@ -61,17 +61,29 @@ export default function ProgressScreen() {
         </View>
 
         <View style={styles.metricRow}>
-          <View style={styles.metricItem}>
+          <View
+            style={styles.metricItem}
+            accessible={true}
+            accessibilityLabel={`${completedImplementedCount} labs completed`}
+          >
             <Text style={styles.metricNumber}>{completedImplementedCount}</Text>
             <Text style={styles.metricLabel}>Labs Completed</Text>
           </View>
           <View style={styles.metricDivider} />
-          <View style={styles.metricItem}>
+          <View
+            style={styles.metricItem}
+            accessible={true}
+            accessibilityLabel={`${stats.correctQuestionsCount} questions solved`}
+          >
             <Text style={styles.metricNumber}>{stats.correctQuestionsCount}</Text>
             <Text style={styles.metricLabel}>Questions Solved</Text>
           </View>
           <View style={styles.metricDivider} />
-          <View style={styles.metricItem}>
+          <View
+            style={styles.metricItem}
+            accessible={true}
+            accessibilityLabel={`Quiz accuracy ${stats.totalQuestionsAnswered > 0 ? `${stats.accuracyPercent}%` : 'not available'}`}
+          >
             <Text style={styles.metricNumber}>
               {stats.totalQuestionsAnswered > 0 ? `${stats.accuracyPercent}%` : '—'}
             </Text>
@@ -79,7 +91,13 @@ export default function ProgressScreen() {
           </View>
         </View>
 
-        <View style={styles.overallProgressContainer}>
+        <View
+          style={styles.overallProgressContainer}
+          accessible={true}
+          accessibilityRole="progressbar"
+          accessibilityValue={{ min: 0, max: 100, now: progressPercent }}
+          accessibilityLabel={`Overall progress: ${completedImplementedCount} of ${totalLabs} core interactive labs completed, ${progressPercent} percent`}
+        >
           <View style={styles.progressBarBackground}>
             <View style={[styles.progressBarFill, { width: `${Math.max(5, progressPercent)}%` }]} />
           </View>
@@ -103,7 +121,15 @@ export default function ProgressScreen() {
           : colors.emerald;
 
         return (
-          <GlassCard key={unit.id} variant="base" style={styles.unitProgressCard}>
+          <GlassCard
+            key={unit.id}
+            variant="base"
+            style={styles.unitProgressCard}
+            accessible={true}
+            accessibilityRole="progressbar"
+            accessibilityValue={{ min: 0, max: 100, now: percent }}
+            accessibilityLabel={`Unit ${unit.unitNumber}: ${unit.title}, ${completed} of ${total} lessons completed, ${percent} percent`}
+          >
             <View style={styles.unitHeaderRow}>
               <Text style={styles.unitTitle}>{`Unit ${unit.unitNumber}: ${unit.title}`}</Text>
               <Text style={styles.unitScore}>{completed} / {total} lessons</Text>
@@ -121,7 +147,13 @@ export default function ProgressScreen() {
       })}
 
       {/* Privacy & Offline Guarantee */}
-      <GlassCard variant="base" style={styles.privacyCard}>
+      <GlassCard
+        variant="base"
+        style={styles.privacyCard}
+        accessible={true}
+        accessibilityRole="summary"
+        accessibilityLabel="Zero-Data Privacy Guarantee: Sciora collects no personal details, names, locations, or analytics. All your progress is stored exclusively inside this device's local database."
+      >
         <View style={styles.privacyIconRow}>
           <Ionicons name="shield-checkmark" size={20} color={colors.emerald} />
           <Text style={styles.privacyTitle}>Zero-Data Privacy Guarantee</Text>
