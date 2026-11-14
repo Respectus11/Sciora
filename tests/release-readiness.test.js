@@ -42,20 +42,12 @@ test('release audit clearly identifies the current Android production artifact t
   }
 });
 
-test('release audit highlights unresolved store versioning choices', () => {
+test('release audit confirms explicit versioning strategy and versionCode', () => {
   const eas = require('../eas.json');
   const app = require('../app.json').expo;
-  const result = spawnSync(
-    process.execPath,
-    ['scripts/verify-release-readiness.js'],
-    { cwd: root, encoding: 'utf8' }
-  );
-
-  assert.equal(result.status, 0);
-  if (!eas.cli?.appVersionSource) {
-    assert.match(result.stderr, /appVersionSource is not explicit/);
-  }
-  if (eas.build.production.autoIncrement !== true && !Number.isInteger(app.android?.versionCode)) {
-    assert.match(result.stderr, /No Android versionCode or production autoIncrement is configured/);
-  }
+  assert.equal(eas.cli?.appVersionSource, 'remote');
+  assert.equal(eas.build?.production?.autoIncrement, true);
+  assert.equal(typeof app.android?.versionCode, 'number');
+  assert.ok(app.android.versionCode >= 1);
 });
+
