@@ -4,6 +4,7 @@ import Svg, { Line, Circle, Rect, Text as SvgText, G, Defs, LinearGradient, Stop
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 interface RodMaterial {
   id: string;
@@ -79,7 +80,14 @@ export const ThermalConductionSimulation: React.FC = () => {
                   <Pressable
                     key={t}
                     style={[styles.chip, flameTemp === t ? styles.chipActive : undefined]}
-                    onPress={() => setFlameTemp(t)}
+                    onPress={() => {
+                      haptics.selection();
+                      setFlameTemp(t);
+                    }}
+                    accessibilityRole='button'
+                    accessibilityLabel={`Set flame temperature to ${t} degrees Celsius`}
+                    accessibilityState={{ selected: flameTemp === t }}
+                    accessibilityHint='Increases heat conduction rate through experimental rods'
                   >
                     <Text style={[styles.chipText, flameTemp === t ? styles.chipTextActive : undefined]}>
                       {t}°C
@@ -90,8 +98,13 @@ export const ThermalConductionSimulation: React.FC = () => {
             </View>
             <Pressable
               style={[styles.playButton, isHeating ? styles.pauseBtn : styles.playBtn]}
-              onPress={() => setIsHeating(!isHeating)}
+              onPress={() => {
+                haptics.mediumClick();
+                setIsHeating(!isHeating);
+              }}
               accessibilityRole='button'
+              accessibilityLabel={isHeating ? 'Pause flame heating' : 'Start flame heating'}
+              accessibilityHint={isHeating ? 'Pauses conduction timer' : 'Starts flame and rod heat transfer'}
             >
               <Text style={styles.playBtnText}>{isHeating ? '❚❚ Pause' : '▶ Heat'}</Text>
             </Pressable>
@@ -145,11 +158,30 @@ const styles = StyleSheet.create({
   tempSelector: { flex: 1 },
   controlHeader: { fontSize: 11, color: colors.textMuted, marginBottom: spacing.xs },
   btnRow: { flexDirection: 'row' },
-  chip: { paddingVertical: 6, paddingHorizontal: 10, borderRadius: radii.sm, backgroundColor: colors.spaceElevated, borderWidth: 1, borderColor: colors.glassBorderSubtle, marginRight: 6 },
+  chip: {
+    minHeight: spacing.minTouchTarget,
+    minWidth: 44,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: radii.sm,
+    backgroundColor: colors.spaceElevated,
+    borderWidth: 1,
+    borderColor: colors.glassBorderSubtle,
+    marginRight: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   chipActive: { backgroundColor: 'rgba(0, 229, 255, 0.15)', borderColor: colors.cyan },
   chipText: { fontSize: 11, color: colors.textSecondary },
   chipTextActive: { color: colors.textPrimary, fontWeight: 'bold' },
-  playButton: { paddingVertical: 8, paddingHorizontal: 14, borderRadius: radii.sm },
+  playButton: {
+    minHeight: spacing.minTouchTarget,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: radii.sm,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   playBtn: { backgroundColor: colors.cyan },
   pauseBtn: { backgroundColor: '#334155' },
   playBtnText: { fontSize: 12, fontWeight: 'bold', color: '#0F172A' },
