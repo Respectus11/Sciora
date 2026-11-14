@@ -4,6 +4,7 @@ import Svg, { Line, Circle, Rect, Path, Text as SvgText, G } from 'react-native-
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 interface SoundMedium {
   id: string;
@@ -62,7 +63,14 @@ export const SoundWaveSimulation: React.FC = () => {
                 key={m.id}
                 disabled={isVacuum}
                 style={[styles.chip, !isVacuum && selectedMedium.id === m.id ? styles.chipActive : undefined, isVacuum ? styles.chipDisabled : undefined]}
-                onPress={() => setSelectedMedium(m)}
+                onPress={() => {
+                  haptics.selection();
+                  setSelectedMedium(m);
+                }}
+                accessibilityRole='button'
+                accessibilityLabel={`Select transmission medium ${m.name}`}
+                accessibilityState={{ selected: !isVacuum && selectedMedium.id === m.id, disabled: isVacuum }}
+                accessibilityHint={`Sets sound propagation speed to ${m.speed} meters per second`}
               >
                 <Text style={[styles.chipText, !isVacuum && selectedMedium.id === m.id ? styles.chipTextActive : undefined]}>
                   {m.name} ({m.speed} m/s)
@@ -73,7 +81,18 @@ export const SoundWaveSimulation: React.FC = () => {
           <Text style={styles.controlHeader}>Frequency / Pitch (Hz):</Text>
           <View style={styles.btnRow}>
             {[150, 300, 440, 600, 880].map((f) => (
-              <Pressable key={f} style={[styles.chip, frequency === f ? styles.chipActive : undefined]} onPress={() => setFrequency(f)}>
+              <Pressable
+                key={f}
+                style={[styles.chip, frequency === f ? styles.chipActive : undefined]}
+                onPress={() => {
+                  haptics.selection();
+                  setFrequency(f);
+                }}
+                accessibilityRole='button'
+                accessibilityLabel={`Set frequency to ${f} Hertz`}
+                accessibilityState={{ selected: frequency === f }}
+                accessibilityHint='Changes acoustic pitch and wavelength'
+              >
                 <Text style={[styles.chipText, frequency === f ? styles.chipTextActive : undefined]}>{f} Hz</Text>
               </Pressable>
             ))}
@@ -81,7 +100,18 @@ export const SoundWaveSimulation: React.FC = () => {
           <Text style={styles.controlHeader}>Vibration Amplitude (Loudness):</Text>
           <View style={styles.btnRow}>
             {[2, 4, 6, 8, 10].map((a) => (
-              <Pressable key={a} style={[styles.chip, amplitude === a ? styles.chipActive : undefined]} onPress={() => setAmplitude(a)}>
+              <Pressable
+                key={a}
+                style={[styles.chip, amplitude === a ? styles.chipActive : undefined]}
+                onPress={() => {
+                  haptics.selection();
+                  setAmplitude(a);
+                }}
+                accessibilityRole='button'
+                accessibilityLabel={`Set vibration amplitude to ${a} millimeters`}
+                accessibilityState={{ selected: amplitude === a }}
+                accessibilityHint='Changes acoustic volume and waveform displacement'
+              >
                 <Text style={[styles.chipText, amplitude === a ? styles.chipTextActive : undefined]}>{a} mm</Text>
               </Pressable>
             ))}
@@ -93,7 +123,13 @@ export const SoundWaveSimulation: React.FC = () => {
             </View>
             <Switch
               value={isVacuum}
-              onValueChange={setIsVacuum}
+              onValueChange={(val) => {
+                haptics.heavySnap();
+                setIsVacuum(val);
+              }}
+              accessibilityRole='switch'
+              accessibilityLabel='Evacuate Chamber (Vacuum Pump)'
+              accessibilityHint='Removes medium molecules to demonstrate sound requires a medium'
               thumbColor={isVacuum ? colors.rose : colors.textMuted}
               trackColor={{ false: colors.spaceElevated, true: 'rgba(244, 63, 94, 0.4)' }}
             />
@@ -175,12 +211,32 @@ const styles = StyleSheet.create({
   controlsCard: { marginTop: spacing.sm },
   controlHeader: { fontSize: 12, fontWeight: '600', color: colors.textSecondary, marginBottom: spacing.xs, marginTop: spacing.xs },
   btnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.xs },
-  chip: { paddingVertical: 6, paddingHorizontal: 10, borderRadius: radii.sm, backgroundColor: 'rgba(255,255,255,0.06)', borderWidth: 1, borderColor: 'transparent' },
+  chip: {
+    minHeight: spacing.minTouchTarget,
+    minWidth: 44,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: radii.sm,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   chipActive: { backgroundColor: 'rgba(0,229,255,0.12)', borderColor: colors.cyan },
   chipDisabled: { opacity: 0.3 },
   chipText: { fontSize: 11, color: colors.textSecondary },
   chipTextActive: { color: colors.textPrimary, fontWeight: 'bold' },
-  vacuumRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: spacing.sm, paddingTop: spacing.sm, borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.08)' },
+  vacuumRow: {
+    minHeight: spacing.minTouchTarget,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: spacing.sm,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.08)',
+  },
   vacuumTextGroup: { flex: 1, marginRight: spacing.sm },
   vacuumTitle: { fontSize: 12, fontWeight: 'bold', color: colors.textPrimary },
   vacuumSub: { fontSize: 10, color: colors.textMuted, marginTop: 2 },
