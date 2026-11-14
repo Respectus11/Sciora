@@ -6,18 +6,21 @@ import { ScreenContainer, GlassCard, Badge } from '@/components/ui';
 import { colors, spacing, typography, radii } from '@/design-system';
 import { progressRepository } from '@/database/progressRepository';
 import { useAppSettings } from '@/contexts/SettingsContext';
+import { haptics } from '@/utils/haptics';
 import type { UserSettingKey } from '@/database/settingsRepository';
 
 export default function SettingsScreen() {
   const { settings, isLoading, updatePreference } = useAppSettings();
 
   const handlePreferenceChange = (key: UserSettingKey, value: boolean) => {
+    haptics.selection();
     updatePreference(key, value).catch(() => {
       Alert.alert('Setting not saved', 'Sciora could not save this preference on this device. Please try again.');
     });
   };
 
   const handleResetProgress = () => {
+    haptics.heavySnap();
     Alert.alert(
       'Reset All Learning Progress?',
       'This will clear all saved simulation states, checkpoints, and quiz attempts on this device. Curriculum lessons will remain available.',
@@ -28,6 +31,7 @@ export default function SettingsScreen() {
           style: 'destructive',
           onPress: async () => {
             await progressRepository.resetAllProgress();
+            haptics.successNotification();
             Alert.alert('Progress Reset', 'All on-device learning records have been cleared.');
           },
         },
@@ -58,6 +62,7 @@ export default function SettingsScreen() {
             onValueChange={(value) => handlePreferenceChange('reduceMotion', value)}
             accessibilityRole="switch"
             accessibilityLabel="Reduce motion"
+            accessibilityState={{ checked: settings.reduceMotion }}
             accessibilityHint="Controls the reduce motion preference for supported visual effects."
             thumbColor={settings.reduceMotion ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
@@ -79,6 +84,7 @@ export default function SettingsScreen() {
             onValueChange={(value) => handlePreferenceChange('highContrast', value)}
             accessibilityRole="switch"
             accessibilityLabel="High-contrast opaque cards"
+            accessibilityState={{ checked: settings.highContrast }}
             accessibilityHint="Controls the opaque card preference for supported screens."
             thumbColor={settings.highContrast ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
@@ -100,6 +106,7 @@ export default function SettingsScreen() {
             onValueChange={(value) => handlePreferenceChange('hapticsEnabled', value)}
             accessibilityRole="switch"
             accessibilityLabel="Haptic feedback"
+            accessibilityState={{ checked: settings.hapticsEnabled }}
             accessibilityHint="Controls vibration feedback for supported interactions."
             thumbColor={settings.hapticsEnabled ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
@@ -156,6 +163,7 @@ export default function SettingsScreen() {
           accessible={true}
           accessibilityRole="button"
           accessibilityLabel="Reset local learning progress"
+          accessibilityHint="Permanently clears all quiz scores, simulation progress, and local checkpoints"
         >
           <Ionicons name="trash-outline" size={18} color={colors.rose} />
           <Text style={styles.dangerButtonText}>Reset Local Learning Progress</Text>
