@@ -6,6 +6,7 @@ import { ScreenContainer, GlassCard, PrimaryButton, Badge } from '@/components/u
 import { colors, spacing, typography, radii } from '@/design-system';
 import { progressRepository, GlobalStats } from '@/database/progressRepository';
 import { contentService } from '@/services/contentService';
+import { haptics } from '@/utils/haptics';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -110,7 +111,12 @@ export default function HomeScreen() {
           variant="cyan"
           size="md"
           icon={<Ionicons name="arrow-forward" size={18} color={colors.cyanDark} />}
-          onPress={() => resumeLesson && router.push(`/lessons/${resumeLesson.id}` as any)}
+          onPress={() => {
+            if (resumeLesson) {
+              haptics.lightTick();
+              router.push(`/lessons/${resumeLesson.id}` as any);
+            }
+          }}
           style={styles.heroButton}
         />
       </GlassCard>
@@ -121,7 +127,16 @@ export default function HomeScreen() {
           <Text style={styles.sectionTitle}>Curriculum Units</Text>
           <Text style={styles.sectionSubtitle}>Ethiopian Grade 8 General Science</Text>
         </View>
-        <Pressable onPress={() => router.push('/explore')}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="View all curriculum units"
+          accessibilityHint="Navigates to the full curriculum explorer"
+          style={styles.seeAllPressable}
+          onPress={() => {
+            haptics.lightTick();
+            router.push('/explore');
+          }}
+        >
           <Text style={styles.seeAllLink}>View All →</Text>
         </Pressable>
       </View>
@@ -129,8 +144,14 @@ export default function HomeScreen() {
       <View style={styles.unitGrid}>
         {/* Unit 7: Core Physics */}
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Unit 7: Physical Phenomena in the Surrounding, ${contentService.getLessonsByUnit('unit-07').length} Labs`}
+          accessibilityHint="Opens Unit 7 overview and physics lessons"
           style={styles.unitCardTouchable}
-          onPress={() => router.push('/units/unit-07')}
+          onPress={() => {
+            haptics.lightTick();
+            router.push('/units/unit-07');
+          }}
         >
           <GlassCard variant="base" glow="cyan" style={styles.unitCard}>
             <View style={styles.unitIconContainer}>
@@ -145,8 +166,14 @@ export default function HomeScreen() {
 
         {/* Unit 2: Matter */}
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Unit 2: Composition of Matter, ${contentService.getLessonsByUnit('unit-02').length} Labs`}
+          accessibilityHint="Opens Unit 2 overview and chemistry lessons"
           style={styles.unitCardTouchable}
-          onPress={() => router.push('/units/unit-02')}
+          onPress={() => {
+            haptics.lightTick();
+            router.push('/units/unit-02');
+          }}
         >
           <GlassCard variant="base" glow="violet" style={styles.unitCard}>
             <View style={styles.unitIconContainer}>
@@ -161,8 +188,14 @@ export default function HomeScreen() {
 
         {/* Unit 6: Solar System */}
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Unit 6: The Solar System, ${contentService.getLessonsByUnit('unit-06').length} Labs`}
+          accessibilityHint="Opens Unit 6 overview and astronomy lessons"
           style={styles.unitCardTouchable}
-          onPress={() => router.push('/units/unit-06')}
+          onPress={() => {
+            haptics.lightTick();
+            router.push('/units/unit-06');
+          }}
         >
           <GlassCard variant="base" glow="amber" style={styles.unitCard}>
             <View style={styles.unitIconContainer}>
@@ -177,8 +210,14 @@ export default function HomeScreen() {
 
         {/* Unit 1: Inquiry */}
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Unit 1: Basics of Scientific Investigation, 1 Lab"
+          accessibilityHint="Opens Unit 1 overview and investigation lessons"
           style={styles.unitCardTouchable}
-          onPress={() => router.push('/units/unit-01')}
+          onPress={() => {
+            haptics.lightTick();
+            router.push('/units/unit-01');
+          }}
         >
           <GlassCard variant="base" glow="none" style={styles.unitCard}>
             <View style={styles.unitIconContainer}>
@@ -205,8 +244,14 @@ export default function HomeScreen() {
           Light changes speed as it passes between air and water, causing the rays to refract.
         </Text>
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Explore in Refraction Lab"
+          accessibilityHint="Opens the Light Refraction simulation lab"
           style={styles.inquiryAction}
-          onPress={() => router.push('/lessons/lesson-7-1-refraction')}
+          onPress={() => {
+            haptics.lightTick();
+            router.push('/lessons/lesson-7-1-refraction');
+          }}
         >
           <Text style={styles.inquiryActionText}>Explore in Refraction Lab →</Text>
         </Pressable>
@@ -341,6 +386,11 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.textMuted,
   },
+  seeAllPressable: {
+    minHeight: spacing.minTouchTarget,
+    justifyContent: 'center',
+    paddingHorizontal: spacing.xs,
+  },
   seeAllLink: {
     ...typography.bodyMedium,
     color: colors.cyan,
@@ -411,6 +461,8 @@ const styles = StyleSheet.create({
   },
   inquiryAction: {
     alignSelf: 'flex-start',
+    minHeight: spacing.minTouchTarget,
+    justifyContent: 'center',
   },
   inquiryActionText: {
     ...typography.bodyMedium,
