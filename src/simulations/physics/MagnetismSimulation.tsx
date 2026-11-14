@@ -12,6 +12,7 @@ import Svg, {
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 interface TestMaterial {
   id: string;
@@ -134,7 +135,14 @@ export const MagnetismSimulation: React.FC = () => {
               <Pressable
                 key={pos.label}
                 style={[styles.chip, compassAngleIndex === idx ? styles.chipActive : undefined]}
-                onPress={() => setCompassAngleIndex(idx)}
+                onPress={() => {
+                  haptics.selection();
+                  setCompassAngleIndex(idx);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={`Place compass at ${pos.label}`}
+                accessibilityState={{ selected: compassAngleIndex === idx }}
+                accessibilityHint={pos.desc}
               >
                 <Text style={[styles.chipText, compassAngleIndex === idx ? styles.chipTextActive : undefined]}>
                   {pos.label}
@@ -158,7 +166,14 @@ export const MagnetismSimulation: React.FC = () => {
                     isSelected ? styles.chipActive : undefined,
                     isSelected && mat.isAttracted ? { borderColor: colors.emerald } : undefined,
                   ]}
-                  onPress={() => setSelectedMaterialId(mat.id)}
+                  onPress={() => {
+                    haptics.selection();
+                    setSelectedMaterialId(mat.id);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Test material ${mat.name} (${mat.category})`}
+                  accessibilityState={{ selected: isSelected }}
+                  accessibilityHint={mat.explanation}
                 >
                   <Text
                     style={[
@@ -180,7 +195,13 @@ export const MagnetismSimulation: React.FC = () => {
             <View style={styles.toggleGroup}>
               <Pressable
                 style={[styles.toggleBtn, materialDistance === 'near' && styles.toggleBtnActive]}
-                onPress={() => setMaterialDistance('near')}
+                onPress={() => {
+                  haptics.selection();
+                  setMaterialDistance('near');
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="Set distance to Near (5 cm)"
+                accessibilityState={{ selected: materialDistance === 'near' }}
               >
                 <Text style={[styles.toggleText, materialDistance === 'near' && styles.toggleTextActive]}>
                   Near (5 cm)
@@ -188,7 +209,13 @@ export const MagnetismSimulation: React.FC = () => {
               </Pressable>
               <Pressable
                 style={[styles.toggleBtn, materialDistance === 'far' && styles.toggleBtnActive]}
-                onPress={() => setMaterialDistance('far')}
+                onPress={() => {
+                  haptics.selection();
+                  setMaterialDistance('far');
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="Set distance to Far (20 cm)"
+                accessibilityState={{ selected: materialDistance === 'far' }}
               >
                 <Text style={[styles.toggleText, materialDistance === 'far' && styles.toggleTextActive]}>
                   Far (20 cm)
@@ -213,7 +240,13 @@ export const MagnetismSimulation: React.FC = () => {
             </View>
             <Pressable
               style={[styles.cutBtn, isBrokenInHalf ? styles.cutBtnBroken : styles.cutBtnIntact]}
-              onPress={() => setIsBrokenInHalf((prev) => !prev)}
+              onPress={() => {
+                haptics.heavySnap();
+                setIsBrokenInHalf((prev) => !prev);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel={isBrokenInHalf ? 'Rejoin bar magnet into single dipole' : 'Cut bar magnet in half'}
+              accessibilityHint="Demonstrates that dividing a magnet produces two separate dipoles with new N and S poles, never isolated monopoles"
             >
               <Text style={styles.cutBtnText}>
                 {isBrokenInHalf ? 'Rejoin Magnet' : 'Cut in Half'}
@@ -413,14 +446,17 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   chip: {
-    paddingVertical: 5,
-    paddingHorizontal: 8,
+    minHeight: spacing.minTouchTarget,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     borderRadius: radii.sm,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
     marginRight: 6,
     marginBottom: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chipActive: {
     backgroundColor: 'rgba(0, 229, 255, 0.15)',
@@ -453,9 +489,12 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   toggleBtn: {
-    paddingVertical: 4,
+    minHeight: spacing.minTouchTarget,
+    paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: radii.sm - 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   toggleBtnActive: {
     backgroundColor: colors.cyan,
@@ -511,10 +550,13 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   cutBtn: {
+    minHeight: spacing.minTouchTarget,
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: radii.button,
     borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cutBtnIntact: {
     backgroundColor: 'rgba(245, 158, 11, 0.15)',
