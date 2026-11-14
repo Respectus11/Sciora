@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, GlassCard, Badge, PrimaryButton } from '@/components/ui';
 import { contentService } from '@/services/contentService';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 export default function UnitDetailScreen() {
   const router = useRouter();
@@ -27,9 +28,14 @@ export default function UnitDetailScreen() {
       {/* 1. Header Navigation Bar */}
       <View style={styles.navBar}>
         <Pressable
-          style={styles.backBtn}
-          onPress={() => router.back()}
+          accessibilityRole="button"
           accessibilityLabel="Back to previous screen"
+          accessibilityHint="Navigates back to the previous screen"
+          style={styles.backBtn}
+          onPress={() => {
+            haptics.lightTick();
+            router.back();
+          }}
         >
           <Ionicons name="arrow-back" size={22} color={colors.textPrimary} />
         </Pressable>
@@ -75,8 +81,14 @@ export default function UnitDetailScreen() {
         {lessons.map((lesson) => (
           <Pressable
             key={lesson.id}
+            accessibilityRole="button"
+            accessibilityLabel={`${lesson.title}, ${lesson.lessonNumber}, ${lesson.estimatedMinutes} minutes`}
+            accessibilityHint="Opens this 10-step guided science lab"
             style={styles.lessonTouchable}
-            onPress={() => router.push(`/lessons/${lesson.id}` as any)}
+            onPress={() => {
+              haptics.lightTick();
+              router.push(`/lessons/${lesson.id}` as any);
+            }}
           >
             <GlassCard variant="base" style={styles.lessonCard} padding="md">
               <View style={styles.lessonTopRow}>
@@ -120,8 +132,8 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   backBtn: {
-    width: 40,
-    height: 40,
+    minWidth: spacing.minTouchTarget,
+    minHeight: spacing.minTouchTarget,
     borderRadius: radii.button,
     backgroundColor: colors.spaceElevated,
     borderWidth: 1,
