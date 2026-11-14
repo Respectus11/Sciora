@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 interface TelemetryItem {
   label: string;
@@ -34,6 +35,7 @@ export const SimulationWorkspace: React.FC<SimulationWorkspaceProps> = ({
   const [showInstructions, setShowInstructions] = useState(false);
 
   const handleReset = () => {
+    haptics.mediumClick();
     setResetKey((prev) => prev + 1);
     if (onReset) onReset();
   };
@@ -54,8 +56,14 @@ export const SimulationWorkspace: React.FC<SimulationWorkspaceProps> = ({
                 styles.iconBtn,
                 showInstructions ? styles.iconBtnActive : undefined,
               ]}
-              onPress={() => setShowInstructions((prev) => !prev)}
+              onPress={() => {
+                haptics.selection();
+                setShowInstructions((prev) => !prev);
+              }}
+              accessibilityRole="button"
               accessibilityLabel="Toggle instructions"
+              accessibilityHint="Shows or hides guided lab steps"
+              accessibilityState={{ expanded: showInstructions }}
             >
               <Ionicons
                 name="information-circle-outline"
@@ -68,7 +76,9 @@ export const SimulationWorkspace: React.FC<SimulationWorkspaceProps> = ({
           <Pressable
             style={styles.iconBtn}
             onPress={handleReset}
+            accessibilityRole="button"
             accessibilityLabel="Reset simulation"
+            accessibilityHint="Restores default simulation controls and measurements"
           >
             <Ionicons name="refresh" size={18} color={colors.amber} />
           </Pressable>
@@ -151,8 +161,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconBtn: {
-    width: 36,
-    height: 36,
+    minWidth: spacing.minTouchTarget,
+    minHeight: spacing.minTouchTarget,
     borderRadius: radii.button,
     backgroundColor: colors.spaceElevated,
     borderWidth: 1,
