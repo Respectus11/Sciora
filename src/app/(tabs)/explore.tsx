@@ -6,10 +6,11 @@ import { ScreenContainer, GlassCard, Badge } from '@/components/ui';
 import { contentService } from '@/services/contentService';
 import { progressRepository } from '@/database/progressRepository';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 export default function ExploreScreen() {
   const router = useRouter();
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'unit-07' | 'unit-02' | 'unit-06'>('all');
+  const [selectedFilter, setSelectedFilter] = useState<'all' | 'unit-01' | 'unit-07' | 'unit-02' | 'unit-06'>('all');
   const [completedIds, setCompletedIds] = useState<string[]>([]);
 
   const allLessons = contentService.getAllLessons();
@@ -49,8 +50,15 @@ export default function ExploreScreen() {
         contentContainerStyle={styles.filterScroll}
       >
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`All Topics filter, ${allLessons.length} labs total`}
+          accessibilityState={{ selected: selectedFilter === 'all' }}
+          accessibilityHint="Shows all curriculum units and science labs"
           style={[styles.filterChip, selectedFilter === 'all' ? styles.filterChipActive : undefined]}
-          onPress={() => setSelectedFilter('all')}
+          onPress={() => {
+            haptics.selection();
+            setSelectedFilter('all');
+          }}
         >
           <Text style={[styles.filterText, selectedFilter === 'all' ? styles.filterTextActive : undefined]}>
             All Topics ({allLessons.length})
@@ -58,8 +66,31 @@ export default function ExploreScreen() {
         </Pressable>
 
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Unit 1 Basics filter, ${contentService.getLessonsByUnit('unit-01').length} labs`}
+          accessibilityState={{ selected: selectedFilter === 'unit-01' }}
+          accessibilityHint="Filters lesson list to Unit 1: Basics of Scientific Investigation"
+          style={[styles.filterChip, selectedFilter === 'unit-01' ? styles.filterChipActive : undefined]}
+          onPress={() => {
+            haptics.selection();
+            setSelectedFilter('unit-01');
+          }}
+        >
+          <Text style={[styles.filterText, selectedFilter === 'unit-01' ? styles.filterTextActive : undefined]}>
+            Unit 1: Basics ({contentService.getLessonsByUnit('unit-01').length} Labs)
+          </Text>
+        </Pressable>
+
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Unit 7 Physics filter, ${contentService.getLessonsByUnit('unit-07').length} labs`}
+          accessibilityState={{ selected: selectedFilter === 'unit-07' }}
+          accessibilityHint="Filters lesson list to Unit 7: Physical Phenomena"
           style={[styles.filterChip, selectedFilter === 'unit-07' ? styles.filterChipActive : undefined]}
-          onPress={() => setSelectedFilter('unit-07')}
+          onPress={() => {
+            haptics.selection();
+            setSelectedFilter('unit-07');
+          }}
         >
           <Text style={[styles.filterText, selectedFilter === 'unit-07' ? styles.filterTextActive : undefined]}>
             Unit 7: Physics ({contentService.getLessonsByUnit('unit-07').length} Labs)
@@ -67,8 +98,15 @@ export default function ExploreScreen() {
         </Pressable>
 
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Unit 2 Matter filter, ${contentService.getLessonsByUnit('unit-02').length} labs`}
+          accessibilityState={{ selected: selectedFilter === 'unit-02' }}
+          accessibilityHint="Filters lesson list to Unit 2: Composition of Matter"
           style={[styles.filterChip, selectedFilter === 'unit-02' ? styles.filterChipActive : undefined]}
-          onPress={() => setSelectedFilter('unit-02')}
+          onPress={() => {
+            haptics.selection();
+            setSelectedFilter('unit-02');
+          }}
         >
           <Text style={[styles.filterText, selectedFilter === 'unit-02' ? styles.filterTextActive : undefined]}>
             Unit 2: Matter ({contentService.getLessonsByUnit('unit-02').length} Labs)
@@ -76,8 +114,15 @@ export default function ExploreScreen() {
         </Pressable>
 
         <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Unit 6 Solar System filter, ${contentService.getLessonsByUnit('unit-06').length} labs`}
+          accessibilityState={{ selected: selectedFilter === 'unit-06' }}
+          accessibilityHint="Filters lesson list to Unit 6: Solar System"
           style={[styles.filterChip, selectedFilter === 'unit-06' ? styles.filterChipActive : undefined]}
-          onPress={() => setSelectedFilter('unit-06')}
+          onPress={() => {
+            haptics.selection();
+            setSelectedFilter('unit-06');
+          }}
         >
           <Text style={[styles.filterText, selectedFilter === 'unit-06' ? styles.filterTextActive : undefined]}>
             Unit 6: Solar System ({contentService.getLessonsByUnit('unit-06').length} Labs)
@@ -93,8 +138,14 @@ export default function ExploreScreen() {
           return (
             <Pressable
               key={lesson.id}
+              accessibilityRole="button"
+              accessibilityLabel={`${lesson.title}, Unit ${lesson.lessonNumber}, ${isCompleted ? 'completed' : 'not completed'}`}
+              accessibilityHint="Opens this 10-step guided science lesson"
               style={styles.cardTouchable}
-              onPress={() => router.push(`/lessons/${lesson.id}` as any)}
+              onPress={() => {
+                haptics.lightTick();
+                router.push(`/lessons/${lesson.id}` as any);
+              }}
             >
               <GlassCard
                 variant="base"
@@ -169,6 +220,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.md,
   },
   filterChip: {
+    minHeight: spacing.minTouchTarget,
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.md,
     borderRadius: radii.chip,
@@ -176,6 +228,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.glassBorder,
     marginRight: spacing.sm,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   filterChipActive: {
     backgroundColor: 'rgba(0, 229, 255, 0.15)',
