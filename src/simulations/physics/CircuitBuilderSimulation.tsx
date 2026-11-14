@@ -4,6 +4,7 @@ import Svg, { Line, Circle, Rect, Text as SvgText, G, Defs, RadialGradient, Stop
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 type CircuitMode = 'single' | 'series' | 'parallel';
 
@@ -50,7 +51,14 @@ export const CircuitBuilderSimulation: React.FC = () => {
               <Pressable
                 key={mode}
                 style={[styles.chip, circuitMode === mode ? styles.chipActive : undefined]}
-                onPress={() => setCircuitMode(mode)}
+                onPress={() => {
+                  haptics.selection();
+                  setCircuitMode(mode);
+                }}
+                accessibilityRole='button'
+                accessibilityLabel={`Configure ${mode} circuit`}
+                accessibilityState={{ selected: circuitMode === mode }}
+                accessibilityHint={`Switches load wiring to ${mode} configuration`}
               >
                 <Text style={[styles.chipText, circuitMode === mode ? styles.chipTextActive : undefined]}>
                   {mode.toUpperCase()} BULB{mode !== 'single' ? 'S' : ''}
@@ -66,7 +74,14 @@ export const CircuitBuilderSimulation: React.FC = () => {
                   <Pressable
                     key={v}
                     style={[styles.chip, voltage === v ? styles.chipActive : undefined]}
-                    onPress={() => setVoltage(v)}
+                    onPress={() => {
+                      haptics.selection();
+                      setVoltage(v);
+                    }}
+                    accessibilityRole='button'
+                    accessibilityLabel={`Set battery voltage to ${v.toFixed(1)} Volts`}
+                    accessibilityState={{ selected: voltage === v }}
+                    accessibilityHint='Changes potential difference across the circuit'
                   >
                     <Text style={[styles.chipText, voltage === v ? styles.chipTextActive : undefined]}>
                       {v.toFixed(1)}V
@@ -77,8 +92,13 @@ export const CircuitBuilderSimulation: React.FC = () => {
             </View>
             <Pressable
               style={[styles.switchToggleBtn, isSwitchClosed ? styles.switchBtnClosed : styles.switchBtnOpen]}
-              onPress={() => setIsSwitchClosed(!isSwitchClosed)}
+              onPress={() => {
+                haptics.heavySnap();
+                setIsSwitchClosed(!isSwitchClosed);
+              }}
               accessibilityRole='button'
+              accessibilityLabel={isSwitchClosed ? 'Open knife switch' : 'Close knife switch'}
+              accessibilityHint={isSwitchClosed ? 'Breaks current flow through circuit' : 'Completes circuit allowing current flow'}
             >
               <Text style={styles.switchBtnText}>{isSwitchClosed ? 'Open Switch' : 'Close Switch'}</Text>
             </Pressable>
@@ -157,11 +177,29 @@ const styles = StyleSheet.create({
   voltageGroup: { flex: 1 },
   controlHeader: { fontSize: 11, color: colors.textMuted, marginBottom: spacing.xs },
   btnRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.xs },
-  chip: { paddingVertical: 6, paddingHorizontal: 10, borderRadius: radii.sm, backgroundColor: 'rgba(255,255,255,0.06)', borderWidth: 1, borderColor: 'transparent' },
+  chip: {
+    minHeight: spacing.minTouchTarget,
+    minWidth: 44,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: radii.sm,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   chipActive: { backgroundColor: 'rgba(0,229,255,0.12)', borderColor: colors.cyan },
   chipText: { fontSize: 11, color: colors.textSecondary },
   chipTextActive: { color: colors.textPrimary, fontWeight: 'bold' },
-  switchToggleBtn: { paddingVertical: 10, paddingHorizontal: 14, borderRadius: radii.sm },
+  switchToggleBtn: {
+    minHeight: spacing.minTouchTarget,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: radii.sm,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   switchBtnClosed: { backgroundColor: '#10B981' },
   switchBtnOpen: { backgroundColor: '#EF4444' },
   switchBtnText: { fontSize: 12, fontWeight: 'bold', color: '#FFFFFF' },
