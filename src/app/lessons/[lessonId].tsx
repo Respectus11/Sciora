@@ -8,6 +8,7 @@ import { getSimulationById } from '@/simulations/registry';
 import { progressRepository } from '@/database/progressRepository';
 import { PedagogicalStep, PredictionChoice, QuizQuestion } from '@/types/curriculum';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 export default function LessonScreen() {
   const router = useRouter();
@@ -116,6 +117,7 @@ export default function LessonScreen() {
   };
 
   const handleSelectPrediction = async (choice: PredictionChoice) => {
+    haptics.selection();
     setSelectedPrediction(choice);
     await progressRepository.savePrediction(
       lesson.id,
@@ -127,8 +129,13 @@ export default function LessonScreen() {
 
   const handleSelectQuizOption = async (question: QuizQuestion, optionIndex: number) => {
     if (quizAnswers[question.id] !== undefined) return; // already answered
-    setQuizAnswers((prev) => ({ ...prev, [question.id]: optionIndex }));
     const isCorrect = optionIndex === question.correctIndex;
+    if (isCorrect) {
+      haptics.successNotification();
+    } else {
+      haptics.errorNotification();
+    }
+    setQuizAnswers((prev) => ({ ...prev, [question.id]: optionIndex }));
     await progressRepository.saveQuizAttempt(
       lesson.id,
       question.id,
@@ -146,7 +153,13 @@ export default function LessonScreen() {
       {/* 1. Header Navigation & Progress Bar */}
       <View style={styles.header}>
         <View style={styles.navRow}>
-          <Pressable style={styles.backBtn} onPress={handlePrevStep} accessibilityLabel="Back">
+          <Pressable
+            style={styles.backBtn}
+            onPress={handlePrevStep}
+            accessibilityRole="button"
+            accessibilityLabel="Back"
+            accessibilityHint="Navigates to the previous step or exit"
+          >
             <Ionicons name="arrow-back" size={20} color={colors.textPrimary} />
           </Pressable>
           <View style={styles.stepInfo}>
@@ -182,7 +195,9 @@ export default function LessonScreen() {
         <Pressable
           style={styles.prevBtn}
           onPress={handlePrevStep}
+          accessibilityRole="button"
           accessibilityLabel="Previous step"
+          accessibilityHint="Returns to earlier pedagogical stage"
         >
           <Ionicons name="chevron-back" size={18} color={colors.textSecondary} />
           <Text style={styles.prevBtnText}>Previous</Text>
@@ -232,6 +247,10 @@ function renderStepContent(
                       isSelected ? styles.choiceBtnSelected : undefined,
                     ]}
                     onPress={() => onSelectPrediction(choice)}
+                    accessibilityRole="radio"
+                    accessibilityLabel={choice.text}
+                    accessibilityState={{ selected: isSelected }}
+                    accessibilityHint="Selects this scientific prediction"
                   >
                     <View style={styles.choiceRadio}>
                       {isSelected && <View style={styles.choiceRadioInner} />}
@@ -340,6 +359,10 @@ function renderStepContent(
                       style={[styles.quizOptionBase, optStyle]}
                       onPress={() => onSelectQuizOption(q, optIdx)}
                       disabled={hasAnswered}
+                      accessibilityRole="button"
+                      accessibilityLabel={`Option ${String.fromCharCode(65 + optIdx)}: ${opt}`}
+                      accessibilityState={{ selected: isThisSelected, disabled: hasAnswered }}
+                      accessibilityHint={hasAnswered ? 'Question already answered' : 'Submits this quiz answer'}
                     >
                       <Text style={styles.quizOptionLetter}>
                         {String.fromCharCode(65 + optIdx)}.
@@ -458,8 +481,8 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   backBtn: {
-    width: 36,
-    height: 36,
+    minWidth: spacing.minTouchTarget,
+    minHeight: spacing.minTouchTarget,
     borderRadius: radii.button,
     backgroundColor: colors.spaceElevated,
     borderWidth: 1,
@@ -547,6 +570,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   choiceBtn: {
+    minHeight: spacing.minTouchTarget,
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.md,
@@ -648,6 +672,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   quizOptionBase: {
+    minHeight: spacing.minTouchTarget,
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.md,
@@ -793,6 +818,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
   },
   prevBtn: {
+    minHeight: spacing.minTouchTarget,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
