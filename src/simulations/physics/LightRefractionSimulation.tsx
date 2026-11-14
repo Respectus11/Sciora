@@ -14,6 +14,7 @@ import Svg, {
 import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
+import { haptics } from '@/utils/haptics';
 
 interface MediumConfig {
   id: string;
@@ -106,6 +107,7 @@ export const LightRefractionSimulation: React.FC = () => {
       title="Light Refraction, Snell's Law & Prism Lab"
       unitTag="Grade 8 Physics • Unit 7.1B"
       onReset={() => {
+        haptics.heavySnap();
         setAngle1(45);
         setSelectedMediumId('crown-glass');
         setLabMode('boundary');
@@ -128,16 +130,30 @@ export const LightRefractionSimulation: React.FC = () => {
           {/* Mode Switcher */}
           <View style={styles.tabRow}>
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Snell's Law Boundary mode"
+              accessibilityState={{ selected: labMode === 'boundary' }}
+              accessibilityHint="Switches lab to single-boundary refraction and Snell's Law calculations"
               style={[styles.tabBtn, labMode === 'boundary' && styles.tabBtnActive]}
-              onPress={() => setLabMode('boundary')}
+              onPress={() => {
+                haptics.selection();
+                setLabMode('boundary');
+              }}
             >
               <Text style={[styles.tabBtnText, labMode === 'boundary' && styles.tabBtnTextActive]}>
                 Snell&apos;s Law Boundary
               </Text>
             </Pressable>
             <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Prism Dispersion mode"
+              accessibilityState={{ selected: labMode === 'prism' }}
+              accessibilityHint="Switches lab to triangular prism chromatic dispersion"
               style={[styles.tabBtn, labMode === 'prism' && styles.tabBtnActive]}
-              onPress={() => setLabMode('prism')}
+              onPress={() => {
+                haptics.selection();
+                setLabMode('prism');
+              }}
             >
               <Text style={[styles.tabBtnText, labMode === 'prism' && styles.tabBtnTextActive]}>
                 Prism Dispersion (Rainbow)
@@ -150,14 +166,26 @@ export const LightRefractionSimulation: React.FC = () => {
               {/* Stepper Controls */}
               <View style={styles.stepperRow}>
                 <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Decrease angle by 5 degrees"
+                  accessibilityHint="Decreases incident light angle by 5 degrees"
                   style={styles.stepBtn}
-                  onPress={() => setAngle1((prev) => Math.max(0, prev - 5))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setAngle1((prev) => Math.max(0, prev - 5));
+                  }}
                 >
                   <Text style={styles.stepBtnText}>-5°</Text>
                 </Pressable>
                 <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Decrease angle by 1 degree"
+                  accessibilityHint="Decreases incident light angle by 1 degree"
                   style={styles.stepBtn}
-                  onPress={() => setAngle1((prev) => Math.max(0, prev - 1))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setAngle1((prev) => Math.max(0, prev - 1));
+                  }}
                 >
                   <Text style={styles.stepBtnText}>-1°</Text>
                 </Pressable>
@@ -168,14 +196,26 @@ export const LightRefractionSimulation: React.FC = () => {
                 </View>
 
                 <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Increase angle by 1 degree"
+                  accessibilityHint="Increases incident light angle by 1 degree"
                   style={styles.stepBtn}
-                  onPress={() => setAngle1((prev) => Math.min(80, prev + 1))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setAngle1((prev) => Math.min(80, prev + 1));
+                  }}
                 >
                   <Text style={styles.stepBtnText}>+1°</Text>
                 </Pressable>
                 <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Increase angle by 5 degrees"
+                  accessibilityHint="Increases incident light angle by 5 degrees"
                   style={styles.stepBtn}
-                  onPress={() => setAngle1((prev) => Math.min(80, prev + 5))}
+                  onPress={() => {
+                    haptics.lightTick();
+                    setAngle1((prev) => Math.min(80, prev + 5));
+                  }}
                 >
                   <Text style={styles.stepBtnText}>+5°</Text>
                 </Pressable>
@@ -189,8 +229,15 @@ export const LightRefractionSimulation: React.FC = () => {
                   return (
                     <Pressable
                       key={m.id}
+                      accessibilityRole="button"
+                      accessibilityLabel={`Select medium ${m.name}, refractive index ${m.n}`}
+                      accessibilityState={{ selected: isSelected }}
+                      accessibilityHint={`Sets refractive medium to ${m.name}`}
                       style={[styles.chip, isSelected && styles.chipActive]}
-                      onPress={() => setSelectedMediumId(m.id)}
+                      onPress={() => {
+                        haptics.selection();
+                        setSelectedMediumId(m.id);
+                      }}
                     >
                       <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
                         {m.name} (n={m.n})
@@ -386,6 +433,7 @@ const styles = StyleSheet.create({
   },
   tabBtn: {
     flex: 1,
+    minHeight: spacing.minTouchTarget,
     paddingVertical: 7,
     paddingHorizontal: 10,
     borderRadius: radii.button,
@@ -393,6 +441,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   tabBtnActive: {
     backgroundColor: 'rgba(0, 229, 255, 0.15)',
@@ -417,9 +466,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
+    minHeight: spacing.minTouchTarget,
+    minWidth: spacing.minTouchTarget,
     paddingVertical: 7,
     paddingHorizontal: 12,
     borderRadius: radii.button,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   stepBtnText: {
     ...typography.caption,
@@ -453,12 +506,15 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   chip: {
+    minHeight: spacing.minTouchTarget,
     paddingVertical: 5,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     borderRadius: radii.sm,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderWidth: 1,
     borderColor: colors.glassBorderSubtle,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   chipActive: {
     backgroundColor: 'rgba(0, 229, 255, 0.15)',
