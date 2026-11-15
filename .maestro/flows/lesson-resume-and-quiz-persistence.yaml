@@ -1,0 +1,83 @@
+appId: com.sciora.grade8science
+---
+# This flow deliberately keeps application data after stopApp so it verifies
+# persisted SQLite state, not just in-memory React state.
+- launchApp:
+    clearState: true
+- assertVisible:
+    text: "Scientific Measurement: Mass, Volume & Density"
+- tapOn:
+    text: "Start Lesson"
+- assertVisible:
+    text: "STEP 1 OF 10"
+- tapOn:
+    text: "Next Step →"
+- assertVisible:
+    text: "STEP 2 OF 10"
+# Leave the lesson through Android navigation and resume it from Home.
+- pressKey: BACK
+- assertVisible:
+    text: "Resume Lesson"
+- tapOn:
+    text: "Resume Lesson"
+- assertVisible:
+    text: "STEP 2 OF 10"
+# Kill and relaunch the application; the saved lesson position should survive.
+- stopApp
+- launchApp
+- assertVisible:
+    text: "Resume Lesson"
+- tapOn:
+    text: "Resume Lesson"
+- assertVisible:
+    text: "STEP 2 OF 10"
+# Navigate to the quiz on step 8.
+- tapOn:
+    text: "Next Step →"
+- tapOn:
+    text: "Next Step →"
+- tapOn:
+    text: "Next Step →"
+- tapOn:
+    text: "Next Step →"
+- tapOn:
+    text: "Next Step →"
+- tapOn:
+    text: "Next Step →"
+- assertVisible:
+    text: "STEP 8 OF 10"
+- scrollUntilVisible:
+    element:
+      text: "3.0 g/cm3"
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    text: "3.0 g/cm3"
+- assertVisible:
+    text: "Scientific Rationale:"
+# Restart after saving a quiz answer. Both the step and answer must restore.
+- stopApp
+- launchApp
+- assertVisible:
+    text: "Resume Lesson"
+- tapOn:
+    text: "Resume Lesson"
+- assertVisible:
+    text: "STEP 8 OF 10"
+- assertVisible:
+    text: "Scientific Rationale:"
+# Complete only after the final step, then verify progress reflects completion.
+- tapOn:
+    text: "Next Step →"
+- assertVisible:
+    text: "STEP 9 OF 10"
+- tapOn:
+    text: "Next Step →"
+- assertVisible:
+    text: "STEP 10 OF 10"
+- tapOn:
+    text: "Finish & Save Mastery"
+- assertVisible:
+    text: "Your Progress"
+- assertVisible:
+    text: "1 of 9 core interactive labs completed (11%)"

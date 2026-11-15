@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Switch, Alert, Pressable } from 'react-native';
+import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
 import { ScreenContainer, GlassCard, Badge } from '@/components/ui';
 import { colors, spacing, typography, radii } from '@/design-system';
 import { progressRepository } from '@/database/progressRepository';
+import { useAppSettings } from '@/contexts/SettingsContext';
+import type { UserSettingKey } from '@/database/settingsRepository';
 
 export default function SettingsScreen() {
-  const [reduceMotion, setReduceMotion] = useState(false);
-  const [highContrast, setHighContrast] = useState(false);
-  const [hapticsEnabled, setHapticsEnabled] = useState(true);
+  const { settings, isLoading, updatePreference } = useAppSettings();
+
+  const handlePreferenceChange = (key: UserSettingKey, value: boolean) => {
+    updatePreference(key, value).catch(() => {
+      Alert.alert('Setting not saved', 'Sciora could not save this preference on this device. Please try again.');
+    });
+  };
 
   const handleResetProgress = () => {
     Alert.alert(
@@ -42,13 +49,17 @@ export default function SettingsScreen() {
           <View style={styles.settingTextGroup}>
             <Text style={styles.settingLabel}>Reduce Motion</Text>
             <Text style={styles.settingDescription}>
-              Minimize particle animations and ray motion effects
+              Remove navigation transition animations for a calmer experience
             </Text>
           </View>
           <Switch
-            value={reduceMotion}
-            onValueChange={setReduceMotion}
-            thumbColor={reduceMotion ? colors.cyan : colors.textMuted}
+            value={settings.reduceMotion}
+            disabled={isLoading}
+            onValueChange={(value) => handlePreferenceChange('reduceMotion', value)}
+            accessibilityRole="switch"
+            accessibilityLabel="Reduce motion"
+            accessibilityHint="Controls the reduce motion preference for supported visual effects."
+            thumbColor={settings.reduceMotion ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
         </View>
@@ -59,13 +70,17 @@ export default function SettingsScreen() {
           <View style={styles.settingTextGroup}>
             <Text style={styles.settingLabel}>High-Contrast Opaque Cards</Text>
             <Text style={styles.settingDescription}>
-              Disable glass blur for faster performance on older phones
+              Use solid opaque card surfaces throughout the app
             </Text>
           </View>
           <Switch
-            value={highContrast}
-            onValueChange={setHighContrast}
-            thumbColor={highContrast ? colors.cyan : colors.textMuted}
+            value={settings.highContrast}
+            disabled={isLoading}
+            onValueChange={(value) => handlePreferenceChange('highContrast', value)}
+            accessibilityRole="switch"
+            accessibilityLabel="High-contrast opaque cards"
+            accessibilityHint="Controls the opaque card preference for supported screens."
+            thumbColor={settings.highContrast ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
         </View>
@@ -76,13 +91,17 @@ export default function SettingsScreen() {
           <View style={styles.settingTextGroup}>
             <Text style={styles.settingLabel}>Haptic Feedback</Text>
             <Text style={styles.settingDescription}>
-              Subtle vibration when adjusting simulation sliders
+              Enable vibration feedback for supported interactions
             </Text>
           </View>
           <Switch
-            value={hapticsEnabled}
-            onValueChange={setHapticsEnabled}
-            thumbColor={hapticsEnabled ? colors.cyan : colors.textMuted}
+            value={settings.hapticsEnabled}
+            disabled={isLoading}
+            onValueChange={(value) => handlePreferenceChange('hapticsEnabled', value)}
+            accessibilityRole="switch"
+            accessibilityLabel="Haptic feedback"
+            accessibilityHint="Controls vibration feedback for supported interactions."
+            thumbColor={settings.hapticsEnabled ? colors.cyan : colors.textMuted}
             trackColor={{ false: colors.spaceElevated, true: 'rgba(0, 229, 255, 0.35)' }}
           />
         </View>
@@ -146,7 +165,7 @@ export default function SettingsScreen() {
       {/* 4. About & Open Source Notices */}
       <Text style={styles.sectionHeader}>About Sciora</Text>
       <GlassCard variant="base" style={styles.card}>
-        <Text style={styles.aboutTitle}>Sciora v1.0.0 (Phase C Build)</Text>
+        <Text style={styles.aboutTitle}>Sciora v{Constants.expoConfig?.version ?? '1.0.0'}</Text>
         <Text style={styles.aboutBody}>
           Sciora is a completely free, offline-first educational application designed specifically for Ethiopian Grade 8 students. It features zero advertisements, subscriptions, or paywalls.
         </Text>
@@ -186,6 +205,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   settingRow: {
+    minHeight: spacing.minTouchTarget,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -226,6 +246,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   dangerButton: {
+    minHeight: spacing.minTouchTarget,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
