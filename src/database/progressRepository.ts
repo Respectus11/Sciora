@@ -145,4 +145,41 @@ export const progressRepository = {
     await db.runAsync('DELETE FROM lesson_progress;');
     await db.runAsync('DELETE FROM quiz_attempts;');
   },
+
+  /**
+   * Computes completed lessons count and total active learning time for a specific unit.
+   */
+  async getUnitProgress(unitId: string): Promise<{ completedLessons: number; totalTimeSpent: number }> {
+    const db = await getDatabase();
+    const row = await db.getFirstAsync<{ completed_count: number; total_time: number }>(
+      `SELECT
+         COUNT(CASE WHEN is_completed = 1 THEN 1 END) as completed_count,
+         COALESCE(SUM(time_spent_seconds), 0) as total_time
+       FROM lesson_progress
+       WHERE unit_id = ?;`,
+      [unitId]
+    );
+
+    return {
+      completedLessons: row?.completed_count || 0,
+      totalTimeSpent: row?.total_time || 0,
+    };
+  },
+
+  /**
+   * Helper to check if a single lesson is marked as completed.
+   */
+  async isLessonCompleted(lessonId: string): Promise<boolean> {
+    const record = await this.getLessonProgress(lessonId);
+    return record?.is_completed === 1;
+  },
+
+  /**
+   * Calculates integer mastery percentage safely bounded between 0 and 100.
+   */
+  calculateMasteryPercentage(completed: number, total: number): number {
+    if (!total || total <= 0) return 0;
+    const ratio = (completed / total) * 100;
+    return Math.min(100, Math.max(0, Math.round(ratio)));
+  },
 };
