@@ -32,6 +32,51 @@ export interface ImportSummary {
 
 export const backupService = {
   /**
+   * Validates the structure and version of an incoming student backup payload.
+   */
+  validatePayload(payload: unknown): { valid: boolean; reason?: string } {
+    if (!payload || typeof payload !== 'object') {
+      return { valid: false, reason: 'Payload must be a non-null JSON object.' };
+    }
+
+    const data = payload as Partial<StudentBackupPayload>;
+    if (data.version !== 1) {
+      return { valid: false, reason: `Unsupported schema version: ${data.version}. Expected version 1.` };
+    }
+
+    if (!Array.isArray(data.progress)) {
+      return { valid: false, reason: 'Payload property "progress" must be an array.' };
+    }
+    if (!Array.isArray(data.notes)) {
+      return { valid: false, reason: 'Payload property "notes" must be an array.' };
+    }
+    if (!Array.isArray(data.bookmarks)) {
+      return { valid: false, reason: 'Payload property "bookmarks" must be an array.' };
+    }
+    if (!Array.isArray(data.quizAttempts)) {
+      return { valid: false, reason: 'Payload property "quizAttempts" must be an array.' };
+    }
+
+    return { valid: true };
+  },
+
+  /**
+   * Computes summary metrics for a student backup payload.
+   */
+  getPayloadSummary(payload: StudentBackupPayload): { totalRecords: number; estimatedSizeKb: number } {
+    const totalRecords =
+      (payload.progress?.length || 0) +
+      (payload.notes?.length || 0) +
+      (payload.bookmarks?.length || 0) +
+      (payload.quizAttempts?.length || 0);
+
+    const serialized = JSON.stringify(payload);
+    const estimatedSizeKb = Math.round((serialized.length / 1024) * 10) / 10;
+
+    return { totalRecords, estimatedSizeKb };
+  },
+
+  /**
    * Generates a complete JSON-serializable snapshot of student progress, notes, and quiz history.
    */
   async exportStudentData(): Promise<StudentBackupPayload> {
@@ -61,14 +106,15 @@ export const backupService = {
    * Imports student data snapshot, merging or restoring records idempotently.
    */
   async importStudentData(payload: StudentBackupPayload): Promise<ImportSummary> {
-    if (!payload || payload.version !== 1) {
+    const validation = this.validatePayload(payload);
+    if (!validation.valid) {
       return {
         success: false,
         progressImported: 0,
         notesImported: 0,
         bookmarksImported: 0,
         quizAttemptsImported: 0,
-        error: 'Incompatible or corrupted backup payload format.',
+        error: validation.reason || 'Incompatible or corrupted backup payload format.',
       };
     }
 
