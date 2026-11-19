@@ -2,13 +2,41 @@ import React from 'react';
 import { View, Text, StyleSheet, ViewStyle, TextStyle, StyleProp } from 'react-native';
 import { colors, radii, spacing, typography } from '@/design-system';
 
+export type BadgeVariant =
+  | 'cyan'
+  | 'violet'
+  | 'amber'
+  | 'emerald'
+  | 'rose'
+  | 'muted'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'science';
+
 export interface BadgeProps {
   label: string;
-  variant?: 'cyan' | 'violet' | 'amber' | 'emerald' | 'rose' | 'muted';
+  variant?: BadgeVariant;
   icon?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  accessibilityLabel?: string;
 }
+
+const variantAliasMap: Record<BadgeVariant, 'cyan' | 'violet' | 'amber' | 'emerald' | 'rose' | 'muted'> = {
+  cyan: 'cyan',
+  violet: 'violet',
+  amber: 'amber',
+  emerald: 'emerald',
+  rose: 'rose',
+  muted: 'muted',
+  info: 'cyan',
+  science: 'violet',
+  warning: 'amber',
+  success: 'emerald',
+  error: 'rose',
+};
 
 export const Badge: React.FC<BadgeProps> = ({
   label,
@@ -16,11 +44,19 @@ export const Badge: React.FC<BadgeProps> = ({
   icon,
   style,
   textStyle,
+  accessibilityLabel,
 }) => {
+  const resolvedVariant = variantAliasMap[variant] || 'cyan';
+
   return (
-    <View style={[styles.base, variantStyles[variant], style]}>
+    <View
+      style={[styles.base, variantStyles[resolvedVariant], style]}
+      accessible={true}
+      accessibilityRole="text"
+      accessibilityLabel={accessibilityLabel || `${label} badge`}
+    >
       {icon && <View style={styles.iconContainer}>{icon}</View>}
-      <Text style={[styles.text, variantTextStyles[variant], textStyle]}>
+      <Text style={[styles.text, variantTextStyles[resolvedVariant], textStyle]}>
         {label}
       </Text>
     </View>
