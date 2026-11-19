@@ -16,7 +16,23 @@ export interface LessonBookmark {
   bookmarked_at: number;
 }
 
+export const MAX_NOTE_LENGTH = 2000;
+
 export const notesRepository = {
+  /**
+   * Validates note text input constraints.
+   */
+  validateNoteInput(text: string): { valid: boolean; error?: string } {
+    const trimmed = text.trim();
+    if (trimmed.length === 0) {
+      return { valid: false, error: 'Note text cannot be empty.' };
+    }
+    if (trimmed.length > MAX_NOTE_LENGTH) {
+      return { valid: false, error: `Note exceeds maximum length of ${MAX_NOTE_LENGTH} characters.` };
+    }
+    return { valid: true };
+  },
+
   /**
    * Creates a new personal lab note for a lesson step.
    */
@@ -120,5 +136,41 @@ export const notesRepository = {
     return db.getAllAsync<LessonBookmark>(
       `SELECT * FROM lesson_bookmarks ORDER BY bookmarked_at DESC;`
     );
+  },
+
+  /**
+   * Retrieves bookmarks filtered by curriculum unit.
+   */
+  async getBookmarksByUnit(unitId: string): Promise<LessonBookmark[]> {
+    const db = await getDatabase();
+    return db.getAllAsync<LessonBookmark>(
+      `SELECT * FROM lesson_bookmarks WHERE unit_id = ? ORDER BY bookmarked_at DESC;`,
+      [unitId]
+    );
+  },
+
+  /**
+   * Searches student notes by keyword query.
+   */
+  async searchNotes(query: string): Promise<StudentNote[]> {
+    const trimmed = query.trim();
+    if (!trimmed) return [];
+    const db = await getDatabase();
+    return db.getAllAsync<StudentNote>(
+      `SELECT * FROM student_notes WHERE note_text LIKE ? ORDER BY created_at DESC;`,
+      [`%${trimmed}%`]
+    );
+  },
+
+  /**
+   * Returns total count of student notes recorded for a unit.
+   */
+  async getNotesCountByUnit(unitId: string): Promise<number> {
+    const db = await getDatabase();
+    const result = await db.getFirstAsync<{ count: number }>(
+      `SELECT COUNT(*) as count FROM student_notes WHERE unit_id = ?;`,
+      [unitId]
+    );
+    return result?.count || 0;
   },
 };
