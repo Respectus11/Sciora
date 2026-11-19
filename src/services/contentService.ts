@@ -44,4 +44,39 @@ export const contentService = {
       textbookDetails: curriculumData.textbookDetails,
     };
   },
+
+  getLessonNavigation(lessonId: string): { prevLesson: Lesson | null; nextLesson: Lesson | null } {
+    const currentIndex = allLessons.findIndex((l) => l.id === lessonId);
+    if (currentIndex === -1) {
+      return { prevLesson: null, nextLesson: null };
+    }
+
+    const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
+    const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
+
+    return { prevLesson, nextLesson };
+  },
+
+  getCurriculumStats(): { totalUnits: number; totalLessons: number; totalCompetencies: number } {
+    const totalCompetencies = allLessons.reduce((acc, lesson) => {
+      return acc + (lesson.curriculumCompetencies ? lesson.curriculumCompetencies.length : 0);
+    }, 0);
+
+    return {
+      totalUnits: allUnits.length,
+      totalLessons: allLessons.length,
+      totalCompetencies,
+    };
+  },
+
+  getUnitsWithLessonCounts(): Array<{ unit: CurriculumUnit; lessonCount: number }> {
+    return allUnits.map((unit) => ({
+      unit,
+      lessonCount: allLessons.filter((l) => l.unitId === unit.id).length,
+    }));
+  },
+
+  getLessonsBySimulationId(simulationId: string): Lesson[] {
+    return allLessons.filter((l) => l.simulationId === simulationId);
+  },
 };
