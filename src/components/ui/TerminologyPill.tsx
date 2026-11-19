@@ -5,6 +5,7 @@ import { colors, spacing, typography, radii } from '@/design-system';
 export interface TerminologyPillProps {
   term: string;
   definition: string;
+  amharicTerm?: string;
   phonetic?: string;
   category?: 'physics' | 'chemistry' | 'astronomy' | 'investigation';
   curriculumRef?: string;
@@ -13,6 +14,7 @@ export interface TerminologyPillProps {
 export const TerminologyPill: React.FC<TerminologyPillProps> = ({
   term,
   definition,
+  amharicTerm,
   phonetic,
   category = 'physics',
   curriculumRef,
@@ -28,6 +30,11 @@ export const TerminologyPill: React.FC<TerminologyPillProps> = ({
       ? colors.emerald
       : colors.cyan;
 
+  const accessibleLabel = `Scientific term: ${term}${amharicTerm ? ' (' + amharicTerm + ')' : ''}${phonetic ? ', pronounced ' + phonetic : ''}`;
+  const accessibleHint = isExpanded
+    ? 'Collapses glossary definition'
+    : 'Expands glossary definition and phonetic pronunciation';
+
   return (
     <View style={styles.container}>
       <Pressable
@@ -35,22 +42,34 @@ export const TerminologyPill: React.FC<TerminologyPillProps> = ({
           styles.pill,
           isExpanded && { borderColor: categoryColor, backgroundColor: 'rgba(255, 255, 255, 0.08)' },
         ]}
+        hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
         onPress={() => setIsExpanded((prev) => !prev)}
         accessibilityRole="button"
-        accessibilityLabel={`Scientific term: ${term}`}
+        accessibilityLabel={accessibleLabel}
+        accessibilityState={{ expanded: isExpanded }}
+        accessibilityHint={accessibleHint}
       >
         <View style={[styles.categoryDot, { backgroundColor: categoryColor }]} />
         <Text style={[styles.termText, isExpanded && { color: categoryColor, fontWeight: '700' }]}>
           {term}
         </Text>
+        {amharicTerm && <Text style={styles.amharicPillText}>({amharicTerm})</Text>}
         <Text style={styles.expandIcon}>{isExpanded ? '▲' : '▼'}</Text>
       </Pressable>
 
       {/* Expanded Glossary Popover Card */}
       {isExpanded && (
-        <View style={[styles.popoverCard, { borderLeftColor: categoryColor }]}>
+        <View
+          style={[styles.popoverCard, { borderLeftColor: categoryColor }]}
+          accessible={true}
+          accessibilityRole="summary"
+          accessibilityLabel={`${term} definition`}
+        >
           <View style={styles.popoverHeader}>
-            <Text style={styles.popoverTitle}>{term}</Text>
+            <View style={styles.titleGroup}>
+              <Text style={styles.popoverTitle}>{term}</Text>
+              {amharicTerm && <Text style={styles.popoverAmharic}>{amharicTerm}</Text>}
+            </View>
             {phonetic && <Text style={styles.phoneticText}>/{phonetic}/</Text>}
             {curriculumRef && <Text style={styles.refText}>{curriculumRef}</Text>}
           </View>
@@ -88,6 +107,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: colors.textPrimary,
   },
+  amharicPillText: {
+    ...typography.caption,
+    fontSize: 10,
+    color: colors.textMuted,
+  },
   expandIcon: {
     fontSize: 8,
     color: colors.textMuted,
@@ -110,10 +134,20 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 6,
   },
+  titleGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   popoverTitle: {
     ...typography.caption,
     fontWeight: '700',
     color: colors.textPrimary,
+  },
+  popoverAmharic: {
+    ...typography.caption,
+    fontSize: 11,
+    color: colors.textMuted,
   },
   phoneticText: {
     ...typography.caption,
