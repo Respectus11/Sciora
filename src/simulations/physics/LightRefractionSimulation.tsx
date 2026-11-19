@@ -15,6 +15,7 @@ import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
 import { haptics } from '@/utils/haptics';
+import { calculateSnellsLaw } from './opticsMath';
 
 interface MediumConfig {
   id: string;
@@ -76,9 +77,9 @@ export const LightRefractionSimulation: React.FC = () => {
 
   // Snell's Law calculation: n1 * sin(θ1) = n2 * sin(θ2)
   const rad1 = (angle1 * Math.PI) / 180;
-  const sinTheta2 = (n1 * Math.sin(rad1)) / n2;
-  const rad2 = Math.asin(Math.min(1, Math.max(-1, sinTheta2)));
-  const angle2Deg = (rad2 * 180) / Math.PI;
+  const snellResult = calculateSnellsLaw(angle1, n1, n2);
+  const rad2 = snellResult.theta2Rad;
+  const angle2Deg = snellResult.theta2Deg;
 
   // SVG dimensions
   const svgWidth = 360;
