@@ -9,6 +9,11 @@ import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
 import { haptics } from '@/utils/haptics';
+import {
+  calculateMassNumber,
+  calculateNetCharge,
+  calculateBohrConfiguration,
+} from './atomMath';
 
 interface ElementInfo {
   name: string;
@@ -44,20 +49,17 @@ export const AtomBuilderSimulation: React.FC = () => {
   const [electrons, setElectrons] = useState(6);
 
   const z = protons;
-  const a = protons + neutrons;
-  const netCharge = protons - electrons;
+  const a = calculateMassNumber(protons, neutrons);
+  const netCharge = calculateNetCharge(protons, electrons);
   const element = ELEMENTS[z] || { name: 'Synthetic Element', symbol: `E${z}`, stableN: z, group: 'Heavy Element' };
 
   // 3-Shell Bohr Model: K (2), L (8), M (8)
-  const shell1 = Math.min(2, electrons);
-  const remAfterS1 = Math.max(0, electrons - 2);
-  const shell2 = Math.min(8, remAfterS1);
-  const remAfterS2 = Math.max(0, remAfterS1 - 8);
-  const shell3 = Math.min(8, remAfterS2);
-
-  // Valence configuration
-  const electronConfigStr = shell3 > 0 ? `${shell1}, ${shell2}, ${shell3}` : shell2 > 0 ? `${shell1}, ${shell2}` : `${shell1}`;
-  const valenceElectrons = shell3 > 0 ? shell3 : shell2 > 0 ? shell2 : shell1;
+  const bohr = calculateBohrConfiguration(electrons);
+  const shell1 = bohr.shell1;
+  const shell2 = bohr.shell2;
+  const shell3 = bohr.shell3;
+  const electronConfigStr = bohr.configString;
+  const valenceElectrons = bohr.valenceElectrons;
 
   // Nuclear stability
   const nDelta = Math.abs(neutrons - element.stableN);
