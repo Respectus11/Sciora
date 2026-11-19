@@ -13,6 +13,7 @@ export interface FormulaVariable {
 export interface FormulaCardProps {
   title: string;
   formula: string;
+  spokenFormula?: string;
   variables: FormulaVariable[];
   description?: string;
   unitTag?: string;
@@ -21,29 +22,50 @@ export interface FormulaCardProps {
 export const FormulaCard: React.FC<FormulaCardProps> = ({
   title,
   formula,
+  spokenFormula,
   variables,
   description,
   unitTag,
 }) => {
+  const cardAccessibilityLabel = `${title}. Formula: ${spokenFormula || formula}.${description ? ' ' + description : ''}`;
+
   return (
-    <GlassCard variant="base" padding="md" style={styles.card}>
+    <GlassCard
+      variant="base"
+      padding="md"
+      style={styles.card}
+      accessible={true}
+      accessibilityRole="text"
+      accessibilityLabel={cardAccessibilityLabel}
+    >
       <View style={styles.headerRow}>
         <Text style={styles.title}>{title}</Text>
         {unitTag && <Text style={styles.unitTag}>{unitTag}</Text>}
       </View>
 
       {/* Primary Mathematical Expression */}
-      <View style={styles.formulaBox}>
+      <View
+        style={styles.formulaBox}
+        accessible={true}
+        accessibilityRole="text"
+        accessibilityLabel={`Mathematical formula: ${spokenFormula || formula}`}
+      >
         <Text style={styles.formulaText}>{formula}</Text>
       </View>
 
       {description && <Text style={styles.description}>{description}</Text>}
 
       {/* Variables Breakdown Table */}
-      <View style={styles.variablesSection}>
+      <View style={styles.variablesSection} accessible={false}>
         <Text style={styles.sectionHeading}>Variables & SI Units</Text>
         {variables.map((v) => (
-          <View key={v.symbol} style={styles.variableRow}>
+          <View
+            key={v.symbol}
+            style={styles.variableRow}
+            accessible={true}
+            accessibilityRole="text"
+            accessibilityLabel={`${v.name}, symbol ${v.symbol}, measured in ${v.unit}${v.description ? ': ' + v.description : ''}`}
+          >
             <View style={styles.symbolBadge}>
               <Text style={styles.symbolText}>{v.symbol}</Text>
             </View>
