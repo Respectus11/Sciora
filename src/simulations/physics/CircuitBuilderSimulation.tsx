@@ -5,6 +5,14 @@ import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, radii } from '@/design-system';
 import { haptics } from '@/utils/haptics';
+import {
+  CircuitWiringMode,
+  DEFAULT_BULB_RESISTANCE,
+  calculateEquivalentResistance,
+  calculateCircuitCurrent,
+  calculateElectricPower,
+  calculateBulbGlow,
+} from './circuitMath';
 
 type CircuitMode = 'single' | 'series' | 'parallel';
 
@@ -13,11 +21,11 @@ export const CircuitBuilderSimulation: React.FC = () => {
   const [isSwitchClosed, setIsSwitchClosed] = useState(true);
   const [circuitMode, setCircuitMode] = useState<CircuitMode>('single');
 
-  const bulbResistance = 10;
-  const eqResistance = circuitMode === 'single' ? bulbResistance : circuitMode === 'series' ? bulbResistance * 2 : bulbResistance / 2;
-  const current = isSwitchClosed ? voltage / eqResistance : 0;
-  const power = isSwitchClosed ? voltage * current : 0;
-  const glowOpacity = isSwitchClosed ? Math.min(1, Math.max(0.2, (current / (circuitMode === 'parallel' ? 0.6 : 0.3)) * 0.8)) : 0;
+  const bulbResistance = DEFAULT_BULB_RESISTANCE;
+  const eqResistance = calculateEquivalentResistance(circuitMode, bulbResistance);
+  const current = calculateCircuitCurrent(voltage, eqResistance, isSwitchClosed);
+  const power = calculateElectricPower(voltage, current);
+  const glowOpacity = calculateBulbGlow(current, circuitMode, isSwitchClosed);
 
   const svgWidth = 340;
   const svgHeight = 280;
