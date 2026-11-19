@@ -12,6 +12,7 @@ import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, typography, radii } from '@/design-system';
 import { haptics } from '@/utils/haptics';
+import { calculateKeplerRatio } from './astronomyMath';
 
 interface PlanetData {
   id: string;
@@ -167,9 +168,7 @@ export const SolarSystemSimulation: React.FC = () => {
   });
 
   // Kepler's Third Law Verification (T^2 / a^3 should equal ~1.00)
-  const a3 = Math.pow(selectedPlanet.distAU, 3);
-  const t2 = Math.pow(selectedPlanet.periodYears, 2);
-  const keplerRatio = t2 / a3;
+  const keplerRatio = calculateKeplerRatio(selectedPlanet.periodYears, selectedPlanet.distAU);
 
   const svgWidth = 360;
   const svgHeight = 310;
