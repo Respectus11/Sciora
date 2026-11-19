@@ -5,6 +5,12 @@ import { SimulationWorkspace } from '@/components/simulation/SimulationWorkspace
 import { GlassCard } from '@/components/ui/GlassCard';
 import { colors, spacing, radii } from '@/design-system';
 import { haptics } from '@/utils/haptics';
+import {
+  calculateMass,
+  isFloatingInFluid,
+  calculateDisplacedVolume,
+  calculateDensity,
+} from './densityMath';
 
 interface MaterialSample {
   id: string;
@@ -27,11 +33,11 @@ export const DensityMeasurementSimulation: React.FC = () => {
   const [isSubmerged, setIsSubmerged] = useState(false);
 
   const initialVolume = 100;
-  const mass = Math.round(selectedMaterial.density * selectedMaterial.volume * 10) / 10;
-  const isFloating = selectedMaterial.density < 1.0;
-  const displacedVolume = isFloating ? mass : selectedMaterial.volume;
+  const mass = calculateMass(selectedMaterial.density, selectedMaterial.volume);
+  const isFloating = isFloatingInFluid(selectedMaterial.density);
+  const displacedVolume = calculateDisplacedVolume(selectedMaterial.density, selectedMaterial.volume);
   const currentVolume = isSubmerged ? initialVolume + displacedVolume : initialVolume;
-  const calculatedDensity = (mass / selectedMaterial.volume).toFixed(2);
+  const calculatedDensity = calculateDensity(mass, selectedMaterial.volume).toFixed(2);
 
   const svgWidth = 340;
   const svgHeight = 260;
