@@ -65,6 +65,10 @@ export const searchService = {
     // 1. Search in Unit metadata
     if (!options.type || options.type === 'unit') {
       for (const unit of units) {
+        if (options.unitId && unit.id !== options.unitId) {
+          continue;
+        }
+
         const titleScore = computeMatchScore(trimmed, unit.title);
         const descScore = computeMatchScore(trimmed, unit.description);
         const maxUnitScore = Math.max(titleScore * 1.2, descScore);
@@ -86,6 +90,10 @@ export const searchService = {
 
     // 2. Search in Lessons & Steps
     for (const lesson of lessons) {
+      if (options.unitId && lesson.unitId !== options.unitId) {
+        continue;
+      }
+
       const unit = contentService.getUnitById(lesson.unitId);
       const unitTitle = unit?.title || 'Science Unit';
 
@@ -159,5 +167,27 @@ export const searchService = {
 
     results.sort((a, b) => b.score - a.score);
     return results.slice(0, limit);
+  },
+
+  getSuggestions(query: string, maxSuggestions = 5): string[] {
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed || trimmed.length < 2) return [];
+
+    const suggestions = new Set<string>();
+    const lessons = contentService.getAllLessons();
+
+    for (const lesson of lessons) {
+      if (lesson.title.toLowerCase().includes(trimmed)) {
+        suggestions.add(lesson.title);
+      }
+      for (const comp of lesson.curriculumCompetencies) {
+        if (comp.toLowerCase().includes(trimmed)) {
+          suggestions.add(comp);
+        }
+      }
+      if (suggestions.size >= maxSuggestions) break;
+    }
+
+    return Array.from(suggestions).slice(0, maxSuggestions);
   },
 };
