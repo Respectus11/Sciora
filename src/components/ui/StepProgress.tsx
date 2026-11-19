@@ -34,9 +34,20 @@ export const StepProgress: React.FC<StepProgressProps> = ({
   const progressPercent = Math.round(((currentStepIndex + 1) / totalSteps) * 100);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      accessible={true}
+      accessibilityRole="progressbar"
+      accessibilityLabel={`Lesson progress, ${progressPercent} percent`}
+      accessibilityValue={{
+        min: 1,
+        max: totalSteps,
+        now: currentStepIndex + 1,
+        text: `${progressPercent} percent, Stage ${currentStepIndex + 1} of ${totalSteps}: ${currentTitle}`,
+      }}
+    >
       {/* Top Header Row with Active Step and Percentage */}
-      <View style={styles.headerRow}>
+      <View style={styles.headerRow} accessible={false}>
         <View style={styles.stepInfo}>
           <Text style={styles.stepCount}>
             STAGE {currentStepIndex + 1} OF {totalSteps}
@@ -47,10 +58,11 @@ export const StepProgress: React.FC<StepProgressProps> = ({
       </View>
 
       {/* Progress Track Segments */}
-      <View style={styles.trackRow}>
+      <View style={styles.trackRow} accessible={false}>
         {Array.from({ length: totalSteps }).map((_, idx) => {
           const isCurrent = idx === currentStepIndex;
           const isCompleted = completedSteps.includes(idx) || idx < currentStepIndex;
+          const statusText = isCurrent ? 'current' : isCompleted ? 'completed' : 'upcoming';
 
           const barColor = isCurrent
             ? colors.cyan
@@ -68,7 +80,10 @@ export const StepProgress: React.FC<StepProgressProps> = ({
               ]}
               onPress={() => onStepPress && onStepPress(idx)}
               disabled={!onStepPress}
-              accessibilityLabel={`Step ${idx + 1}: ${stepTitles[idx] || ''}`}
+              accessibilityRole={onStepPress ? 'button' : 'none'}
+              accessibilityState={{ selected: isCurrent, disabled: !onStepPress }}
+              accessibilityHint={onStepPress ? `Jumps to step ${idx + 1}` : undefined}
+              accessibilityLabel={`Step ${idx + 1} of ${totalSteps}: ${stepTitles[idx] || ''}, ${statusText}`}
             />
           );
         })}
