@@ -183,6 +183,28 @@ const GLOSSARY_DATABASE: GlossaryEntry[] = [
     curriculumRef: 'Grade 8 Science • Unit 7.6',
     relatedTerms: ['law-of-reflection'],
   },
+  {
+    id: 'refractive-index',
+    term: 'Refractive Index',
+    amharicTerm: 'የስብረት ጠቋሚ',
+    phonetic: 'ri-FRAK-tiv IN-deks',
+    definition: 'A dimensionless number (n = c / v) describing how fast light travels through a material compared to vacuum.',
+    category: 'physics',
+    unitId: 'unit-07',
+    curriculumRef: 'Grade 8 Science • Unit 7.1B',
+    relatedTerms: ['snells-law'],
+  },
+  {
+    id: 'electric-current',
+    term: 'Electric Current',
+    amharicTerm: 'የኤሌክትሪክ ጅረት',
+    phonetic: 'ih-LEK-trik KUR-uhnt',
+    definition: 'The rate of flow of electric charge through a conductor (I = Q / t), measured in amperes (A).',
+    category: 'physics',
+    unitId: 'unit-07',
+    curriculumRef: 'Grade 8 Science • Unit 7.3',
+    relatedTerms: ['ohms-law'],
+  },
 ];
 
 export const glossaryService = {
@@ -202,6 +224,16 @@ export const glossaryService = {
     return GLOSSARY_DATABASE.filter((e) => e.category === category);
   },
 
+  getCategories(): string[] {
+    return Array.from(new Set(GLOSSARY_DATABASE.map((e) => e.category)));
+  },
+
+  getRelatedTerms(id: string): GlossaryEntry[] {
+    const entry = GLOSSARY_DATABASE.find((e) => e.id === id);
+    if (!entry || !entry.relatedTerms) return [];
+    return GLOSSARY_DATABASE.filter((e) => entry.relatedTerms?.includes(e.id));
+  },
+
   search(query: string): GlossaryEntry[] {
     const q = query.toLowerCase().trim();
     if (!q) return [];
@@ -210,6 +242,14 @@ export const glossaryService = {
         e.term.toLowerCase().includes(q) ||
         (e.amharicTerm && e.amharicTerm.toLowerCase().includes(q)) ||
         e.definition.toLowerCase().includes(q)
+    );
+  },
+
+  getTermByAmharic(amharicQuery: string): GlossaryEntry | undefined {
+    const q = amharicQuery.trim();
+    if (!q) return undefined;
+    return GLOSSARY_DATABASE.find(
+      (e) => e.amharicTerm && e.amharicTerm.includes(q)
     );
   },
 };
